@@ -1,12 +1,11 @@
 package com.progwml6.ironshulkerbox.common.block;
 
+import com.progwml6.ironshulkerbox.common.IronShulkerBoxesTypes;
 import com.progwml6.ironshulkerbox.common.block.tileentity.CopperShulkerBoxTileEntity;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.DyeColor;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockReader;
-
-import net.minecraft.block.AbstractBlock.Properties;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class CopperShulkerBoxBlock extends GenericIronShulkerBlock {
 
@@ -15,7 +14,7 @@ public class CopperShulkerBoxBlock extends GenericIronShulkerBlock {
   }
 
   @Override
-  public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+  public BlockEntity createTileEntity(BlockState state, BlockGetter world) {
     return new CopperShulkerBoxTileEntity(this.color);
   }
 }

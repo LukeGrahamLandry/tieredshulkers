@@ -7,17 +7,17 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
-import net.minecraft.advancements.ICriterionInstance;
-import net.minecraft.advancements.IRequirementsStrategy;
-import net.minecraft.advancements.criterion.RecipeUnlockedTrigger;
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.item.Item;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.ITag;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.advancements.CriterionTriggerInstance;
+import net.minecraft.advancements.RequirementsStrategy;
+import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,7 +36,7 @@ public class IronShulkerBoxRecipeBuilder {
   private final Advancement.Builder advancementBuilder = Advancement.Builder.advancement();
   private String group;
 
-  public IronShulkerBoxRecipeBuilder(IItemProvider resultIn, int countIn) {
+  public IronShulkerBoxRecipeBuilder(ItemLike resultIn, int countIn) {
     this.result = resultIn.asItem();
     this.count = countIn;
   }
@@ -44,28 +44,28 @@ public class IronShulkerBoxRecipeBuilder {
   /**
    * Creates a new builder for a shaped recipe.
    */
-  public static IronShulkerBoxRecipeBuilder shapedRecipe(IItemProvider resultIn) {
+  public static IronShulkerBoxRecipeBuilder shapedRecipe(ItemLike resultIn) {
     return shapedRecipe(resultIn, 1);
   }
 
   /**
    * Creates a new builder for a shaped recipe.
    */
-  public static IronShulkerBoxRecipeBuilder shapedRecipe(IItemProvider resultIn, int countIn) {
+  public static IronShulkerBoxRecipeBuilder shapedRecipe(ItemLike resultIn, int countIn) {
     return new IronShulkerBoxRecipeBuilder(resultIn, countIn);
   }
 
   /**
    * Adds a key to the recipe pattern.
    */
-  public IronShulkerBoxRecipeBuilder key(Character symbol, ITag<Item> tagIn) {
+  public IronShulkerBoxRecipeBuilder key(Character symbol, Tag<Item> tagIn) {
     return this.key(symbol, Ingredient.of(tagIn));
   }
 
   /**
    * Adds a key to the recipe pattern.
    */
-  public IronShulkerBoxRecipeBuilder key(Character symbol, IItemProvider itemIn) {
+  public IronShulkerBoxRecipeBuilder key(Character symbol, ItemLike itemIn) {
     return this.key(symbol, Ingredient.of(itemIn));
   }
 
@@ -98,7 +98,7 @@ public class IronShulkerBoxRecipeBuilder {
   /**
    * Adds a criterion needed to unlock the recipe.
    */
-  public IronShulkerBoxRecipeBuilder addCriterion(String name, ICriterionInstance criterionIn) {
+  public IronShulkerBoxRecipeBuilder addCriterion(String name, CriterionTriggerInstance criterionIn) {
     this.advancementBuilder.addCriterion(name, criterionIn);
     return this;
   }
@@ -111,7 +111,7 @@ public class IronShulkerBoxRecipeBuilder {
   /**
    * Builds this recipe into an {@link IFinishedRecipe}.
    */
-  public void build(Consumer<IFinishedRecipe> consumerIn) {
+  public void build(Consumer<FinishedRecipe> consumerIn) {
     this.build(consumerIn, Registry.ITEM.getKey(this.result));
   }
 
@@ -119,7 +119,7 @@ public class IronShulkerBoxRecipeBuilder {
    * Builds this recipe into an {@link IFinishedRecipe}. Use {@link #build(Consumer)} if save is the same as the ID for
    * the result.
    */
-  public void build(Consumer<IFinishedRecipe> consumerIn, String save) {
+  public void build(Consumer<FinishedRecipe> consumerIn, String save) {
     ResourceLocation resourcelocation = Registry.ITEM.getKey(this.result);
     if ((new ResourceLocation(save)).equals(resourcelocation)) {
       throw new IllegalStateException("Shaped Recipe " + save + " should remove its 'save' argument");
@@ -131,10 +131,10 @@ public class IronShulkerBoxRecipeBuilder {
   /**
    * Builds this recipe into an {@link IFinishedRecipe}.
    */
-  public void build(Consumer<IFinishedRecipe> consumerIn, ResourceLocation id) {
+  public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
     this.validate(id);
     this.advancementBuilder.parent(new ResourceLocation("recipes/root")).addCriterion("has_the_recipe", RecipeUnlockedTrigger
-      .unlocked(id)).rewards(AdvancementRewards.Builder.recipe(id)).requirements(IRequirementsStrategy.OR);
+      .unlocked(id)).rewards(AdvancementRewards.Builder.recipe(id)).requirements(RequirementsStrategy.OR);
     consumerIn.accept(new IronShulkerBoxRecipeBuilder.Result(id, this.result, this.count, this.group == null ? "" : this.group, this.pattern, this.key, this.advancementBuilder, new ResourceLocation(id.getNamespace(), "recipes/" + this.result.getItemCategory().getRecipeFolderName() + "/" + id.getPath())));
   }
 
@@ -169,7 +169,7 @@ public class IronShulkerBoxRecipeBuilder {
     }
   }
 
-  public class Result implements IFinishedRecipe {
+  public class Result implements FinishedRecipe {
     private final ResourceLocation id;
     private final Item result;
     private final int count;
@@ -218,7 +218,7 @@ public class IronShulkerBoxRecipeBuilder {
       json.add("result", jsonobject1);
     }
 
-    public IRecipeSerializer<?> getType() {
+    public RecipeSerializer<?> getType() {
       return IronShulkerBoxRecipes.SHULKER_BOX_CRAFTING;
     }
 

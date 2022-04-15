@@ -7,17 +7,17 @@ import com.progwml6.ironshulkerbox.common.items.IronShulkerBoxesUpgradeType;
 import com.progwml6.ironshulkerbox.common.recipes.IronShulkerBoxRecipeBuilder;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
-import net.minecraft.advancements.IRequirementsStrategy;
-import net.minecraft.advancements.criterion.RecipeUnlockedTrigger;
-import net.minecraft.block.Blocks;
+import net.minecraft.advancements.RequirementsStrategy;
+import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.data.RecipeProvider;
-import net.minecraft.data.ShapedRecipeBuilder;
-import net.minecraft.item.Items;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.world.item.Items;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.ConditionalAdvancement;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
@@ -34,7 +34,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
   }
 
   @Override
-  protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
+  protected void buildShapelessRecipes(Consumer<FinishedRecipe> consumer) {
     this.addBlackShulkerBoxRecipes(consumer);
     this.addBlueShulkerBoxRecipes(consumer);
     this.addBrownShulkerBoxRecipes(consumer);
@@ -55,7 +55,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     this.addUpgradesRecipes(consumer);
   }
 
-  private void addBlackShulkerBoxRecipes(Consumer<IFinishedRecipe> consumer) {
+  private void addBlackShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "black/";
     String group = "ironshulkerbox:black_shulker_box";
 
@@ -68,7 +68,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.BLACK_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.BLACK_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
-  private void addBlueShulkerBoxRecipes(Consumer<IFinishedRecipe> consumer) {
+  private void addBlueShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "blue/";
     String group = "ironshulkerbox:blue_shulker_box";
 
@@ -81,7 +81,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.BLUE_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.BLUE_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
-  private void addBrownShulkerBoxRecipes(Consumer<IFinishedRecipe> consumer) {
+  private void addBrownShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "brown/";
     String group = "ironshulkerbox:brown_shulker_box";
 
@@ -94,7 +94,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.BROWN_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.BROWN_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
-  private void addCyanShulkerBoxRecipes(Consumer<IFinishedRecipe> consumer) {
+  private void addCyanShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "cyan/";
     String group = "ironshulkerbox:cyan_shulker_box";
 
@@ -107,7 +107,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.CYAN_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.CYAN_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
-  private void addGrayShulkerBoxRecipes(Consumer<IFinishedRecipe> consumer) {
+  private void addGrayShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "gray/";
     String group = "ironshulkerbox:gray_shulker_box";
 
@@ -120,7 +120,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.GRAY_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.GRAY_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
-  private void addGreenShulkerBoxRecipes(Consumer<IFinishedRecipe> consumer) {
+  private void addGreenShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "green/";
     String group = "ironshulkerbox:green_shulker_box";
 
@@ -133,7 +133,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.GREEN_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.GREEN_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
-  private void addLightBlueShulkerBoxRecipes(Consumer<IFinishedRecipe> consumer) {
+  private void addLightBlueShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "light_blue/";
     String group = "ironshulkerbox:light_blue_shulker_box";
 
@@ -146,7 +146,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.LIGHT_BLUE_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIGHT_BLUE_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
-  private void addLightGrayShulkerBoxRecipes(Consumer<IFinishedRecipe> consumer) {
+  private void addLightGrayShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "light_gray/";
     String group = "ironshulkerbox:light_gray_shulker_box";
 
@@ -159,7 +159,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.LIGHT_GRAY_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIGHT_GRAY_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
-  private void addLimeShulkerBoxRecipes(Consumer<IFinishedRecipe> consumer) {
+  private void addLimeShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "lime/";
     String group = "ironshulkerbox:lime_shulker_box";
 
@@ -172,7 +172,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.LIME_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIME_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
-  private void addMagentaShulkerBoxRecipes(Consumer<IFinishedRecipe> consumer) {
+  private void addMagentaShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "magenta/";
     String group = "ironshulkerbox:magenta_shulker_box";
 
@@ -185,7 +185,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.MAGENTA_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.MAGENTA_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
-  private void addOrangeShulkerBoxRecipes(Consumer<IFinishedRecipe> consumer) {
+  private void addOrangeShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "orange/";
     String group = "ironshulkerbox:orange_shulker_box";
 
@@ -198,7 +198,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.ORANGE_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.ORANGE_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
-  private void addPinkShulkerBoxRecipes(Consumer<IFinishedRecipe> consumer) {
+  private void addPinkShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "pink/";
     String group = "ironshulkerbox:pink_shulker_box";
 
@@ -211,7 +211,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.PINK_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.PINK_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
-  private void addPurpleShulkerBoxRecipes(Consumer<IFinishedRecipe> consumer) {
+  private void addPurpleShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "purple/";
     String group = "ironshulkerbox:purple_shulker_box";
 
@@ -224,7 +224,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.PURPLE_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.PURPLE_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
-  private void addRedShulkerBoxRecipes(Consumer<IFinishedRecipe> consumer) {
+  private void addRedShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "red/";
     String group = "ironshulkerbox:red_shulker_box";
 
@@ -237,7 +237,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.RED_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.RED_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
-  private void addWhiteShulkerBoxRecipes(Consumer<IFinishedRecipe> consumer) {
+  private void addWhiteShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "white/";
     String group = "ironshulkerbox:white_shulker_box";
 
@@ -250,7 +250,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.WHITE_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.WHITE_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
-  private void addYellowShulkerBoxRecipes(Consumer<IFinishedRecipe> consumer) {
+  private void addYellowShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "yellow/";
     String group = "ironshulkerbox:yellow_shulker_box";
 
@@ -263,7 +263,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.YELLOW_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.YELLOW_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
-  private void addUpgradesRecipes(Consumer<IFinishedRecipe> consumer) {
+  private void addUpgradesRecipes(Consumer<FinishedRecipe> consumer) {
     String folder = "upgrades/";
 
     ShapedRecipeBuilder
@@ -341,7 +341,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
             .rewards(AdvancementRewards.Builder.recipe(woodToCopperChestUpgradeId))
             .addCriterion("has_item", has(Items.SHULKER_SHELL))
             .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(woodToCopperChestUpgradeId))
-            .requirements(IRequirementsStrategy.OR))
+            .requirements(RequirementsStrategy.OR))
       ).build(consumer, woodToCopperChestUpgradeId);
 
     ResourceLocation copperToIronChestUpgrade = prefix(
@@ -365,7 +365,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
             .rewards(AdvancementRewards.Builder.recipe(copperToIronChestUpgrade))
             .addCriterion("has_item", has(Tags.Items.GLASS))
             .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(copperToIronChestUpgrade))
-            .requirements(IRequirementsStrategy.OR))
+            .requirements(RequirementsStrategy.OR))
       ).build(consumer, copperToIronChestUpgrade);
 
     ResourceLocation copperToSilverChestUpgrade = prefix(
@@ -390,7 +390,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
             .rewards(AdvancementRewards.Builder.recipe(copperToSilverChestUpgrade))
             .addCriterion("has_item", has(ItemTags.bind("forge:ingots/copper")))
             .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(copperToSilverChestUpgrade))
-            .requirements(IRequirementsStrategy.OR))
+            .requirements(RequirementsStrategy.OR))
       ).build(consumer, copperToSilverChestUpgrade);
 
     ResourceLocation silverToGoldChestUpgrade = prefix(
@@ -414,11 +414,11 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
             .rewards(AdvancementRewards.Builder.recipe(silverToGoldChestUpgrade))
             .addCriterion("has_item", has(Tags.Items.GLASS))
             .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(silverToGoldChestUpgrade))
-            .requirements(IRequirementsStrategy.OR))
+            .requirements(RequirementsStrategy.OR))
       ).build(consumer, silverToGoldChestUpgrade);
   }
 
-  protected static ResourceLocation prefix(IItemProvider item, String prefix) {
+  protected static ResourceLocation prefix(ItemLike item, String prefix) {
     ResourceLocation loc = Objects.requireNonNull(item.asItem().getRegistryName());
     return location(prefix + loc.getPath());
   }
@@ -427,7 +427,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     return new ResourceLocation(IronShulkerBoxes.MOD_ID, id);
   }
 
-  private void registerCopperBoxRecipe(Consumer<IFinishedRecipe> consumer, IItemProvider result, IItemProvider input, String color, String group) {
+  private void registerCopperBoxRecipe(Consumer<FinishedRecipe> consumer, ItemLike result, ItemLike input, String color, String group) {
     ResourceLocation vanillaToCopperShulkerBox = location("shulkerboxes/" + color + "copper/vanilla_copper_shulker_box");
     ConditionalRecipe.builder()
       .addCondition(not(new TagEmptyCondition("forge:ingots/copper")))
@@ -447,11 +447,11 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
             .rewards(AdvancementRewards.Builder.recipe(vanillaToCopperShulkerBox))
             .addCriterion("has_item", has(ItemTags.bind("forge:ingots/copper")))
             .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(vanillaToCopperShulkerBox))
-            .requirements(IRequirementsStrategy.OR))
+            .requirements(RequirementsStrategy.OR))
       ).build(consumer, vanillaToCopperShulkerBox);
   }
 
-  private void registerSilverBoxRecipe(Consumer<IFinishedRecipe> consumer, IItemProvider result, IItemProvider input, IItemProvider inputTwo, String color, String group) {
+  private void registerSilverBoxRecipe(Consumer<FinishedRecipe> consumer, ItemLike result, ItemLike input, ItemLike inputTwo, String color, String group) {
     ResourceLocation copperToSilverShulkerBox = location("shulkerboxes/" + color + "silver/copper_silver_shulker_box");
     ConditionalRecipe.builder()
       .addCondition(not(new TagEmptyCondition("forge:ingots/copper")))
@@ -471,7 +471,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
             .rewards(AdvancementRewards.Builder.recipe(copperToSilverShulkerBox))
             .addCriterion("has_item", has(ItemTags.bind("forge:ingots/silver")))
             .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(copperToSilverShulkerBox))
-            .requirements(IRequirementsStrategy.OR))
+            .requirements(RequirementsStrategy.OR))
       ).build(consumer, copperToSilverShulkerBox);
 
     ResourceLocation ironToSilverShulkerBox = location("shulkerboxes/" + color + "silver/iron_silver_shulker_box");
@@ -494,11 +494,11 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
             .rewards(AdvancementRewards.Builder.recipe(ironToSilverShulkerBox))
             .addCriterion("has_item", has(ItemTags.bind("forge:ingots/silver")))
             .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(ironToSilverShulkerBox))
-            .requirements(IRequirementsStrategy.OR))
+            .requirements(RequirementsStrategy.OR))
       ).build(consumer, ironToSilverShulkerBox);
   }
 
-  private void registerIronBoxRecipe(Consumer<IFinishedRecipe> consumer, IItemProvider result, IItemProvider input, IItemProvider inputTwo, String color, String group) {
+  private void registerIronBoxRecipe(Consumer<FinishedRecipe> consumer, ItemLike result, ItemLike input, ItemLike inputTwo, String color, String group) {
     IronShulkerBoxRecipeBuilder.shapedRecipe(result)
       .setGroup(group)
       .key('G', Tags.Items.GLASS)
@@ -521,7 +521,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       .build(consumer, location("shulkerboxes/" + color + "iron/vanilla_iron_shulker_box"));
   }
 
-  private void registerGoldBoxRecipe(Consumer<IFinishedRecipe> consumer, IItemProvider result, IItemProvider input, IItemProvider inputTwo, String color, String group) {
+  private void registerGoldBoxRecipe(Consumer<FinishedRecipe> consumer, ItemLike result, ItemLike input, ItemLike inputTwo, String color, String group) {
     IronShulkerBoxRecipeBuilder.shapedRecipe(result)
       .setGroup(group)
       .key('S', input)
@@ -544,7 +544,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       .build(consumer, location("shulkerboxes/" + color + "gold/silver_gold_shulker_box"));
   }
 
-  private void registerDiamondBoxRecipe(Consumer<IFinishedRecipe> consumer, IItemProvider result, IItemProvider input, IItemProvider inputTwo, String color, String group) {
+  private void registerDiamondBoxRecipe(Consumer<FinishedRecipe> consumer, ItemLike result, ItemLike input, ItemLike inputTwo, String color, String group) {
     IronShulkerBoxRecipeBuilder.shapedRecipe(result)
       .setGroup(group)
       .key('G', Tags.Items.GLASS)
@@ -576,11 +576,11 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
             .rewards(AdvancementRewards.Builder.recipe(silverToDiamondShulkerBox))
             .addCriterion("has_item", has(Tags.Items.GEMS_DIAMOND))
             .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(silverToDiamondShulkerBox))
-            .requirements(IRequirementsStrategy.OR))
+            .requirements(RequirementsStrategy.OR))
       ).build(consumer, silverToDiamondShulkerBox);
   }
 
-  private void registerCrystalBoxRecipe(Consumer<IFinishedRecipe> consumer, IItemProvider result, IItemProvider input, String color, String group) {
+  private void registerCrystalBoxRecipe(Consumer<FinishedRecipe> consumer, ItemLike result, ItemLike input, String color, String group) {
     IronShulkerBoxRecipeBuilder.shapedRecipe(result)
       .setGroup(group)
       .key('G', Tags.Items.GLASS)
@@ -592,7 +592,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       .build(consumer, location("shulkerboxes/" + color + "crystal/diamond_crystal_shulker_box"));
   }
 
-  private void registerObsidianBoxRecipe(Consumer<IFinishedRecipe> consumer, IItemProvider result, IItemProvider input, String color, String group) {
+  private void registerObsidianBoxRecipe(Consumer<FinishedRecipe> consumer, ItemLike result, ItemLike input, String color, String group) {
     IronShulkerBoxRecipeBuilder.shapedRecipe(result)
       .setGroup(group)
       .key('M', Items.OBSIDIAN)

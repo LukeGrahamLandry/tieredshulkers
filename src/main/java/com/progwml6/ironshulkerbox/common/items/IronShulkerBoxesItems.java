@@ -2,8 +2,8 @@ package com.progwml6.ironshulkerbox.common.items;
 
 import com.google.common.collect.ImmutableMap;
 import com.progwml6.ironshulkerbox.IronShulkerBoxes;
-import net.minecraft.item.Item;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraft.world.item.Item;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 

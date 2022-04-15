@@ -1,58 +1,57 @@
 package com.progwml6.ironshulkerbox.common.block;
 
 import com.progwml6.ironshulkerbox.IronShulkerBoxes;
+import com.progwml6.ironshulkerbox.common.IronShulkerBoxesTypes;
 import com.progwml6.ironshulkerbox.common.block.tileentity.GenericIronShulkerBoxTileEntity;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.DirectionalBlock;
-import net.minecraft.block.material.PushReaction;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.DyeColor;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootContext;
-import net.minecraft.loot.LootParameters;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.state.StateContainer;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.Stats;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Rotation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.world.Container;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DirectionalBlock;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
-
-import net.minecraft.block.AbstractBlock.Properties;
 
 public class GenericIronShulkerBlock extends Block {
 
@@ -69,20 +68,20 @@ public class GenericIronShulkerBlock extends Block {
   }
 
   @Override
-  public BlockRenderType getRenderShape(BlockState state) {
-    return BlockRenderType.ENTITYBLOCK_ANIMATED;
+  public RenderShape getRenderShape(BlockState state) {
+    return RenderShape.ENTITYBLOCK_ANIMATED;
   }
 
   @Override
-  public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult p_225533_6_) {
+  public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult p_225533_6_) {
     if (worldIn.isClientSide) {
-      return ActionResultType.SUCCESS;
+      return InteractionResult.SUCCESS;
     }
     else if (player.isSpectator()) {
-      return ActionResultType.SUCCESS;
+      return InteractionResult.SUCCESS;
     }
     else {
-      TileEntity tileentity = worldIn.getBlockEntity(pos);
+      BlockEntity tileentity = worldIn.getBlockEntity(pos);
 
       if (tileentity instanceof GenericIronShulkerBoxTileEntity) {
         Direction direction = state.getValue(FACING);
@@ -90,7 +89,7 @@ public class GenericIronShulkerBlock extends Block {
         boolean flag;
 
         if (genericIronShulkerBoxTileEntity.getAnimationStatus() == GenericIronShulkerBoxTileEntity.AnimationStatus.CLOSED) {
-          AxisAlignedBB axisalignedbb = VoxelShapes.block().bounds().expandTowards((double) (0.5F * (float) direction.getStepX()), (double) (0.5F * (float) direction.getStepY()), (double) (0.5F * (float) direction.getStepZ())).contract((double) direction.getStepX(), (double) direction.getStepY(), (double) direction.getStepZ());
+          AABB axisalignedbb = Shapes.block().bounds().expandTowards((double) (0.5F * (float) direction.getStepX()), (double) (0.5F * (float) direction.getStepY()), (double) (0.5F * (float) direction.getStepZ())).contract((double) direction.getStepX(), (double) direction.getStepY(), (double) direction.getStepZ());
           flag = worldIn.noCollision(axisalignedbb.move(pos.relative(direction)));
         }
         else {
@@ -102,34 +101,34 @@ public class GenericIronShulkerBlock extends Block {
           player.awardStat(Stats.OPEN_SHULKER_BOX);
         }
 
-        return ActionResultType.SUCCESS;
+        return InteractionResult.SUCCESS;
       }
       else {
-        return ActionResultType.PASS;
+        return InteractionResult.PASS;
       }
     }
   }
 
   @Override
-  public BlockState getStateForPlacement(BlockItemUseContext context) {
+  public BlockState getStateForPlacement(BlockPlaceContext context) {
     return this.defaultBlockState().setValue(FACING, context.getClickedFace());
   }
 
   @Override
-  protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+  protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
     builder.add(FACING);
   }
 
   @Override
-  public void playerWillDestroy(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
-    TileEntity tileentity = worldIn.getBlockEntity(pos);
+  public void playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player) {
+    BlockEntity tileentity = worldIn.getBlockEntity(pos);
 
     if (tileentity instanceof GenericIronShulkerBoxTileEntity) {
       GenericIronShulkerBoxTileEntity genericIronShulkerBoxTileEntity = (GenericIronShulkerBoxTileEntity) tileentity;
 
       if (!worldIn.isClientSide && player.isCreative() && !genericIronShulkerBoxTileEntity.isEmpty()) {
         ItemStack itemstack = getColoredItemStack(this.getColor(), this.getType());
-        CompoundNBT compoundnbt = genericIronShulkerBoxTileEntity.saveToNbt(new CompoundNBT());
+        CompoundTag compoundnbt = genericIronShulkerBoxTileEntity.saveToNbt(new CompoundTag());
 
         if (!compoundnbt.isEmpty()) {
           itemstack.addTagElement("BlockEntityTag", compoundnbt);
@@ -153,7 +152,7 @@ public class GenericIronShulkerBlock extends Block {
 
   @Override
   public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
-    TileEntity tileentity = builder.getOptionalParameter(LootParameters.BLOCK_ENTITY);
+    BlockEntity tileentity = builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
     if (tileentity instanceof GenericIronShulkerBoxTileEntity) {
       GenericIronShulkerBoxTileEntity genericIronShulkerBoxTileEntity = (GenericIronShulkerBoxTileEntity) tileentity;
       builder = builder.withDynamicDrop(CONTENTS, (p_220168_1_, p_220168_2_) -> {
@@ -168,9 +167,9 @@ public class GenericIronShulkerBlock extends Block {
 
 
   @Override
-  public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+  public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
     if (stack.hasCustomHoverName()) {
-      TileEntity tileentity = worldIn.getBlockEntity(pos);
+      BlockEntity tileentity = worldIn.getBlockEntity(pos);
 
       if (tileentity instanceof GenericIronShulkerBoxTileEntity) {
         ((GenericIronShulkerBoxTileEntity) tileentity).setCustomName(stack.getHoverName());
@@ -179,9 +178,9 @@ public class GenericIronShulkerBlock extends Block {
   }
 
   @Override
-  public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+  public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
     if (state.getBlock() != newState.getBlock()) {
-      TileEntity tileentity = worldIn.getBlockEntity(pos);
+      BlockEntity tileentity = worldIn.getBlockEntity(pos);
 
       if (tileentity instanceof GenericIronShulkerBoxTileEntity) {
         worldIn.updateNeighbourForOutputSignal(pos, state.getBlock());
@@ -193,18 +192,18 @@ public class GenericIronShulkerBlock extends Block {
 
   @OnlyIn(Dist.CLIENT)
   @Override
-  public void appendHoverText(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+  public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
     super.appendHoverText(stack, worldIn, tooltip, flagIn);
-    CompoundNBT compoundnbt = stack.getTagElement("BlockEntityTag");
+    CompoundTag compoundnbt = stack.getTagElement("BlockEntityTag");
 
     if (compoundnbt != null) {
       if (compoundnbt.contains("LootTable", 8)) {
-        tooltip.add(new StringTextComponent("???????"));
+        tooltip.add(new TextComponent("???????"));
       }
 
       if (compoundnbt.contains("Items", 9)) {
         NonNullList<ItemStack> nonnulllist = NonNullList.withSize(27, ItemStack.EMPTY);
-        ItemStackHelper.loadAllItems(compoundnbt, nonnulllist);
+        ContainerHelper.loadAllItems(compoundnbt, nonnulllist);
         int i = 0;
         int j = 0;
 
@@ -213,7 +212,7 @@ public class GenericIronShulkerBlock extends Block {
             ++j;
             if (i <= 4) {
               ++i;
-              IFormattableTextComponent itextcomponent = itemstack.getHoverName().copy();
+              MutableComponent itextcomponent = itemstack.getHoverName().copy();
               itextcomponent.append(" x").append(String.valueOf(itemstack.getCount()));
               tooltip.add(itextcomponent);
             }
@@ -221,7 +220,7 @@ public class GenericIronShulkerBlock extends Block {
         }
 
         if (j - i > 0) {
-          tooltip.add((new TranslationTextComponent("container.shulkerBox.more", j - i)).withStyle(TextFormatting.ITALIC));
+          tooltip.add((new TranslatableComponent("container.shulkerBox.more", j - i)).withStyle(ChatFormatting.ITALIC));
         }
       }
     }
@@ -234,9 +233,9 @@ public class GenericIronShulkerBlock extends Block {
   }
 
   @Override
-  public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-    TileEntity tileentity = worldIn.getBlockEntity(pos);
-    return tileentity instanceof GenericIronShulkerBoxTileEntity ? VoxelShapes.create(((GenericIronShulkerBoxTileEntity) tileentity).getBoundingBox(state)) : VoxelShapes.block();
+  public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+    BlockEntity tileentity = worldIn.getBlockEntity(pos);
+    return tileentity instanceof GenericIronShulkerBoxTileEntity ? Shapes.create(((GenericIronShulkerBoxTileEntity) tileentity).getBoundingBox(state)) : Shapes.block();
   }
 
   @Override
@@ -245,15 +244,15 @@ public class GenericIronShulkerBlock extends Block {
   }
 
   @Override
-  public int getAnalogOutputSignal(BlockState blockState, World worldIn, BlockPos pos) {
-    return Container.getRedstoneSignalFromContainer((IInventory) worldIn.getBlockEntity(pos));
+  public int getAnalogOutputSignal(BlockState blockState, Level worldIn, BlockPos pos) {
+    return AbstractContainerMenu.getRedstoneSignalFromContainer((Container) worldIn.getBlockEntity(pos));
   }
 
   @Override
-  public ItemStack getCloneItemStack(IBlockReader worldIn, BlockPos pos, BlockState state) {
+  public ItemStack getCloneItemStack(BlockGetter worldIn, BlockPos pos, BlockState state) {
     ItemStack itemstack = super.getCloneItemStack(worldIn, pos, state);
     GenericIronShulkerBoxTileEntity genericIronShulkerBoxTileEntity = (GenericIronShulkerBoxTileEntity) worldIn.getBlockEntity(pos);
-    CompoundNBT compoundnbt = genericIronShulkerBoxTileEntity.saveToNbt(new CompoundNBT());
+    CompoundTag compoundnbt = genericIronShulkerBoxTileEntity.saveToNbt(new CompoundTag());
     if (!compoundnbt.isEmpty()) {
       itemstack.addTagElement("BlockEntityTag", compoundnbt);
     }
@@ -324,17 +323,17 @@ public class GenericIronShulkerBlock extends Block {
   }
 
   @Override
-  public boolean triggerEvent(BlockState state, World worldIn, BlockPos pos, int id, int param) {
+  public boolean triggerEvent(BlockState state, Level worldIn, BlockPos pos, int id, int param) {
     super.triggerEvent(state, worldIn, pos, id, param);
-    TileEntity tileentity = worldIn.getBlockEntity(pos);
+    BlockEntity tileentity = worldIn.getBlockEntity(pos);
     return tileentity == null ? false : tileentity.triggerEvent(id, param);
   }
 
   @Override
   @Nullable
-  public INamedContainerProvider getMenuProvider(BlockState state, World world, BlockPos pos) {
-    TileEntity tileentity = world.getBlockEntity(pos);
-    return tileentity instanceof INamedContainerProvider ? (INamedContainerProvider) tileentity : null;
+  public MenuProvider getMenuProvider(BlockState state, Level world, BlockPos pos) {
+    BlockEntity tileentity = world.getBlockEntity(pos);
+    return tileentity instanceof MenuProvider ? (MenuProvider) tileentity : null;
   }
 
   @Override

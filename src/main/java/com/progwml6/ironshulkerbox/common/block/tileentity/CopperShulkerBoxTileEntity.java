@@ -1,11 +1,11 @@
 package com.progwml6.ironshulkerbox.common.block.tileentity;
 
-import com.progwml6.ironshulkerbox.common.block.IronShulkerBoxesTypes;
+import com.progwml6.ironshulkerbox.common.IronShulkerBoxesTypes;
 import com.progwml6.ironshulkerbox.common.block.ShulkerBoxesBlocks;
 import com.progwml6.ironshulkerbox.common.inventory.IronShulkerBoxContainer;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.DyeColor;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.DyeColor;
 
 import javax.annotation.Nullable;
 
@@ -20,7 +20,7 @@ public class CopperShulkerBoxTileEntity extends GenericIronShulkerBoxTileEntity 
   }
 
   @Override
-  protected Container createMenu(int id, PlayerInventory playerInventory) {
+  protected AbstractContainerMenu createMenu(int id, Inventory playerInventory) {
     return IronShulkerBoxContainer.createCopperContainer(id, playerInventory, this);
   }
 }

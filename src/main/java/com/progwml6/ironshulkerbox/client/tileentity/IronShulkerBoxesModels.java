@@ -2,9 +2,9 @@ package com.progwml6.ironshulkerbox.client.tileentity;
 
 import com.google.common.collect.ImmutableList;
 import com.progwml6.ironshulkerbox.IronShulkerBoxes;
-import com.progwml6.ironshulkerbox.common.block.IronShulkerBoxesTypes;
-import net.minecraft.client.renderer.Atlases;
-import net.minecraft.util.ResourceLocation;
+import com.progwml6.ironshulkerbox.common.IronShulkerBoxesTypes;
+import net.minecraft.client.renderer.Sheets;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -57,7 +57,7 @@ public class IronShulkerBoxesModels {
 
   @SubscribeEvent
   public static void onStitch(final TextureStitchEvent.Pre event) {
-    if (!event.getMap().location().equals(Atlases.SHULKER_SHEET)) {
+    if (!event.getMap().location().equals(Sheets.SHULKER_SHEET)) {
       return;
     }
 

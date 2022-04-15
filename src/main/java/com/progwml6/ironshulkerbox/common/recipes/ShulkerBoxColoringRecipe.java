@@ -1,16 +1,16 @@
 package com.progwml6.ironshulkerbox.common.recipes;
 
 import com.progwml6.ironshulkerbox.common.block.GenericIronShulkerBlock;
-import net.minecraft.block.Block;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.SpecialRecipe;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 
-public class ShulkerBoxColoringRecipe extends SpecialRecipe {
+public class ShulkerBoxColoringRecipe extends CustomRecipe {
 
   public ShulkerBoxColoringRecipe(ResourceLocation idIn) {
     super(idIn);
@@ -20,7 +20,7 @@ public class ShulkerBoxColoringRecipe extends SpecialRecipe {
    * Used to check if a recipe matches current crafting inventory
    */
   @Override
-  public boolean matches(CraftingInventory inv, World worldIn) {
+  public boolean matches(CraftingContainer inv, Level worldIn) {
     int i = 0;
     int j = 0;
 
@@ -51,9 +51,9 @@ public class ShulkerBoxColoringRecipe extends SpecialRecipe {
    * Returns an Item that is the result of this recipe
    */
   @Override
-  public ItemStack assemble(CraftingInventory inv) {
+  public ItemStack assemble(CraftingContainer inv) {
     ItemStack itemstack = ItemStack.EMPTY;
-    net.minecraft.item.DyeColor dyecolor = net.minecraft.item.DyeColor.WHITE;
+    net.minecraft.world.item.DyeColor dyecolor = net.minecraft.world.item.DyeColor.WHITE;
 
     for (int i = 0; i < inv.getContainerSize(); ++i) {
       ItemStack itemstack1 = inv.getItem(i);
@@ -63,7 +63,7 @@ public class ShulkerBoxColoringRecipe extends SpecialRecipe {
           itemstack = itemstack1;
         }
         else {
-          net.minecraft.item.DyeColor tmp = net.minecraft.item.DyeColor.getColor(itemstack1);
+          net.minecraft.world.item.DyeColor tmp = net.minecraft.world.item.DyeColor.getColor(itemstack1);
           if (tmp != null) { dyecolor = tmp; }
         }
       }
@@ -87,7 +87,7 @@ public class ShulkerBoxColoringRecipe extends SpecialRecipe {
   }
 
   @Override
-  public IRecipeSerializer<?> getSerializer() {
+  public RecipeSerializer<?> getSerializer() {
     return IronShulkerBoxRecipes.SHULKER_BOX_COLORING;
   }
 }

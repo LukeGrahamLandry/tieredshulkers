@@ -1,7 +1,7 @@
 package com.progwml6.ironshulkerbox.common.network;
 
 import com.progwml6.ironshulkerbox.IronShulkerBoxes;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;

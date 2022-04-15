@@ -1,34 +1,32 @@
 package com.progwml6.ironshulkerbox.common.items;
 
 import com.progwml6.ironshulkerbox.common.block.GenericIronShulkerBlock;
-import com.progwml6.ironshulkerbox.common.block.IronShulkerBoxesTypes;
+import com.progwml6.ironshulkerbox.common.IronShulkerBoxesTypes;
 import com.progwml6.ironshulkerbox.common.block.tileentity.GenericIronShulkerBoxTileEntity;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShulkerBoxBlock;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.DyeColor;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.tileentity.ShulkerBoxTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.ShulkerBoxBlock;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
-
-import net.minecraft.item.Item.Properties;
 
 public class ShulkerBoxUpgradeItem extends Item {
 
@@ -41,49 +39,49 @@ public class ShulkerBoxUpgradeItem extends Item {
 
   @Override
   @OnlyIn(Dist.CLIENT)
-  public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+  public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
     if (I18n.exists("ironshulkerbox.upgrade.tooltip")) {
       if (I18n.exists("ironshulkerbox." + this.type.source.name) && I18n.exists("ironshulkerbox." + this.type.target.name)) {
-        tooltip.add((new TranslationTextComponent("ironshulkerbox.upgrade.tooltip", new TranslationTextComponent("ironshulkerbox." + this.type.source.name).withStyle(TextFormatting.BOLD), new TranslationTextComponent("ironshulkerbox." + this.type.target.name).withStyle(TextFormatting.BOLD))).withStyle(TextFormatting.DARK_RED));
+        tooltip.add((new TranslatableComponent("ironshulkerbox.upgrade.tooltip", new TranslatableComponent("ironshulkerbox." + this.type.source.name).withStyle(ChatFormatting.BOLD), new TranslatableComponent("ironshulkerbox." + this.type.target.name).withStyle(ChatFormatting.BOLD))).withStyle(ChatFormatting.DARK_RED));
       }
     }
     if (I18n.exists("ironshulkerbox.color.tooltip")) {
-      tooltip.add((new TranslationTextComponent("ironshulkerbox.color.tooltip", 0)).withStyle(TextFormatting.GOLD));
+      tooltip.add((new TranslatableComponent("ironshulkerbox.color.tooltip", 0)).withStyle(ChatFormatting.GOLD));
     }
 
     super.appendHoverText(stack, worldIn, tooltip, flagIn);
   }
 
   @Override
-  public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
-    PlayerEntity entityPlayer = context.getPlayer();
+  public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
+    Player entityPlayer = context.getPlayer();
     BlockPos blockPos = context.getClickedPos();
-    World world = context.getLevel();
+    Level world = context.getLevel();
     ItemStack itemStack = context.getItemInHand();
 
     if (world.isClientSide) {
-      return ActionResultType.PASS;
+      return InteractionResult.PASS;
     }
 
     if (this.type.canUpgrade(IronShulkerBoxesTypes.VANILLA)) {
       if (!(world.getBlockState(blockPos).getBlock() instanceof ShulkerBoxBlock)) {
-        return ActionResultType.PASS;
+        return InteractionResult.PASS;
       }
     } else {
       if (!(world.getBlockState(blockPos).getBlock() instanceof GenericIronShulkerBlock)) {
-        return ActionResultType.PASS;
+        return InteractionResult.PASS;
       } else {
         GenericIronShulkerBlock block = (GenericIronShulkerBlock) world.getBlockState(blockPos).getBlock();
         if (block.defaultBlockState() != IronShulkerBoxesTypes.get(this.type.source, block.getColor())) {
-          return ActionResultType.PASS;
+          return InteractionResult.PASS;
         }
       }
     }
 
-    TileEntity tileEntity = world.getBlockEntity(blockPos);
+    BlockEntity tileEntity = world.getBlockEntity(blockPos);
     GenericIronShulkerBoxTileEntity newShulkerBox = null;
 
-    ITextComponent customName = null;
+    Component customName = null;
 
     NonNullList<ItemStack> shulkerBoxContents = NonNullList.<ItemStack>withSize(27, ItemStack.EMPTY);
     Direction shulkerBoxFacing = Direction.UP;
@@ -109,15 +107,15 @@ public class ShulkerBoxUpgradeItem extends Item {
         //shulkerBox.setDestroyedByCreativePlayer(true);
 
         if (newShulkerBox == null) {
-          return ActionResultType.PASS;
+          return InteractionResult.PASS;
         }
-      } else if (tileEntity instanceof ShulkerBoxTileEntity) {
+      } else if (tileEntity instanceof ShulkerBoxBlockEntity) {
         BlockState shulkerBoxState = world.getBlockState(blockPos);
-        shulkerBoxFacing = shulkerBoxState.getValue(net.minecraft.block.ShulkerBoxBlock.FACING);
-        ShulkerBoxTileEntity shulkerBox = (ShulkerBoxTileEntity) tileEntity;
+        shulkerBoxFacing = shulkerBoxState.getValue(net.minecraft.world.level.block.ShulkerBoxBlock.FACING);
+        ShulkerBoxBlockEntity shulkerBox = (ShulkerBoxBlockEntity) tileEntity;
 
         if (!this.type.canUpgrade(IronShulkerBoxesTypes.VANILLA)) {
-          return ActionResultType.PASS;
+          return InteractionResult.PASS;
         }
 
         shulkerBoxContents = NonNullList.<ItemStack>withSize(shulkerBox.getContainerSize(), ItemStack.EMPTY);
@@ -126,7 +124,7 @@ public class ShulkerBoxUpgradeItem extends Item {
           shulkerBoxContents.set(i, shulkerBox.getItem(i));
         }
 
-        shulkerBoxColor = ((net.minecraft.block.ShulkerBoxBlock) world.getBlockState(blockPos).getBlock()).getColor();
+        shulkerBoxColor = ((net.minecraft.world.level.block.ShulkerBoxBlock) world.getBlockState(blockPos).getBlock()).getColor();
 
         if (shulkerBoxColor == null) {
           shulkerBoxColor = DyeColor.PURPLE;
@@ -153,7 +151,7 @@ public class ShulkerBoxUpgradeItem extends Item {
 
     world.sendBlockUpdated(blockPos, iBlockState, iBlockState, 3);
 
-    TileEntity tileEntity2 = world.getBlockEntity(blockPos);
+    BlockEntity tileEntity2 = world.getBlockEntity(blockPos);
 
     if (tileEntity2 instanceof GenericIronShulkerBoxTileEntity) {
       if (customName != null) {
@@ -167,6 +165,6 @@ public class ShulkerBoxUpgradeItem extends Item {
       itemStack.shrink(1);
     }
 
-    return ActionResultType.SUCCESS;
+    return InteractionResult.SUCCESS;
   }
 }

@@ -1,5 +1,6 @@
-package com.progwml6.ironshulkerbox.common.block;
+package com.progwml6.ironshulkerbox.common;
 
+import com.progwml6.ironshulkerbox.common.block.ShulkerBoxesBlocks;
 import com.progwml6.ironshulkerbox.common.block.tileentity.CopperShulkerBoxTileEntity;
 import com.progwml6.ironshulkerbox.common.block.tileentity.CrystalShulkerBoxTileEntity;
 import com.progwml6.ironshulkerbox.common.block.tileentity.DiamondShulkerBoxTileEntity;
@@ -8,42 +9,40 @@ import com.progwml6.ironshulkerbox.common.block.tileentity.GoldShulkerBoxTileEnt
 import com.progwml6.ironshulkerbox.common.block.tileentity.IronShulkerBoxTileEntity;
 import com.progwml6.ironshulkerbox.common.block.tileentity.ObsidianShulkerBoxTileEntity;
 import com.progwml6.ironshulkerbox.common.block.tileentity.SilverShulkerBoxTileEntity;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.DyeColor;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 import java.util.Locale;
 
-public enum IronShulkerBoxesTypes implements IStringSerializable {
-  IRON(54, 9, "_iron.png", IronShulkerBoxTileEntity.class, 184, 222, new ResourceLocation("ironshulkerbox", "textures/gui/iron_container.png"), 256, 256),
-  GOLD(81, 9, "_gold.png", IronShulkerBoxTileEntity.class, 184, 276, new ResourceLocation("ironshulkerbox", "textures/gui/gold_container.png"), 256, 276),
-  DIAMOND(108, 12, "_diamond.png", IronShulkerBoxTileEntity.class, 238, 276, new ResourceLocation("ironshulkerbox", "textures/gui/diamond_container.png"), 256, 276),
-  COPPER(45, 9, "_copper.png", IronShulkerBoxTileEntity.class, 184, 204, new ResourceLocation("ironshulkerbox", "textures/gui/copper_container.png"), 256, 256),
-  SILVER(72, 9, "_silver.png", IronShulkerBoxTileEntity.class, 184, 258, new ResourceLocation("ironshulkerbox", "textures/gui/silver_container.png"), 256, 276),
-  CRYSTAL(108, 12, "_crystal.png", IronShulkerBoxTileEntity.class, 238, 276, new ResourceLocation("ironshulkerbox", "textures/gui/diamond_container.png"), 256, 276),
-  OBSIDIAN(108, 12, "_obsidian.png", IronShulkerBoxTileEntity.class, 238, 276, new ResourceLocation("ironshulkerbox", "textures/gui/diamond_container.png"), 256, 276),
-  VANILLA(0, 0, "", null, 0, 0, null, 0, 0);
+public enum IronShulkerBoxesTypes implements StringRepresentable {
+  IRON(54, 9, "_iron.png", 184, 222, new ResourceLocation("ironshulkerbox", "textures/gui/iron_container.png"), 256, 256),
+  GOLD(81, 9, "_gold.png", 184, 276, new ResourceLocation("ironshulkerbox", "textures/gui/gold_container.png"), 256, 276),
+  DIAMOND(108, 12, "_diamond.png", 238, 276, new ResourceLocation("ironshulkerbox", "textures/gui/diamond_container.png"), 256, 276),
+  COPPER(45, 9, "_copper.png", 184, 204, new ResourceLocation("ironshulkerbox", "textures/gui/copper_container.png"), 256, 256),
+  SILVER(72, 9, "_silver.png", 184, 258, new ResourceLocation("ironshulkerbox", "textures/gui/silver_container.png"), 256, 276),
+  CRYSTAL(108, 12, "_crystal.png", 238, 276, new ResourceLocation("ironshulkerbox", "textures/gui/diamond_container.png"), 256, 276),
+  OBSIDIAN(108, 12, "_obsidian.png", 238, 276, new ResourceLocation("ironshulkerbox", "textures/gui/diamond_container.png"), 256, 276),
+  VANILLA(0, 0, "", 0, 0, 0, 0, 0, 0);
 
   public final String name;
   public final int size;
   public final int rowLength;
   public final String modelTexture;
-  public final Class<? extends TileEntity> clazz;
   public final int xSize;
   public final int ySize;
   public final ResourceLocation guiTexture;
   public final int textureXSize;
   public final int textureYSize;
 
-  IronShulkerBoxesTypes(int size, int rowLength, String modelTexture, Class<? extends IronShulkerBoxTileEntity> clazz, int xSize, int ySize, ResourceLocation guiTexture, int textureXSize, int textureYSize) {
+  IronShulkerBoxesTypes(int size, int rowLength, int xSize, int ySize, ResourceLocation guiTexture, int textureXSize, int textureYSize) {
     this.name = this.name().toLowerCase();
     this.size = size;
     this.rowLength = rowLength;
     this.modelTexture = modelTexture;
-    this.clazz = clazz;
     this.xSize = xSize;
     this.ySize = ySize;
     this.guiTexture = guiTexture;

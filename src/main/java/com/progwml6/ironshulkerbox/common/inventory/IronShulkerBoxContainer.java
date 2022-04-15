@@ -1,84 +1,84 @@
 package com.progwml6.ironshulkerbox.common.inventory;
 
-import com.progwml6.ironshulkerbox.common.block.IronShulkerBoxesTypes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
+import com.progwml6.ironshulkerbox.common.IronShulkerBoxesTypes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class IronShulkerBoxContainer extends Container {
+public class IronShulkerBoxContainer extends AbstractContainerMenu {
 
-  private final IInventory inventory;
+  private final Container inventory;
 
   private final IronShulkerBoxesTypes shulkerBoxType;
 
-  private IronShulkerBoxContainer(ContainerType<?> containerType, int windowId, PlayerInventory playerInventory) {
-    this(containerType, windowId, playerInventory, new Inventory(IronShulkerBoxesTypes.VANILLA.size), IronShulkerBoxesTypes.VANILLA);
+  private IronShulkerBoxContainer(MenuType<?> containerType, int windowId, Inventory playerInventory) {
+    this(containerType, windowId, playerInventory, new SimpleContainer(IronShulkerBoxesTypes.VANILLA.size), IronShulkerBoxesTypes.VANILLA);
   }
 
-  public static IronShulkerBoxContainer createIronContainer(int windowId, PlayerInventory playerInventory) {
-    return new IronShulkerBoxContainer(IronShulkerBoxesContainerTypes.IRON_SHULKER_BOX.get(), windowId, playerInventory, new Inventory(IronShulkerBoxesTypes.IRON.size), IronShulkerBoxesTypes.IRON);
+  public static IronShulkerBoxContainer createIronContainer(int windowId, Inventory playerInventory) {
+    return new IronShulkerBoxContainer(IronShulkerBoxesContainerTypes.IRON_SHULKER_BOX.get(), windowId, playerInventory, new SimpleContainer(IronShulkerBoxesTypes.IRON.size), IronShulkerBoxesTypes.IRON);
   }
 
-  public static IronShulkerBoxContainer createIronContainer(int windowId, PlayerInventory playerInventory, IInventory inventory) {
+  public static IronShulkerBoxContainer createIronContainer(int windowId, Inventory playerInventory, Container inventory) {
     return new IronShulkerBoxContainer(IronShulkerBoxesContainerTypes.IRON_SHULKER_BOX.get(), windowId, playerInventory, inventory, IronShulkerBoxesTypes.IRON);
   }
 
-  public static IronShulkerBoxContainer createGoldContainer(int windowId, PlayerInventory playerInventory) {
-    return new IronShulkerBoxContainer(IronShulkerBoxesContainerTypes.GOLD_SHULKER_BOX.get(), windowId, playerInventory, new Inventory(IronShulkerBoxesTypes.GOLD.size), IronShulkerBoxesTypes.GOLD);
+  public static IronShulkerBoxContainer createGoldContainer(int windowId, Inventory playerInventory) {
+    return new IronShulkerBoxContainer(IronShulkerBoxesContainerTypes.GOLD_SHULKER_BOX.get(), windowId, playerInventory, new SimpleContainer(IronShulkerBoxesTypes.GOLD.size), IronShulkerBoxesTypes.GOLD);
   }
 
-  public static IronShulkerBoxContainer createGoldContainer(int windowId, PlayerInventory playerInventory, IInventory inventory) {
+  public static IronShulkerBoxContainer createGoldContainer(int windowId, Inventory playerInventory, Container inventory) {
     return new IronShulkerBoxContainer(IronShulkerBoxesContainerTypes.GOLD_SHULKER_BOX.get(), windowId, playerInventory, inventory, IronShulkerBoxesTypes.GOLD);
   }
 
-  public static IronShulkerBoxContainer createDiamondContainer(int windowId, PlayerInventory playerInventory) {
-    return new IronShulkerBoxContainer(IronShulkerBoxesContainerTypes.DIAMOND_SHULKER_BOX.get(), windowId, playerInventory, new Inventory(IronShulkerBoxesTypes.DIAMOND.size), IronShulkerBoxesTypes.DIAMOND);
+  public static IronShulkerBoxContainer createDiamondContainer(int windowId, Inventory playerInventory) {
+    return new IronShulkerBoxContainer(IronShulkerBoxesContainerTypes.DIAMOND_SHULKER_BOX.get(), windowId, playerInventory, new SimpleContainer(IronShulkerBoxesTypes.DIAMOND.size), IronShulkerBoxesTypes.DIAMOND);
   }
 
-  public static IronShulkerBoxContainer createDiamondContainer(int windowId, PlayerInventory playerInventory, IInventory inventory) {
+  public static IronShulkerBoxContainer createDiamondContainer(int windowId, Inventory playerInventory, Container inventory) {
     return new IronShulkerBoxContainer(IronShulkerBoxesContainerTypes.DIAMOND_SHULKER_BOX.get(), windowId, playerInventory, inventory, IronShulkerBoxesTypes.DIAMOND);
   }
 
-  public static IronShulkerBoxContainer createCrystalContainer(int windowId, PlayerInventory playerInventory) {
-    return new IronShulkerBoxContainer(IronShulkerBoxesContainerTypes.CRYSTAL_SHULKER_BOX.get(), windowId, playerInventory, new Inventory(IronShulkerBoxesTypes.CRYSTAL.size), IronShulkerBoxesTypes.CRYSTAL);
+  public static IronShulkerBoxContainer createCrystalContainer(int windowId, Inventory playerInventory) {
+    return new IronShulkerBoxContainer(IronShulkerBoxesContainerTypes.CRYSTAL_SHULKER_BOX.get(), windowId, playerInventory, new SimpleContainer(IronShulkerBoxesTypes.CRYSTAL.size), IronShulkerBoxesTypes.CRYSTAL);
   }
 
-  public static IronShulkerBoxContainer createCrystalContainer(int windowId, PlayerInventory playerInventory, IInventory inventory) {
+  public static IronShulkerBoxContainer createCrystalContainer(int windowId, Inventory playerInventory, Container inventory) {
     return new IronShulkerBoxContainer(IronShulkerBoxesContainerTypes.CRYSTAL_SHULKER_BOX.get(), windowId, playerInventory, inventory, IronShulkerBoxesTypes.CRYSTAL);
   }
 
-  public static IronShulkerBoxContainer createCopperContainer(int windowId, PlayerInventory playerInventory) {
-    return new IronShulkerBoxContainer(IronShulkerBoxesContainerTypes.COPPER_SHULKER_BOX.get(), windowId, playerInventory, new Inventory(IronShulkerBoxesTypes.COPPER.size), IronShulkerBoxesTypes.COPPER);
+  public static IronShulkerBoxContainer createCopperContainer(int windowId, Inventory playerInventory) {
+    return new IronShulkerBoxContainer(IronShulkerBoxesContainerTypes.COPPER_SHULKER_BOX.get(), windowId, playerInventory, new SimpleContainer(IronShulkerBoxesTypes.COPPER.size), IronShulkerBoxesTypes.COPPER);
   }
 
-  public static IronShulkerBoxContainer createCopperContainer(int windowId, PlayerInventory playerInventory, IInventory inventory) {
+  public static IronShulkerBoxContainer createCopperContainer(int windowId, Inventory playerInventory, Container inventory) {
     return new IronShulkerBoxContainer(IronShulkerBoxesContainerTypes.COPPER_SHULKER_BOX.get(), windowId, playerInventory, inventory, IronShulkerBoxesTypes.COPPER);
   }
 
-  public static IronShulkerBoxContainer createSilverContainer(int windowId, PlayerInventory playerInventory) {
-    return new IronShulkerBoxContainer(IronShulkerBoxesContainerTypes.SILVER_SHULKER_BOX.get(), windowId, playerInventory, new Inventory(IronShulkerBoxesTypes.CRYSTAL.size), IronShulkerBoxesTypes.SILVER);
+  public static IronShulkerBoxContainer createSilverContainer(int windowId, Inventory playerInventory) {
+    return new IronShulkerBoxContainer(IronShulkerBoxesContainerTypes.SILVER_SHULKER_BOX.get(), windowId, playerInventory, new SimpleContainer(IronShulkerBoxesTypes.CRYSTAL.size), IronShulkerBoxesTypes.SILVER);
   }
 
-  public static IronShulkerBoxContainer createSilverContainer(int windowId, PlayerInventory playerInventory, IInventory inventory) {
+  public static IronShulkerBoxContainer createSilverContainer(int windowId, Inventory playerInventory, Container inventory) {
     return new IronShulkerBoxContainer(IronShulkerBoxesContainerTypes.SILVER_SHULKER_BOX.get(), windowId, playerInventory, inventory, IronShulkerBoxesTypes.SILVER);
   }
 
-  public static IronShulkerBoxContainer createObsidianContainer(int windowId, PlayerInventory playerInventory) {
-    return new IronShulkerBoxContainer(IronShulkerBoxesContainerTypes.OBSIDIAN_SHULKER_BOX.get(), windowId, playerInventory, new Inventory(IronShulkerBoxesTypes.OBSIDIAN.size), IronShulkerBoxesTypes.OBSIDIAN);
+  public static IronShulkerBoxContainer createObsidianContainer(int windowId, Inventory playerInventory) {
+    return new IronShulkerBoxContainer(IronShulkerBoxesContainerTypes.OBSIDIAN_SHULKER_BOX.get(), windowId, playerInventory, new SimpleContainer(IronShulkerBoxesTypes.OBSIDIAN.size), IronShulkerBoxesTypes.OBSIDIAN);
   }
 
-  public static IronShulkerBoxContainer createObsidianContainer(int windowId, PlayerInventory playerInventory, IInventory inventory) {
+  public static IronShulkerBoxContainer createObsidianContainer(int windowId, Inventory playerInventory, Container inventory) {
     return new IronShulkerBoxContainer(IronShulkerBoxesContainerTypes.OBSIDIAN_SHULKER_BOX.get(), windowId, playerInventory, inventory, IronShulkerBoxesTypes.OBSIDIAN);
   }
 
-  public IronShulkerBoxContainer(ContainerType<?> containerType, int windowId, PlayerInventory playerInventory, IInventory inventory, IronShulkerBoxesTypes shulkerBoxType) {
+  public IronShulkerBoxContainer(MenuType<?> containerType, int windowId, Inventory playerInventory, Container inventory, IronShulkerBoxesTypes shulkerBoxType) {
     super(containerType, windowId);
     checkContainerSize(inventory, shulkerBoxType.size);
 
@@ -108,12 +108,12 @@ public class IronShulkerBoxContainer extends Container {
   }
 
   @Override
-  public boolean stillValid(PlayerEntity playerIn) {
+  public boolean stillValid(Player playerIn) {
     return this.inventory.stillValid(playerIn);
   }
 
   @Override
-  public ItemStack quickMoveStack(PlayerEntity playerIn, int index) {
+  public ItemStack quickMoveStack(Player playerIn, int index) {
     ItemStack itemstack = ItemStack.EMPTY;
     Slot slot = this.slots.get(index);
 
@@ -140,7 +140,7 @@ public class IronShulkerBoxContainer extends Container {
   }
 
   @Override
-  public void removed(PlayerEntity playerIn) {
+  public void removed(Player playerIn) {
     super.removed(playerIn);
     this.inventory.stopOpen(playerIn);
   }

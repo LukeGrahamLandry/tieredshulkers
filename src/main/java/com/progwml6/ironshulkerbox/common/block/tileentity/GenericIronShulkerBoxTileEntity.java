@@ -1,41 +1,41 @@
 package com.progwml6.ironshulkerbox.common.block.tileentity;
 
 import com.progwml6.ironshulkerbox.common.block.GenericIronShulkerBlock;
-import com.progwml6.ironshulkerbox.common.block.IronShulkerBoxesTypes;
+import com.progwml6.ironshulkerbox.common.IronShulkerBoxesTypes;
 import com.progwml6.ironshulkerbox.common.inventory.IronShulkerBoxContainer;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShulkerBoxBlock;
-import net.minecraft.block.material.PushReaction;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.DyeColor;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.LockableLootTileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.ShulkerBoxBlock;
+import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class GenericIronShulkerBoxTileEntity extends LockableLootTileEntity implements ISidedInventory, ITickableTileEntity {
+public class GenericIronShulkerBoxTileEntity extends RandomizableContainerBlockEntity implements WorldlyContainer, TickableBlockEntity {
 
   private final int[] SLOTS;
   private NonNullList<ItemStack> items;
@@ -47,7 +47,7 @@ public class GenericIronShulkerBoxTileEntity extends LockableLootTileEntity impl
   private final List<Block> blocksToUse;
   private boolean needsColorFromWorld;
 
-  public GenericIronShulkerBoxTileEntity(TileEntityType<?> typeIn, @Nullable DyeColor colorIn, IronShulkerBoxesTypes shulkerBoxTypeIn, List<Block> blockListIn) {
+  public GenericIronShulkerBoxTileEntity(BlockEntityType<?> typeIn, @Nullable DyeColor colorIn, IronShulkerBoxesTypes shulkerBoxTypeIn, List<Block> blockListIn) {
     super(typeIn);
 
     this.SLOTS = IntStream.range(0, shulkerBoxTypeIn.size).toArray();
@@ -108,17 +108,17 @@ public class GenericIronShulkerBoxTileEntity extends LockableLootTileEntity impl
     return this.animationStatus;
   }
 
-  public AxisAlignedBB getBoundingBox(BlockState blockState) {
+  public AABB getBoundingBox(BlockState blockState) {
     return this.getBoundingBox(blockState.getValue(GenericIronShulkerBlock.FACING));
   }
 
-  public AxisAlignedBB getBoundingBox(Direction directionIn) {
+  public AABB getBoundingBox(Direction directionIn) {
     float f = this.getProgress(1.0F);
 
-    return VoxelShapes.block().bounds().expandTowards((double) (0.5F * f * (float) directionIn.getStepX()), (double) (0.5F * f * (float) directionIn.getStepY()), (double) (0.5F * f * (float) directionIn.getStepZ()));
+    return Shapes.block().bounds().expandTowards((double) (0.5F * f * (float) directionIn.getStepX()), (double) (0.5F * f * (float) directionIn.getStepY()), (double) (0.5F * f * (float) directionIn.getStepZ()));
   }
 
-  private AxisAlignedBB getTopBoundingBox(Direction directionIn) {
+  private AABB getTopBoundingBox(Direction directionIn) {
     Direction direction = directionIn.getOpposite();
     return this.getBoundingBox(directionIn).contract((double) direction.getStepX(), (double) direction.getStepY(), (double) direction.getStepZ());
   }
@@ -128,7 +128,7 @@ public class GenericIronShulkerBoxTileEntity extends LockableLootTileEntity impl
 
     if (blockstate.getBlock() instanceof GenericIronShulkerBlock) {
       Direction direction = blockstate.getValue(GenericIronShulkerBlock.FACING);
-      AxisAlignedBB axisalignedbb = this.getTopBoundingBox(direction).move(this.worldPosition);
+      AABB axisalignedbb = this.getTopBoundingBox(direction).move(this.worldPosition);
       List<Entity> list = this.level.getEntities((Entity) null, axisalignedbb);
 
       if (!list.isEmpty()) {
@@ -137,7 +137,7 @@ public class GenericIronShulkerBoxTileEntity extends LockableLootTileEntity impl
             double d0 = 0.0D;
             double d1 = 0.0D;
             double d2 = 0.0D;
-            AxisAlignedBB boundingBox = entity.getBoundingBox();
+            AABB boundingBox = entity.getBoundingBox();
 
             switch (direction.getAxis()) {
               case X:
@@ -173,7 +173,7 @@ public class GenericIronShulkerBoxTileEntity extends LockableLootTileEntity impl
                 d2 = d2 + 0.01D;
             }
 
-            entity.move(MoverType.SHULKER_BOX, new Vector3d(d0 * (double) direction.getStepX(), d1 * (double) direction.getStepY(), d2 * (double) direction.getStepZ()));
+            entity.move(MoverType.SHULKER_BOX, new Vec3(d0 * (double) direction.getStepX(), d1 * (double) direction.getStepY(), d2 * (double) direction.getStepZ()));
           }
         }
       }
@@ -212,7 +212,7 @@ public class GenericIronShulkerBoxTileEntity extends LockableLootTileEntity impl
   }
 
   @Override
-  public void startOpen(PlayerEntity player) {
+  public void startOpen(Player player) {
     if (!player.isSpectator()) {
       if (this.openCount < 0) {
         this.openCount = 0;
@@ -222,53 +222,53 @@ public class GenericIronShulkerBoxTileEntity extends LockableLootTileEntity impl
       this.level.blockEvent(this.worldPosition, this.getBlockState().getBlock(), 1, this.openCount);
 
       if (this.openCount == 1) {
-        this.level.playSound((PlayerEntity) null, this.worldPosition, SoundEvents.SHULKER_BOX_OPEN, SoundCategory.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.1F + 0.9F);
+        this.level.playSound((Player) null, this.worldPosition, SoundEvents.SHULKER_BOX_OPEN, SoundSource.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.1F + 0.9F);
       }
     }
   }
 
   @Override
-  public void stopOpen(PlayerEntity player) {
+  public void stopOpen(Player player) {
     if (!player.isSpectator()) {
       --this.openCount;
       this.level.blockEvent(this.worldPosition, this.getBlockState().getBlock(), 1, this.openCount);
 
       if (this.openCount <= 0) {
-        this.level.playSound((PlayerEntity) null, this.worldPosition, SoundEvents.SHULKER_BOX_CLOSE, SoundCategory.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.1F + 0.9F);
+        this.level.playSound((Player) null, this.worldPosition, SoundEvents.SHULKER_BOX_CLOSE, SoundSource.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.1F + 0.9F);
       }
     }
   }
 
   @Override
-  protected ITextComponent getDefaultName() {
-    return new TranslationTextComponent("container.shulkerBox");
+  protected Component getDefaultName() {
+    return new TranslatableComponent("container.shulkerBox");
   }
 
   @Override
-  public void load(BlockState blockState, CompoundNBT compound) {
+  public void load(BlockState blockState, CompoundTag compound) {
     super.load(blockState, compound);
 
     this.loadFromNbt(compound);
   }
 
   @Override
-  public CompoundNBT save(CompoundNBT compound) {
+  public CompoundTag save(CompoundTag compound) {
     super.save(compound);
 
     return this.saveToNbt(compound);
   }
 
-  public void loadFromNbt(CompoundNBT compound) {
+  public void loadFromNbt(CompoundTag compound) {
     this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
 
     if (!this.tryLoadLootTable(compound) && compound.contains("Items", 9)) {
-      ItemStackHelper.loadAllItems(compound, this.items);
+      ContainerHelper.loadAllItems(compound, this.items);
     }
   }
 
-  public CompoundNBT saveToNbt(CompoundNBT compound) {
+  public CompoundTag saveToNbt(CompoundTag compound) {
     if (!this.trySaveLootTable(compound)) {
-      ItemStackHelper.saveAllItems(compound, this.items, false);
+      ContainerHelper.saveAllItems(compound, this.items, false);
     }
 
     return compound;
@@ -306,7 +306,7 @@ public class GenericIronShulkerBoxTileEntity extends LockableLootTileEntity impl
   }
 
   public float getProgress(float p_190585_1_) {
-    return MathHelper.lerp(p_190585_1_, this.progressOld, this.progress);
+    return Mth.lerp(p_190585_1_, this.progressOld, this.progress);
   }
 
   @Nullable
@@ -320,7 +320,7 @@ public class GenericIronShulkerBoxTileEntity extends LockableLootTileEntity impl
   }
 
   @Override
-  protected Container createMenu(int windowId, PlayerInventory playerInventory) {
+  protected AbstractContainerMenu createMenu(int windowId, Inventory playerInventory) {
     return IronShulkerBoxContainer.createIronContainer(windowId, playerInventory, this);
   }
 

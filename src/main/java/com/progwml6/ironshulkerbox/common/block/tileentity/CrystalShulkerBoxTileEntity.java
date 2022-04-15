@@ -1,17 +1,17 @@
 package com.progwml6.ironshulkerbox.common.block.tileentity;
 
-import com.progwml6.ironshulkerbox.common.block.IronShulkerBoxesTypes;
+import com.progwml6.ironshulkerbox.common.IronShulkerBoxesTypes;
 import com.progwml6.ironshulkerbox.common.block.ShulkerBoxesBlocks;
 import com.progwml6.ironshulkerbox.common.inventory.IronShulkerBoxContainer;
 import com.progwml6.ironshulkerbox.common.network.PacketHandler;
 import com.progwml6.ironshulkerbox.common.network.PacketTopStackSyncShulkerBox;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.DyeColor;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nullable;
@@ -34,7 +34,7 @@ public class CrystalShulkerBoxTileEntity extends GenericIronShulkerBoxTileEntity
   }
 
   @Override
-  protected Container createMenu(int id, PlayerInventory playerInventory) {
+  protected AbstractContainerMenu createMenu(int id, Inventory playerInventory) {
     return IronShulkerBoxContainer.createCrystalContainer(id, playerInventory, this);
   }
 
@@ -186,7 +186,7 @@ public class CrystalShulkerBoxTileEntity extends GenericIronShulkerBoxTileEntity
   protected void sendTopStacksPacket() {
     NonNullList<ItemStack> stacks = this.buildItemStackDataList();
 
-    PacketHandler.send(PacketDistributor.TRACKING_CHUNK.with(() -> (Chunk) this.getLevel().getChunk(this.getBlockPos())), new PacketTopStackSyncShulkerBox(this.getBlockPos(), stacks));
+    PacketHandler.send(PacketDistributor.TRACKING_CHUNK.with(() -> (LevelChunk) this.getLevel().getChunk(this.getBlockPos())), new PacketTopStackSyncShulkerBox(this.getBlockPos(), stacks));
   }
 
   public void receiveMessageFromServer(NonNullList<ItemStack> topStacks) {

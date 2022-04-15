@@ -1,36 +1,36 @@
 package com.progwml6.ironshulkerbox.client.tileentity;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.progwml6.ironshulkerbox.common.block.GenericIronShulkerBlock;
-import com.progwml6.ironshulkerbox.common.block.IronShulkerBoxesTypes;
+import com.progwml6.ironshulkerbox.common.IronShulkerBoxesTypes;
 import com.progwml6.ironshulkerbox.common.block.tileentity.GenericIronShulkerBoxTileEntity;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.renderer.Atlases;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.model.ShulkerModel;
-import net.minecraft.client.renderer.model.RenderMaterial;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.item.DyeColor;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.model.ShulkerModel;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.core.Direction;
+import com.mojang.math.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class IronShulkerBoxTileEntityRenderer extends TileEntityRenderer<GenericIronShulkerBoxTileEntity> {
+public class IronShulkerBoxTileEntityRenderer implements BlockEntityRenderer<GenericIronShulkerBoxTileEntity> {
 
   private final ShulkerModel<?> model;
 
-  public IronShulkerBoxTileEntityRenderer(TileEntityRendererDispatcher tileEntityRendererDispatcher) {
-    super(tileEntityRendererDispatcher);
-    this.model = new ShulkerModel();
+  public IronShulkerBoxTileEntityRenderer(BlockEntityRendererProvider.Context p_173626_) {
+    this.model = new ShulkerModel(p_173626_.bakeLayer(ModelLayers.SHULKER));
   }
 
   @Override
-  public void render(GenericIronShulkerBoxTileEntity tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+  public void render(GenericIronShulkerBoxTileEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
     Direction direction = Direction.UP;
 
     if (tileEntityIn.hasLevel()) {
@@ -57,7 +57,7 @@ public class IronShulkerBoxTileEntityRenderer extends TileEntityRenderer<Generic
 
     DyeColor dyecolor = tileEntityIn.getColor();
 
-    RenderMaterial material = new RenderMaterial(Atlases.SHULKER_SHEET, IronShulkerBoxesModels.chooseShulkerBoxModel(boxType, dyecolor.getId()));
+    Material material = new Material(Sheets.SHULKER_SHEET, IronShulkerBoxesModels.chooseShulkerBoxModel(boxType, dyecolor.getId()));
 
     matrixStackIn.pushPose();
     matrixStackIn.translate(0.5D, 0.5D, 0.5D);
@@ -66,7 +66,7 @@ public class IronShulkerBoxTileEntityRenderer extends TileEntityRenderer<Generic
     matrixStackIn.mulPose(direction.getRotation());
     matrixStackIn.scale(1.0F, -1.0F, -1.0F);
     matrixStackIn.translate(0.0D, -1.0D, 0.0D);
-    IVertexBuilder ivertexbuilder = material.buffer(bufferIn, RenderType::entityCutoutNoCull);
+    VertexConsumer ivertexbuilder = material.buffer(bufferIn, RenderType::entityCutoutNoCull);
     this.model.getBase().render(matrixStackIn, ivertexbuilder, combinedLightIn, combinedOverlayIn);
     matrixStackIn.translate(0.0D, (double) (-tileEntityIn.getProgress(partialTicks) * 0.5F), 0.0D);
     matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(270.0F * tileEntityIn.getProgress(partialTicks)));

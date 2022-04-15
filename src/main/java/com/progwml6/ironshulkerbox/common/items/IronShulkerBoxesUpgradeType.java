@@ -1,9 +1,9 @@
 package com.progwml6.ironshulkerbox.common.items;
 
 import com.progwml6.ironshulkerbox.common.Util;
-import com.progwml6.ironshulkerbox.common.block.IronShulkerBoxesTypes;
+import com.progwml6.ironshulkerbox.common.IronShulkerBoxesTypes;
 
-import static com.progwml6.ironshulkerbox.common.block.IronShulkerBoxesTypes.*;
+import static com.progwml6.ironshulkerbox.common.IronShulkerBoxesTypes.*;
 
 public enum IronShulkerBoxesUpgradeType {
   IRON_TO_GOLD(IRON, GOLD),

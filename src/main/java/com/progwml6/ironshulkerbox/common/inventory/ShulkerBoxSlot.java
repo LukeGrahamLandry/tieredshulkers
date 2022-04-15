@@ -1,15 +1,15 @@
 package com.progwml6.ironshulkerbox.common.inventory;
 
 import com.progwml6.ironshulkerbox.common.block.GenericIronShulkerBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.ShulkerBoxBlock;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.ShulkerBoxBlock;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 
 public class ShulkerBoxSlot extends Slot {
 
-  public ShulkerBoxSlot(IInventory inventoryIn, int slotIndexIn, int xPosition, int yPosition) {
+  public ShulkerBoxSlot(Container inventoryIn, int slotIndexIn, int xPosition, int yPosition) {
     super(inventoryIn, slotIndexIn, xPosition, yPosition);
   }
 
