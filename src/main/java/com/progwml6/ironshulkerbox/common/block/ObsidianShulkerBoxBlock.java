@@ -6,6 +6,8 @@ import net.minecraft.item.DyeColor;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class ObsidianShulkerBoxBlock extends GenericIronShulkerBlock {
 
   public ObsidianShulkerBoxBlock(DyeColor color, Properties properties) {

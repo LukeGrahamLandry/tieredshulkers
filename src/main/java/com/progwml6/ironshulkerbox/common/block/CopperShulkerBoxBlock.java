@@ -6,6 +6,8 @@ import net.minecraft.item.DyeColor;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class CopperShulkerBoxBlock extends GenericIronShulkerBlock {
 
   public CopperShulkerBoxBlock(DyeColor color, Properties properties) {

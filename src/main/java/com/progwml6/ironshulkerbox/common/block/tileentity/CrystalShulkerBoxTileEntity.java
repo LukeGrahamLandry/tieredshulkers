@@ -42,7 +42,7 @@ public class CrystalShulkerBoxTileEntity extends GenericIronShulkerBoxTileEntity
   public void tick() {
     super.tick();
 
-    if (!this.world.isRemote && this.inventoryTouched) {
+    if (!this.level.isClientSide && this.inventoryTouched) {
       this.inventoryTouched = false;
 
       this.sortTopStacks();
@@ -57,10 +57,10 @@ public class CrystalShulkerBoxTileEntity extends GenericIronShulkerBoxTileEntity
   }
 
   @Override
-  public ItemStack getStackInSlot(int index) {
+  public ItemStack getItem(int index) {
     this.inventoryTouched = true;
 
-    return super.getStackInSlot(index);
+    return super.getItem(index);
   }
 
   public NonNullList<ItemStack> getTopItems() {
@@ -68,25 +68,25 @@ public class CrystalShulkerBoxTileEntity extends GenericIronShulkerBoxTileEntity
   }
 
   private void sortTopStacks() {
-    if (!this.getShulkerBoxType().isTransparent() || (this.world != null && this.world.isRemote)) {
+    if (!this.getShulkerBoxType().isTransparent() || (this.level != null && this.level.isClientSide)) {
       return;
     }
 
-    NonNullList<ItemStack> tempCopy = NonNullList.<ItemStack>withSize(this.getSizeInventory(), ItemStack.EMPTY);
+    NonNullList<ItemStack> tempCopy = NonNullList.<ItemStack>withSize(this.getContainerSize(), ItemStack.EMPTY);
 
     boolean hasStuff = false;
 
     int compressedIdx = 0;
 
     mainLoop:
-    for (int i = 0; i < this.getSizeInventory(); i++) {
+    for (int i = 0; i < this.getContainerSize(); i++) {
       ItemStack itemStack = this.getItems().get(i);
 
       if (!itemStack.isEmpty()) {
         for (int j = 0; j < compressedIdx; j++) {
           ItemStack tempCopyStack = tempCopy.get(j);
 
-          if (ItemStack.areItemsEqualIgnoreDurability(tempCopyStack, itemStack)) {
+          if (ItemStack.isSameIgnoreDurability(tempCopyStack, itemStack)) {
             if (itemStack.getCount() != tempCopyStack.getCount()) {
               tempCopyStack.grow(itemStack.getCount());
             }
@@ -110,10 +110,10 @@ public class CrystalShulkerBoxTileEntity extends GenericIronShulkerBoxTileEntity
         this.getTopItems().set(i, ItemStack.EMPTY);
       }
 
-      if (this.world != null) {
-        BlockState iblockstate = this.world.getBlockState(this.pos);
+      if (this.level != null) {
+        BlockState iblockstate = this.level.getBlockState(this.worldPosition);
 
-        this.world.notifyBlockUpdate(this.pos, iblockstate, iblockstate, 3);
+        this.level.sendBlockUpdated(this.worldPosition, iblockstate, iblockstate, 3);
       }
 
       return;
@@ -151,10 +151,10 @@ public class CrystalShulkerBoxTileEntity extends GenericIronShulkerBoxTileEntity
       this.getTopItems().set(i, ItemStack.EMPTY);
     }
 
-    if (this.world != null) {
-      BlockState iblockstate = this.world.getBlockState(this.pos);
+    if (this.level != null) {
+      BlockState iblockstate = this.level.getBlockState(this.worldPosition);
 
-      this.world.notifyBlockUpdate(this.pos, iblockstate, iblockstate, 3);
+      this.level.sendBlockUpdated(this.worldPosition, iblockstate, iblockstate, 3);
     }
 
     this.sendTopStacksPacket();
@@ -186,7 +186,7 @@ public class CrystalShulkerBoxTileEntity extends GenericIronShulkerBoxTileEntity
   protected void sendTopStacksPacket() {
     NonNullList<ItemStack> stacks = this.buildItemStackDataList();
 
-    PacketHandler.send(PacketDistributor.TRACKING_CHUNK.with(() -> (Chunk) this.getWorld().getChunk(this.getPos())), new PacketTopStackSyncShulkerBox(this.getPos(), stacks));
+    PacketHandler.send(PacketDistributor.TRACKING_CHUNK.with(() -> (Chunk) this.getLevel().getChunk(this.getBlockPos())), new PacketTopStackSyncShulkerBox(this.getBlockPos(), stacks));
   }
 
   public void receiveMessageFromServer(NonNullList<ItemStack> topStacks) {

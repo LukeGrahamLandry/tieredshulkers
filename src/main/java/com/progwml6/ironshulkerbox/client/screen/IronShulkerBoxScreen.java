@@ -20,8 +20,8 @@ public class IronShulkerBoxScreen extends ContainerScreen<IronShulkerBoxContaine
     super(container, playerInventory, title);
 
     this.shulkerBoxType = container.getShulkerBoxType();
-    this.xSize = container.getShulkerBoxType().xSize;
-    this.ySize = container.getShulkerBoxType().ySize;
+    this.imageWidth = container.getShulkerBoxType().xSize;
+    this.imageHeight = container.getShulkerBoxType().ySize;
     this.textureXSize = container.getShulkerBoxType().textureXSize;
     this.textureYSize = container.getShulkerBoxType().textureYSize;
 
@@ -32,24 +32,24 @@ public class IronShulkerBoxScreen extends ContainerScreen<IronShulkerBoxContaine
   public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
     this.renderBackground(matrixStack);
     super.render(matrixStack, mouseX, mouseY, partialTicks);
-    this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
+    this.renderTooltip(matrixStack, mouseX, mouseY);
   }
 
   @Override
-  protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
-    this.font.func_243248_b(matrixStack, this.title, 8.0F, 6.0F, 4210752);
-    this.font.func_243248_b(matrixStack, this.playerInventory.getDisplayName(), 8.0F, (float) (this.ySize - 96 + 2), 4210752);
+  protected void renderLabels(MatrixStack matrixStack, int mouseX, int mouseY) {
+    this.font.draw(matrixStack, this.title, 8.0F, 6.0F, 4210752);
+    this.font.draw(matrixStack, this.inventory.getDisplayName(), 8.0F, (float) (this.imageHeight - 96 + 2), 4210752);
   }
 
   @Override
-  protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+  protected void renderBg(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
     RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-    this.minecraft.getTextureManager().bindTexture(this.shulkerBoxType.guiTexture);
+    this.minecraft.getTextureManager().bind(this.shulkerBoxType.guiTexture);
 
-    int x = (this.width - this.xSize) / 2;
-    int y = (this.height - this.ySize) / 2;
+    int x = (this.width - this.imageWidth) / 2;
+    int y = (this.height - this.imageHeight) / 2;
 
-    blit(matrixStack, x, y, 0, 0, this.xSize, this.ySize, this.textureXSize, this.textureYSize);
+    blit(matrixStack, x, y, 0, 0, this.imageWidth, this.imageHeight, this.textureXSize, this.textureYSize);
   }
 }

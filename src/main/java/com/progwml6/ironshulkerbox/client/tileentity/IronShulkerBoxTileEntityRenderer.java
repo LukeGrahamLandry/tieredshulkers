@@ -33,14 +33,14 @@ public class IronShulkerBoxTileEntityRenderer extends TileEntityRenderer<Generic
   public void render(GenericIronShulkerBoxTileEntity tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
     Direction direction = Direction.UP;
 
-    if (tileEntityIn.hasWorld()) {
-      BlockState blockstate = tileEntityIn.getWorld().getBlockState(tileEntityIn.getPos());
+    if (tileEntityIn.hasLevel()) {
+      BlockState blockstate = tileEntityIn.getLevel().getBlockState(tileEntityIn.getBlockPos());
       if (blockstate.getBlock() instanceof GenericIronShulkerBlock) {
-        direction = blockstate.get(GenericIronShulkerBlock.FACING);
+        direction = blockstate.getValue(GenericIronShulkerBlock.FACING);
       }
     }
 
-    BlockState blockState = tileEntityIn.hasWorld() ? tileEntityIn.getBlockState() : (BlockState) tileEntityIn.getBlockToUse().getDefaultState().with(GenericIronShulkerBlock.FACING, Direction.NORTH);
+    BlockState blockState = tileEntityIn.hasLevel() ? tileEntityIn.getBlockState() : (BlockState) tileEntityIn.getBlockToUse().defaultBlockState().setValue(GenericIronShulkerBlock.FACING, Direction.NORTH);
     IronShulkerBoxesTypes boxType = IronShulkerBoxesTypes.IRON;
     IronShulkerBoxesTypes typeFromTileEntity = tileEntityIn.getShulkerBoxType();
     IronShulkerBoxesTypes typeFromBlock = GenericIronShulkerBlock.getTypeFromBlock(blockState.getBlock());
@@ -57,20 +57,20 @@ public class IronShulkerBoxTileEntityRenderer extends TileEntityRenderer<Generic
 
     DyeColor dyecolor = tileEntityIn.getColor();
 
-    RenderMaterial material = new RenderMaterial(Atlases.SHULKER_BOX_ATLAS, IronShulkerBoxesModels.chooseShulkerBoxModel(boxType, dyecolor.getId()));
+    RenderMaterial material = new RenderMaterial(Atlases.SHULKER_SHEET, IronShulkerBoxesModels.chooseShulkerBoxModel(boxType, dyecolor.getId()));
 
-    matrixStackIn.push();
+    matrixStackIn.pushPose();
     matrixStackIn.translate(0.5D, 0.5D, 0.5D);
     float f = 0.9995F;
     matrixStackIn.scale(0.9995F, 0.9995F, 0.9995F);
-    matrixStackIn.rotate(direction.getRotation());
+    matrixStackIn.mulPose(direction.getRotation());
     matrixStackIn.scale(1.0F, -1.0F, -1.0F);
     matrixStackIn.translate(0.0D, -1.0D, 0.0D);
-    IVertexBuilder ivertexbuilder = material.getBuffer(bufferIn, RenderType::getEntityCutoutNoCull);
+    IVertexBuilder ivertexbuilder = material.buffer(bufferIn, RenderType::entityCutoutNoCull);
     this.model.getBase().render(matrixStackIn, ivertexbuilder, combinedLightIn, combinedOverlayIn);
     matrixStackIn.translate(0.0D, (double) (-tileEntityIn.getProgress(partialTicks) * 0.5F), 0.0D);
-    matrixStackIn.rotate(Vector3f.YP.rotationDegrees(270.0F * tileEntityIn.getProgress(partialTicks)));
+    matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(270.0F * tileEntityIn.getProgress(partialTicks)));
     this.model.getLid().render(matrixStackIn, ivertexbuilder, combinedLightIn, combinedOverlayIn);
-    matrixStackIn.pop();
+    matrixStackIn.popPose();
   }
 }

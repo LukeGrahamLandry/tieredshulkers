@@ -34,7 +34,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
   }
 
   @Override
-  protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
+  protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
     this.addBlackShulkerBoxRecipes(consumer);
     this.addBlueShulkerBoxRecipes(consumer);
     this.addBrownShulkerBoxRecipes(consumer);
@@ -267,58 +267,58 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     String folder = "upgrades/";
 
     ShapedRecipeBuilder
-      .shapedRecipe(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.VANILLA_TO_IRON).get())
-      .key('M', Tags.Items.INGOTS_IRON)
-      .key('S', Items.SHULKER_SHELL)
-      .patternLine("MMM")
-      .patternLine("MSM")
-      .patternLine("MMM")
-      .addCriterion("has_iron_ingot", hasItem(Tags.Items.INGOTS_IRON))
-      .build(consumer,
+      .shaped(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.VANILLA_TO_IRON).get())
+      .define('M', Tags.Items.INGOTS_IRON)
+      .define('S', Items.SHULKER_SHELL)
+      .pattern("MMM")
+      .pattern("MSM")
+      .pattern("MMM")
+      .unlockedBy("has_iron_ingot", has(Tags.Items.INGOTS_IRON))
+      .save(consumer,
         prefix(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.VANILLA_TO_IRON).get(), folder));
 
-    ShapedRecipeBuilder.shapedRecipe(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.IRON_TO_GOLD).get())
-      .key('S', Tags.Items.INGOTS_IRON)
-      .key('M', Tags.Items.INGOTS_GOLD)
-      .patternLine("MSM")
-      .patternLine("MMM")
-      .patternLine("MMM")
-      .addCriterion("has_iron_ingot", hasItem(Tags.Items.INGOTS_IRON))
-      .build(consumer,
+    ShapedRecipeBuilder.shaped(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.IRON_TO_GOLD).get())
+      .define('S', Tags.Items.INGOTS_IRON)
+      .define('M', Tags.Items.INGOTS_GOLD)
+      .pattern("MSM")
+      .pattern("MMM")
+      .pattern("MMM")
+      .unlockedBy("has_iron_ingot", has(Tags.Items.INGOTS_IRON))
+      .save(consumer,
         prefix(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.IRON_TO_GOLD).get(), folder));
 
     ShapedRecipeBuilder
-      .shapedRecipe(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.GOLD_TO_DIAMOND).get())
-      .key('M', Tags.Items.GEMS_DIAMOND)
-      .key('S', Tags.Items.INGOTS_GOLD)
-      .key('G', Tags.Items.GLASS)
-      .patternLine("GMG")
-      .patternLine("GSG")
-      .patternLine("GMG")
-      .addCriterion("has_glass", hasItem(Tags.Items.GLASS))
-      .build(consumer,
+      .shaped(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.GOLD_TO_DIAMOND).get())
+      .define('M', Tags.Items.GEMS_DIAMOND)
+      .define('S', Tags.Items.INGOTS_GOLD)
+      .define('G', Tags.Items.GLASS)
+      .pattern("GMG")
+      .pattern("GSG")
+      .pattern("GMG")
+      .unlockedBy("has_glass", has(Tags.Items.GLASS))
+      .save(consumer,
         prefix(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.GOLD_TO_DIAMOND).get(), folder));
 
     ShapedRecipeBuilder
-      .shapedRecipe(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.DIAMOND_TO_OBSIDIAN).get())
-      .key('M', Blocks.OBSIDIAN)
-      .key('G', Tags.Items.GLASS)
-      .patternLine("MGM")
-      .patternLine("MMM")
-      .patternLine("MMM")
-      .addCriterion("has_glass", hasItem(Tags.Items.GLASS))
-      .build(consumer,
+      .shaped(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.DIAMOND_TO_OBSIDIAN).get())
+      .define('M', Blocks.OBSIDIAN)
+      .define('G', Tags.Items.GLASS)
+      .pattern("MGM")
+      .pattern("MMM")
+      .pattern("MMM")
+      .unlockedBy("has_glass", has(Tags.Items.GLASS))
+      .save(consumer,
         prefix(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.DIAMOND_TO_OBSIDIAN).get(), folder));
 
     ShapedRecipeBuilder
-      .shapedRecipe(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.DIAMOND_TO_CRYSTAL).get())
-      .key('S', Blocks.OBSIDIAN)
-      .key('G', Tags.Items.GLASS)
-      .patternLine("GSG")
-      .patternLine("GGG")
-      .patternLine("GGG")
-      .addCriterion("has_glass", hasItem(Tags.Items.GLASS))
-      .build(consumer,
+      .shaped(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.DIAMOND_TO_CRYSTAL).get())
+      .define('S', Blocks.OBSIDIAN)
+      .define('G', Tags.Items.GLASS)
+      .pattern("GSG")
+      .pattern("GGG")
+      .pattern("GGG")
+      .unlockedBy("has_glass", has(Tags.Items.GLASS))
+      .save(consumer,
         prefix(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.DIAMOND_TO_CRYSTAL).get(), folder));
 
     ResourceLocation woodToCopperChestUpgradeId = prefix(
@@ -326,22 +326,22 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     ConditionalRecipe.builder()
       .addCondition(not(new TagEmptyCondition("forge:ingots/copper")))
       .addRecipe(ShapedRecipeBuilder
-        .shapedRecipe(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.VANILLA_TO_COPPER).get())
-        .key('M', ItemTags.makeWrapperTag("forge:ingots/copper"))
-        .key('S', Items.SHULKER_SHELL)
-        .patternLine("MMM")
-        .patternLine("MSM")
-        .patternLine("MMM")
-        .addCriterion("has_item", hasItem(Items.SHULKER_SHELL))::build)
+        .shaped(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.VANILLA_TO_COPPER).get())
+        .define('M', ItemTags.bind("forge:ingots/copper"))
+        .define('S', Items.SHULKER_SHELL)
+        .pattern("MMM")
+        .pattern("MSM")
+        .pattern("MMM")
+        .unlockedBy("has_item", has(Items.SHULKER_SHELL))::save)
       .setAdvancement(location("recipes/ironshulkerbox/upgrades/vanilla_to_copper_shulker_box_upgrade"),
         ConditionalAdvancement.builder()
           .addCondition(not(new TagEmptyCondition("forge:ingots/copper")))
-          .addAdvancement(Advancement.Builder.builder()
-            .withParentId(new ResourceLocation("recipes/root"))
-            .withRewards(AdvancementRewards.Builder.recipe(woodToCopperChestUpgradeId))
-            .withCriterion("has_item", hasItem(Items.SHULKER_SHELL))
-            .withCriterion("has_the_recipe", RecipeUnlockedTrigger.create(woodToCopperChestUpgradeId))
-            .withRequirementsStrategy(IRequirementsStrategy.OR))
+          .addAdvancement(Advancement.Builder.advancement()
+            .parent(new ResourceLocation("recipes/root"))
+            .rewards(AdvancementRewards.Builder.recipe(woodToCopperChestUpgradeId))
+            .addCriterion("has_item", has(Items.SHULKER_SHELL))
+            .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(woodToCopperChestUpgradeId))
+            .requirements(IRequirementsStrategy.OR))
       ).build(consumer, woodToCopperChestUpgradeId);
 
     ResourceLocation copperToIronChestUpgrade = prefix(
@@ -349,23 +349,23 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     ConditionalRecipe.builder()
       .addCondition(not(new TagEmptyCondition("forge:ingots/copper")))
       .addRecipe(ShapedRecipeBuilder
-        .shapedRecipe(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.COPPER_TO_IRON).get())
-        .key('M', Tags.Items.INGOTS_IRON)
-        .key('S', ItemTags.makeWrapperTag("forge:ingots/copper"))
-        .key('G', Tags.Items.GLASS)
-        .patternLine("GGG")
-        .patternLine("MSM")
-        .patternLine("MGM")
-        .addCriterion("has_item", hasItem(ItemTags.PLANKS))::build)
+        .shaped(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.COPPER_TO_IRON).get())
+        .define('M', Tags.Items.INGOTS_IRON)
+        .define('S', ItemTags.bind("forge:ingots/copper"))
+        .define('G', Tags.Items.GLASS)
+        .pattern("GGG")
+        .pattern("MSM")
+        .pattern("MGM")
+        .unlockedBy("has_item", has(ItemTags.PLANKS))::save)
       .setAdvancement(location("recipes/ironshulkerbox/upgrades/copper_to_iron_shulker_box_upgrade"),
         ConditionalAdvancement.builder()
           .addCondition(not(new TagEmptyCondition("forge:ingots/copper")))
-          .addAdvancement(Advancement.Builder.builder()
-            .withParentId(new ResourceLocation("recipes/root"))
-            .withRewards(AdvancementRewards.Builder.recipe(copperToIronChestUpgrade))
-            .withCriterion("has_item", hasItem(Tags.Items.GLASS))
-            .withCriterion("has_the_recipe", RecipeUnlockedTrigger.create(copperToIronChestUpgrade))
-            .withRequirementsStrategy(IRequirementsStrategy.OR))
+          .addAdvancement(Advancement.Builder.advancement()
+            .parent(new ResourceLocation("recipes/root"))
+            .rewards(AdvancementRewards.Builder.recipe(copperToIronChestUpgrade))
+            .addCriterion("has_item", has(Tags.Items.GLASS))
+            .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(copperToIronChestUpgrade))
+            .requirements(IRequirementsStrategy.OR))
       ).build(consumer, copperToIronChestUpgrade);
 
     ResourceLocation copperToSilverChestUpgrade = prefix(
@@ -374,23 +374,23 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       .addCondition(
         and(not(new TagEmptyCondition("forge:ingots/copper")), not(new TagEmptyCondition("forge:ingots/silver"))))
       .addRecipe(ShapedRecipeBuilder
-        .shapedRecipe(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.COPPER_TO_SILVER).get())
-        .key('M', ItemTags.makeWrapperTag("forge:ingots/silver"))
-        .key('S', ItemTags.makeWrapperTag("forge:ingots/copper"))
-        .patternLine("MSM")
-        .patternLine("MMM")
-        .patternLine("MMM")
-        .addCriterion("has_item", hasItem(ItemTags.makeWrapperTag("forge:ingots/copper")))::build)
+        .shaped(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.COPPER_TO_SILVER).get())
+        .define('M', ItemTags.bind("forge:ingots/silver"))
+        .define('S', ItemTags.bind("forge:ingots/copper"))
+        .pattern("MSM")
+        .pattern("MMM")
+        .pattern("MMM")
+        .unlockedBy("has_item", has(ItemTags.bind("forge:ingots/copper")))::save)
       .setAdvancement(location("recipes/ironshulkerbox/upgrades/copper_to_silver_shulker_box_upgrade"),
         ConditionalAdvancement.builder()
           .addCondition(
             and(not(new TagEmptyCondition("forge:ingots/copper")), not(new TagEmptyCondition("forge:ingots/silver"))))
-          .addAdvancement(Advancement.Builder.builder()
-            .withParentId(new ResourceLocation("recipes/root"))
-            .withRewards(AdvancementRewards.Builder.recipe(copperToSilverChestUpgrade))
-            .withCriterion("has_item", hasItem(ItemTags.makeWrapperTag("forge:ingots/copper")))
-            .withCriterion("has_the_recipe", RecipeUnlockedTrigger.create(copperToSilverChestUpgrade))
-            .withRequirementsStrategy(IRequirementsStrategy.OR))
+          .addAdvancement(Advancement.Builder.advancement()
+            .parent(new ResourceLocation("recipes/root"))
+            .rewards(AdvancementRewards.Builder.recipe(copperToSilverChestUpgrade))
+            .addCriterion("has_item", has(ItemTags.bind("forge:ingots/copper")))
+            .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(copperToSilverChestUpgrade))
+            .requirements(IRequirementsStrategy.OR))
       ).build(consumer, copperToSilverChestUpgrade);
 
     ResourceLocation silverToGoldChestUpgrade = prefix(
@@ -398,23 +398,23 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     ConditionalRecipe.builder()
       .addCondition(not(new TagEmptyCondition("forge:ingots/silver")))
       .addRecipe(ShapedRecipeBuilder
-        .shapedRecipe(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.SILVER_TO_GOLD).get())
-        .key('M', Tags.Items.INGOTS_GOLD)
-        .key('S', ItemTags.makeWrapperTag("forge:ingots/copper"))
-        .key('G', Tags.Items.GLASS)
-        .patternLine("MSM")
-        .patternLine("GGG")
-        .patternLine("MGM")
-        .addCriterion("has_item", hasItem(Tags.Items.GLASS))::build)
+        .shaped(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.SILVER_TO_GOLD).get())
+        .define('M', Tags.Items.INGOTS_GOLD)
+        .define('S', ItemTags.bind("forge:ingots/copper"))
+        .define('G', Tags.Items.GLASS)
+        .pattern("MSM")
+        .pattern("GGG")
+        .pattern("MGM")
+        .unlockedBy("has_item", has(Tags.Items.GLASS))::save)
       .setAdvancement(location("recipes/ironshulkerbox/upgrades/silver_to_gold_shulker_box_upgrade"),
         ConditionalAdvancement.builder()
           .addCondition(not(new TagEmptyCondition("forge:ingots/silver")))
-          .addAdvancement(Advancement.Builder.builder()
-            .withParentId(new ResourceLocation("recipes/root"))
-            .withRewards(AdvancementRewards.Builder.recipe(silverToGoldChestUpgrade))
-            .withCriterion("has_item", hasItem(Tags.Items.GLASS))
-            .withCriterion("has_the_recipe", RecipeUnlockedTrigger.create(silverToGoldChestUpgrade))
-            .withRequirementsStrategy(IRequirementsStrategy.OR))
+          .addAdvancement(Advancement.Builder.advancement()
+            .parent(new ResourceLocation("recipes/root"))
+            .rewards(AdvancementRewards.Builder.recipe(silverToGoldChestUpgrade))
+            .addCriterion("has_item", has(Tags.Items.GLASS))
+            .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(silverToGoldChestUpgrade))
+            .requirements(IRequirementsStrategy.OR))
       ).build(consumer, silverToGoldChestUpgrade);
   }
 
@@ -433,21 +433,21 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       .addCondition(not(new TagEmptyCondition("forge:ingots/copper")))
       .addRecipe(IronShulkerBoxRecipeBuilder.shapedRecipe(result)
         .setGroup(group)
-        .key('M', ItemTags.makeWrapperTag("forge:ingots/copper"))
+        .key('M', ItemTags.bind("forge:ingots/copper"))
         .key('S', input)
         .patternLine("MMM")
         .patternLine("MSM")
         .patternLine("MMM")
-        .addCriterion("has_item", hasItem(ItemTags.makeWrapperTag("forge:ingots/copper")))::build)
+        .addCriterion("has_item", has(ItemTags.bind("forge:ingots/copper")))::build)
       .setAdvancement(location("recipes/ironshulkerbox/shulkerboxes/" + color + "copper/vanilla_copper_shulker_box"),
         ConditionalAdvancement.builder()
           .addCondition(not(new TagEmptyCondition("forge:ingots/copper")))
-          .addAdvancement(Advancement.Builder.builder()
-            .withParentId(new ResourceLocation("recipes/root"))
-            .withRewards(AdvancementRewards.Builder.recipe(vanillaToCopperShulkerBox))
-            .withCriterion("has_item", hasItem(ItemTags.makeWrapperTag("forge:ingots/copper")))
-            .withCriterion("has_the_recipe", RecipeUnlockedTrigger.create(vanillaToCopperShulkerBox))
-            .withRequirementsStrategy(IRequirementsStrategy.OR))
+          .addAdvancement(Advancement.Builder.advancement()
+            .parent(new ResourceLocation("recipes/root"))
+            .rewards(AdvancementRewards.Builder.recipe(vanillaToCopperShulkerBox))
+            .addCriterion("has_item", has(ItemTags.bind("forge:ingots/copper")))
+            .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(vanillaToCopperShulkerBox))
+            .requirements(IRequirementsStrategy.OR))
       ).build(consumer, vanillaToCopperShulkerBox);
   }
 
@@ -457,21 +457,21 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       .addCondition(not(new TagEmptyCondition("forge:ingots/copper")))
       .addRecipe(IronShulkerBoxRecipeBuilder.shapedRecipe(result)
         .setGroup(group)
-        .key('M', ItemTags.makeWrapperTag("forge:ingots/silver"))
+        .key('M', ItemTags.bind("forge:ingots/silver"))
         .key('S', input)
         .patternLine("MMM")
         .patternLine("MSM")
         .patternLine("MMM")
-        .addCriterion("has_item", hasItem(ItemTags.makeWrapperTag("forge:ingots/silver")))::build)
+        .addCriterion("has_item", has(ItemTags.bind("forge:ingots/silver")))::build)
       .setAdvancement(location("recipes/ironshulkerbox/shulkerboxes/" + color + "silver/copper_silver_shulker_box"),
         ConditionalAdvancement.builder()
           .addCondition(not(new TagEmptyCondition("forge:ingots/silver")))
-          .addAdvancement(Advancement.Builder.builder()
-            .withParentId(new ResourceLocation("recipes/root"))
-            .withRewards(AdvancementRewards.Builder.recipe(copperToSilverShulkerBox))
-            .withCriterion("has_item", hasItem(ItemTags.makeWrapperTag("forge:ingots/silver")))
-            .withCriterion("has_the_recipe", RecipeUnlockedTrigger.create(copperToSilverShulkerBox))
-            .withRequirementsStrategy(IRequirementsStrategy.OR))
+          .addAdvancement(Advancement.Builder.advancement()
+            .parent(new ResourceLocation("recipes/root"))
+            .rewards(AdvancementRewards.Builder.recipe(copperToSilverShulkerBox))
+            .addCriterion("has_item", has(ItemTags.bind("forge:ingots/silver")))
+            .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(copperToSilverShulkerBox))
+            .requirements(IRequirementsStrategy.OR))
       ).build(consumer, copperToSilverShulkerBox);
 
     ResourceLocation ironToSilverShulkerBox = location("shulkerboxes/" + color + "silver/iron_silver_shulker_box");
@@ -479,22 +479,22 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       .addCondition(not(new TagEmptyCondition("forge:ingots/copper")))
       .addRecipe(IronShulkerBoxRecipeBuilder.shapedRecipe(result)
         .setGroup(group)
-        .key('M', ItemTags.makeWrapperTag("forge:ingots/silver"))
+        .key('M', ItemTags.bind("forge:ingots/silver"))
         .key('S', inputTwo)
         .key('G', Tags.Items.GLASS)
         .patternLine("MGM")
         .patternLine("GSG")
         .patternLine("MGM")
-        .addCriterion("has_item", hasItem(ItemTags.makeWrapperTag("forge:ingots/silver")))::build)
+        .addCriterion("has_item", has(ItemTags.bind("forge:ingots/silver")))::build)
       .setAdvancement(location("recipes/ironshulkerbox/shulkerboxes/" + color + "silver/iron_silver_shulker_box"),
         ConditionalAdvancement.builder()
           .addCondition(not(new TagEmptyCondition("forge:ingots/silver")))
-          .addAdvancement(Advancement.Builder.builder()
-            .withParentId(new ResourceLocation("recipes/root"))
-            .withRewards(AdvancementRewards.Builder.recipe(ironToSilverShulkerBox))
-            .withCriterion("has_item", hasItem(ItemTags.makeWrapperTag("forge:ingots/silver")))
-            .withCriterion("has_the_recipe", RecipeUnlockedTrigger.create(ironToSilverShulkerBox))
-            .withRequirementsStrategy(IRequirementsStrategy.OR))
+          .addAdvancement(Advancement.Builder.advancement()
+            .parent(new ResourceLocation("recipes/root"))
+            .rewards(AdvancementRewards.Builder.recipe(ironToSilverShulkerBox))
+            .addCriterion("has_item", has(ItemTags.bind("forge:ingots/silver")))
+            .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(ironToSilverShulkerBox))
+            .requirements(IRequirementsStrategy.OR))
       ).build(consumer, ironToSilverShulkerBox);
   }
 
@@ -507,7 +507,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       .patternLine("MGM")
       .patternLine("GSG")
       .patternLine("MGM")
-      .addCriterion("has_gold", hasItem(Tags.Items.INGOTS_IRON))
+      .addCriterion("has_gold", has(Tags.Items.INGOTS_IRON))
       .build(consumer, location("shulkerboxes/" + color + "iron/copper_iron_shulker_box"));
 
     IronShulkerBoxRecipeBuilder.shapedRecipe(result)
@@ -517,7 +517,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       .patternLine("MMM")
       .patternLine("MSM")
       .patternLine("MMM")
-      .addCriterion("has_gold", hasItem(Tags.Items.INGOTS_GOLD))
+      .addCriterion("has_gold", has(Tags.Items.INGOTS_GOLD))
       .build(consumer, location("shulkerboxes/" + color + "iron/vanilla_iron_shulker_box"));
   }
 
@@ -529,7 +529,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       .patternLine("MMM")
       .patternLine("MSM")
       .patternLine("MMM")
-      .addCriterion("has_gold", hasItem(Tags.Items.INGOTS_GOLD))
+      .addCriterion("has_gold", has(Tags.Items.INGOTS_GOLD))
       .build(consumer, location("shulkerboxes/" + color + "gold/iron_gold_shulker_box"));
 
     IronShulkerBoxRecipeBuilder.shapedRecipe(result)
@@ -540,7 +540,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       .patternLine("MGM")
       .patternLine("GSG")
       .patternLine("MGM")
-      .addCriterion("has_gold", hasItem(Tags.Items.INGOTS_GOLD))
+      .addCriterion("has_gold", has(Tags.Items.INGOTS_GOLD))
       .build(consumer, location("shulkerboxes/" + color + "gold/silver_gold_shulker_box"));
   }
 
@@ -553,7 +553,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       .patternLine("GGG")
       .patternLine("MSM")
       .patternLine("GGG")
-      .addCriterion("has_diamonds", hasItem(Tags.Items.GEMS_DIAMOND))
+      .addCriterion("has_diamonds", has(Tags.Items.GEMS_DIAMOND))
       .build(consumer, location("shulkerboxes/" + color + "diamond/gold_diamond_shulker_box"));
 
     ResourceLocation silverToDiamondShulkerBox = location("shulkerboxes/" + color + "diamond/silver_diamond_shulker_box");
@@ -567,16 +567,16 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
         .patternLine("GGG")
         .patternLine("GSG")
         .patternLine("MMM")
-        .addCriterion("has_item", hasItem(Tags.Items.GEMS_DIAMOND))::build)
+        .addCriterion("has_item", has(Tags.Items.GEMS_DIAMOND))::build)
       .setAdvancement(location("recipes/ironshulkerbox/shulkerboxes/" + color + "diamond/silver_diamond_shulker_box"),
         ConditionalAdvancement.builder()
           .addCondition(not(new TagEmptyCondition("forge:ingots/silver")))
-          .addAdvancement(Advancement.Builder.builder()
-            .withParentId(new ResourceLocation("recipes/root"))
-            .withRewards(AdvancementRewards.Builder.recipe(silverToDiamondShulkerBox))
-            .withCriterion("has_item", hasItem(Tags.Items.GEMS_DIAMOND))
-            .withCriterion("has_the_recipe", RecipeUnlockedTrigger.create(silverToDiamondShulkerBox))
-            .withRequirementsStrategy(IRequirementsStrategy.OR))
+          .addAdvancement(Advancement.Builder.advancement()
+            .parent(new ResourceLocation("recipes/root"))
+            .rewards(AdvancementRewards.Builder.recipe(silverToDiamondShulkerBox))
+            .addCriterion("has_item", has(Tags.Items.GEMS_DIAMOND))
+            .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(silverToDiamondShulkerBox))
+            .requirements(IRequirementsStrategy.OR))
       ).build(consumer, silverToDiamondShulkerBox);
   }
 
@@ -588,7 +588,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       .patternLine("GGG")
       .patternLine("GSG")
       .patternLine("GGG")
-      .addCriterion("has_glass", hasItem(Tags.Items.GLASS))
+      .addCriterion("has_glass", has(Tags.Items.GLASS))
       .build(consumer, location("shulkerboxes/" + color + "crystal/diamond_crystal_shulker_box"));
   }
 
@@ -600,7 +600,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       .patternLine("MMM")
       .patternLine("MSM")
       .patternLine("MMM")
-      .addCriterion("has_obsidian", hasItem(Items.OBSIDIAN))
+      .addCriterion("has_obsidian", has(Items.OBSIDIAN))
       .build(consumer, location("shulkerboxes/" + color + "obsidian/diamond_obsidian_shulker_box"));
   }
 }

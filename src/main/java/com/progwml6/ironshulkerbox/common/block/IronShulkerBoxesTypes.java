@@ -60,7 +60,7 @@ public enum IronShulkerBoxesTypes implements IStringSerializable {
   }
 
   @Override
-  public String getString() {
+  public String getSerializedName() {
     return this.getEnglishName();
   }
 
@@ -96,19 +96,19 @@ public enum IronShulkerBoxesTypes implements IStringSerializable {
   public static BlockState get(IronShulkerBoxesTypes type, DyeColor color) {
     switch (type) {
       case IRON:
-        return ShulkerBoxesBlocks.IRON_SHULKER_BOXES.get(color.getId()).get().getDefaultState();
+        return ShulkerBoxesBlocks.IRON_SHULKER_BOXES.get(color.getId()).get().defaultBlockState();
       case GOLD:
-        return ShulkerBoxesBlocks.GOLD_SHULKER_BOXES.get(color.getId()).get().getDefaultState();
+        return ShulkerBoxesBlocks.GOLD_SHULKER_BOXES.get(color.getId()).get().defaultBlockState();
       case DIAMOND:
-        return ShulkerBoxesBlocks.DIAMOND_SHULKER_BOXES.get(color.getId()).get().getDefaultState();
+        return ShulkerBoxesBlocks.DIAMOND_SHULKER_BOXES.get(color.getId()).get().defaultBlockState();
       case CRYSTAL:
-        return ShulkerBoxesBlocks.CRYSTAL_SHULKER_BOXES.get(color.getId()).get().getDefaultState();
+        return ShulkerBoxesBlocks.CRYSTAL_SHULKER_BOXES.get(color.getId()).get().defaultBlockState();
       case COPPER:
-        return ShulkerBoxesBlocks.COPPER_SHULKER_BOXES.get(color.getId()).get().getDefaultState();
+        return ShulkerBoxesBlocks.COPPER_SHULKER_BOXES.get(color.getId()).get().defaultBlockState();
       case SILVER:
-        return ShulkerBoxesBlocks.SILVER_SHULKER_BOXES.get(color.getId()).get().getDefaultState();
+        return ShulkerBoxesBlocks.SILVER_SHULKER_BOXES.get(color.getId()).get().defaultBlockState();
       case OBSIDIAN:
-        return ShulkerBoxesBlocks.OBSIDIAN_SHULKER_BOXES.get(color.getId()).get().getDefaultState();
+        return ShulkerBoxesBlocks.OBSIDIAN_SHULKER_BOXES.get(color.getId()).get().defaultBlockState();
       default:
         return null;
     }

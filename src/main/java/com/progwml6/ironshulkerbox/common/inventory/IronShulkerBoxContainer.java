@@ -80,12 +80,12 @@ public class IronShulkerBoxContainer extends Container {
 
   public IronShulkerBoxContainer(ContainerType<?> containerType, int windowId, PlayerInventory playerInventory, IInventory inventory, IronShulkerBoxesTypes shulkerBoxType) {
     super(containerType, windowId);
-    assertInventorySize(inventory, shulkerBoxType.size);
+    checkContainerSize(inventory, shulkerBoxType.size);
 
     this.inventory = inventory;
     this.shulkerBoxType = shulkerBoxType;
 
-    inventory.openInventory(playerInventory.player);
+    inventory.startOpen(playerInventory.player);
 
     for (int shulkerBoxRow = 0; shulkerBoxRow < shulkerBoxType.getRowCount(); shulkerBoxRow++) {
       for (int shulkerBoxCol = 0; shulkerBoxCol < shulkerBoxType.rowLength; shulkerBoxCol++) {
@@ -108,31 +108,31 @@ public class IronShulkerBoxContainer extends Container {
   }
 
   @Override
-  public boolean canInteractWith(PlayerEntity playerIn) {
-    return this.inventory.isUsableByPlayer(playerIn);
+  public boolean stillValid(PlayerEntity playerIn) {
+    return this.inventory.stillValid(playerIn);
   }
 
   @Override
-  public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+  public ItemStack quickMoveStack(PlayerEntity playerIn, int index) {
     ItemStack itemstack = ItemStack.EMPTY;
-    Slot slot = this.inventorySlots.get(index);
+    Slot slot = this.slots.get(index);
 
-    if (slot != null && slot.getHasStack()) {
-      ItemStack itemstack1 = slot.getStack();
+    if (slot != null && slot.hasItem()) {
+      ItemStack itemstack1 = slot.getItem();
       itemstack = itemstack1.copy();
 
       if (index < this.shulkerBoxType.size) {
-        if (!this.mergeItemStack(itemstack1, this.shulkerBoxType.size, this.inventorySlots.size(), true)) {
+        if (!this.moveItemStackTo(itemstack1, this.shulkerBoxType.size, this.slots.size(), true)) {
           return ItemStack.EMPTY;
         }
-      } else if (!this.mergeItemStack(itemstack1, 0, this.shulkerBoxType.size, false)) {
+      } else if (!this.moveItemStackTo(itemstack1, 0, this.shulkerBoxType.size, false)) {
         return ItemStack.EMPTY;
       }
 
       if (itemstack1.isEmpty()) {
-        slot.putStack(ItemStack.EMPTY);
+        slot.set(ItemStack.EMPTY);
       } else {
-        slot.onSlotChanged();
+        slot.setChanged();
       }
     }
 
@@ -140,9 +140,9 @@ public class IronShulkerBoxContainer extends Container {
   }
 
   @Override
-  public void onContainerClosed(PlayerEntity playerIn) {
-    super.onContainerClosed(playerIn);
-    this.inventory.closeInventory(playerIn);
+  public void removed(PlayerEntity playerIn) {
+    super.removed(playerIn);
+    this.inventory.stopOpen(playerIn);
   }
 
   @OnlyIn(Dist.CLIENT)

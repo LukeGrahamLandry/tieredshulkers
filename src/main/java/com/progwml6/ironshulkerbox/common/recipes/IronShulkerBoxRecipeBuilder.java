@@ -33,7 +33,7 @@ public class IronShulkerBoxRecipeBuilder {
   private final int count;
   private final List<String> pattern = Lists.newArrayList();
   private final Map<Character, Ingredient> key = Maps.newLinkedHashMap();
-  private final Advancement.Builder advancementBuilder = Advancement.Builder.builder();
+  private final Advancement.Builder advancementBuilder = Advancement.Builder.advancement();
   private String group;
 
   public IronShulkerBoxRecipeBuilder(IItemProvider resultIn, int countIn) {
@@ -59,14 +59,14 @@ public class IronShulkerBoxRecipeBuilder {
    * Adds a key to the recipe pattern.
    */
   public IronShulkerBoxRecipeBuilder key(Character symbol, ITag<Item> tagIn) {
-    return this.key(symbol, Ingredient.fromTag(tagIn));
+    return this.key(symbol, Ingredient.of(tagIn));
   }
 
   /**
    * Adds a key to the recipe pattern.
    */
   public IronShulkerBoxRecipeBuilder key(Character symbol, IItemProvider itemIn) {
-    return this.key(symbol, Ingredient.fromItems(itemIn));
+    return this.key(symbol, Ingredient.of(itemIn));
   }
 
   /**
@@ -99,7 +99,7 @@ public class IronShulkerBoxRecipeBuilder {
    * Adds a criterion needed to unlock the recipe.
    */
   public IronShulkerBoxRecipeBuilder addCriterion(String name, ICriterionInstance criterionIn) {
-    this.advancementBuilder.withCriterion(name, criterionIn);
+    this.advancementBuilder.addCriterion(name, criterionIn);
     return this;
   }
 
@@ -133,9 +133,9 @@ public class IronShulkerBoxRecipeBuilder {
    */
   public void build(Consumer<IFinishedRecipe> consumerIn, ResourceLocation id) {
     this.validate(id);
-    this.advancementBuilder.withParentId(new ResourceLocation("recipes/root")).withCriterion("has_the_recipe", RecipeUnlockedTrigger
-      .create(id)).withRewards(AdvancementRewards.Builder.recipe(id)).withRequirementsStrategy(IRequirementsStrategy.OR);
-    consumerIn.accept(new IronShulkerBoxRecipeBuilder.Result(id, this.result, this.count, this.group == null ? "" : this.group, this.pattern, this.key, this.advancementBuilder, new ResourceLocation(id.getNamespace(), "recipes/" + this.result.getGroup().getPath() + "/" + id.getPath())));
+    this.advancementBuilder.parent(new ResourceLocation("recipes/root")).addCriterion("has_the_recipe", RecipeUnlockedTrigger
+      .unlocked(id)).rewards(AdvancementRewards.Builder.recipe(id)).requirements(IRequirementsStrategy.OR);
+    consumerIn.accept(new IronShulkerBoxRecipeBuilder.Result(id, this.result, this.count, this.group == null ? "" : this.group, this.pattern, this.key, this.advancementBuilder, new ResourceLocation(id.getNamespace(), "recipes/" + this.result.getItemCategory().getRecipeFolderName() + "/" + id.getPath())));
   }
 
   /**
@@ -190,7 +190,7 @@ public class IronShulkerBoxRecipeBuilder {
       this.advancementId = advancementIdIn;
     }
 
-    public void serialize(JsonObject json) {
+    public void serializeRecipeData(JsonObject json) {
       if (!this.group.isEmpty()) {
         json.addProperty("group", this.group);
       }
@@ -205,7 +205,7 @@ public class IronShulkerBoxRecipeBuilder {
       JsonObject jsonobject = new JsonObject();
 
       for(Map.Entry<Character, Ingredient> entry : this.key.entrySet()) {
-        jsonobject.add(String.valueOf(entry.getKey()), entry.getValue().serialize());
+        jsonobject.add(String.valueOf(entry.getKey()), entry.getValue().toJson());
       }
 
       json.add("key", jsonobject);
@@ -218,14 +218,14 @@ public class IronShulkerBoxRecipeBuilder {
       json.add("result", jsonobject1);
     }
 
-    public IRecipeSerializer<?> getSerializer() {
+    public IRecipeSerializer<?> getType() {
       return IronShulkerBoxRecipes.SHULKER_BOX_CRAFTING;
     }
 
     /**
      * Gets the ID for the recipe.
      */
-    public ResourceLocation getID() {
+    public ResourceLocation getId() {
       return this.id;
     }
 
@@ -233,8 +233,8 @@ public class IronShulkerBoxRecipeBuilder {
      * Gets the JSON for the advancement that unlocks this recipe. Null if there is no advancement.
      */
     @Nullable
-    public JsonObject getAdvancementJson() {
-      return this.advancementBuilder.serialize();
+    public JsonObject serializeAdvancement() {
+      return this.advancementBuilder.serializeToJson();
     }
 
     /**
@@ -242,7 +242,7 @@ public class IronShulkerBoxRecipeBuilder {
      * is non-null.
      */
     @Nullable
-    public ResourceLocation getAdvancementID() {
+    public ResourceLocation getAdvancementId() {
       return this.advancementId;
     }
   }

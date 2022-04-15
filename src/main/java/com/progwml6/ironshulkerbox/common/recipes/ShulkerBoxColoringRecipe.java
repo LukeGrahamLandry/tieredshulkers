@@ -24,14 +24,14 @@ public class ShulkerBoxColoringRecipe extends SpecialRecipe {
     int i = 0;
     int j = 0;
 
-    for (int k = 0; k < inv.getSizeInventory(); ++k) {
-      ItemStack itemstack = inv.getStackInSlot(k);
+    for (int k = 0; k < inv.getContainerSize(); ++k) {
+      ItemStack itemstack = inv.getItem(k);
       if (!itemstack.isEmpty()) {
-        if (Block.getBlockFromItem(itemstack.getItem()) instanceof GenericIronShulkerBlock) {
+        if (Block.byItem(itemstack.getItem()) instanceof GenericIronShulkerBlock) {
           ++i;
         }
         else {
-          if (!itemstack.getItem().isIn(net.minecraftforge.common.Tags.Items.DYES)) {
+          if (!itemstack.getItem().is(net.minecraftforge.common.Tags.Items.DYES)) {
             return false;
           }
 
@@ -51,15 +51,15 @@ public class ShulkerBoxColoringRecipe extends SpecialRecipe {
    * Returns an Item that is the result of this recipe
    */
   @Override
-  public ItemStack getCraftingResult(CraftingInventory inv) {
+  public ItemStack assemble(CraftingInventory inv) {
     ItemStack itemstack = ItemStack.EMPTY;
     net.minecraft.item.DyeColor dyecolor = net.minecraft.item.DyeColor.WHITE;
 
-    for (int i = 0; i < inv.getSizeInventory(); ++i) {
-      ItemStack itemstack1 = inv.getStackInSlot(i);
+    for (int i = 0; i < inv.getContainerSize(); ++i) {
+      ItemStack itemstack1 = inv.getItem(i);
       if (!itemstack1.isEmpty()) {
         Item item = itemstack1.getItem();
-        if (Block.getBlockFromItem(item) instanceof GenericIronShulkerBlock) {
+        if (Block.byItem(item) instanceof GenericIronShulkerBlock) {
           itemstack = itemstack1;
         }
         else {
@@ -82,7 +82,7 @@ public class ShulkerBoxColoringRecipe extends SpecialRecipe {
    * Used to determine if this recipe can fit in a grid of the given width/height
    */
   @Override
-  public boolean canFit(int width, int height) {
+  public boolean canCraftInDimensions(int width, int height) {
     return width * height >= 2;
   }
 

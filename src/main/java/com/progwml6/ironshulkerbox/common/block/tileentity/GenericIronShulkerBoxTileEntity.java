@@ -109,31 +109,31 @@ public class GenericIronShulkerBoxTileEntity extends LockableLootTileEntity impl
   }
 
   public AxisAlignedBB getBoundingBox(BlockState blockState) {
-    return this.getBoundingBox(blockState.get(GenericIronShulkerBlock.FACING));
+    return this.getBoundingBox(blockState.getValue(GenericIronShulkerBlock.FACING));
   }
 
   public AxisAlignedBB getBoundingBox(Direction directionIn) {
     float f = this.getProgress(1.0F);
 
-    return VoxelShapes.fullCube().getBoundingBox().expand((double) (0.5F * f * (float) directionIn.getXOffset()), (double) (0.5F * f * (float) directionIn.getYOffset()), (double) (0.5F * f * (float) directionIn.getZOffset()));
+    return VoxelShapes.block().bounds().expandTowards((double) (0.5F * f * (float) directionIn.getStepX()), (double) (0.5F * f * (float) directionIn.getStepY()), (double) (0.5F * f * (float) directionIn.getStepZ()));
   }
 
   private AxisAlignedBB getTopBoundingBox(Direction directionIn) {
     Direction direction = directionIn.getOpposite();
-    return this.getBoundingBox(directionIn).contract((double) direction.getXOffset(), (double) direction.getYOffset(), (double) direction.getZOffset());
+    return this.getBoundingBox(directionIn).contract((double) direction.getStepX(), (double) direction.getStepY(), (double) direction.getStepZ());
   }
 
   private void moveCollidedEntities() {
-    BlockState blockstate = this.world.getBlockState(this.getPos());
+    BlockState blockstate = this.level.getBlockState(this.getBlockPos());
 
     if (blockstate.getBlock() instanceof GenericIronShulkerBlock) {
-      Direction direction = blockstate.get(GenericIronShulkerBlock.FACING);
-      AxisAlignedBB axisalignedbb = this.getTopBoundingBox(direction).offset(this.pos);
-      List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity((Entity) null, axisalignedbb);
+      Direction direction = blockstate.getValue(GenericIronShulkerBlock.FACING);
+      AxisAlignedBB axisalignedbb = this.getTopBoundingBox(direction).move(this.worldPosition);
+      List<Entity> list = this.level.getEntities((Entity) null, axisalignedbb);
 
       if (!list.isEmpty()) {
         for (Entity entity : list) {
-          if (entity.getPushReaction() != PushReaction.IGNORE) {
+          if (entity.getPistonPushReaction() != PushReaction.IGNORE) {
             double d0 = 0.0D;
             double d1 = 0.0D;
             double d2 = 0.0D;
@@ -173,7 +173,7 @@ public class GenericIronShulkerBoxTileEntity extends LockableLootTileEntity impl
                 d2 = d2 + 0.01D;
             }
 
-            entity.move(MoverType.SHULKER_BOX, new Vector3d(d0 * (double) direction.getXOffset(), d1 * (double) direction.getYOffset(), d2 * (double) direction.getZOffset()));
+            entity.move(MoverType.SHULKER_BOX, new Vector3d(d0 * (double) direction.getStepX(), d1 * (double) direction.getStepY(), d2 * (double) direction.getStepZ()));
           }
         }
       }
@@ -181,12 +181,12 @@ public class GenericIronShulkerBoxTileEntity extends LockableLootTileEntity impl
   }
 
   @Override
-  public int getSizeInventory() {
+  public int getContainerSize() {
     return this.items.size();
   }
 
   @Override
-  public boolean receiveClientEvent(int id, int type) {
+  public boolean triggerEvent(int id, int type) {
     if (id == 1) {
       this.openCount = type;
 
@@ -203,38 +203,38 @@ public class GenericIronShulkerBoxTileEntity extends LockableLootTileEntity impl
       return true;
     }
     else {
-      return super.receiveClientEvent(id, type);
+      return super.triggerEvent(id, type);
     }
   }
 
   private void updateNeighbors() {
-    this.getBlockState().updateNeighbours(this.getWorld(), this.getPos(), 3);
+    this.getBlockState().updateNeighbourShapes(this.getLevel(), this.getBlockPos(), 3);
   }
 
   @Override
-  public void openInventory(PlayerEntity player) {
+  public void startOpen(PlayerEntity player) {
     if (!player.isSpectator()) {
       if (this.openCount < 0) {
         this.openCount = 0;
       }
 
       ++this.openCount;
-      this.world.addBlockEvent(this.pos, this.getBlockState().getBlock(), 1, this.openCount);
+      this.level.blockEvent(this.worldPosition, this.getBlockState().getBlock(), 1, this.openCount);
 
       if (this.openCount == 1) {
-        this.world.playSound((PlayerEntity) null, this.pos, SoundEvents.BLOCK_SHULKER_BOX_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+        this.level.playSound((PlayerEntity) null, this.worldPosition, SoundEvents.SHULKER_BOX_OPEN, SoundCategory.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.1F + 0.9F);
       }
     }
   }
 
   @Override
-  public void closeInventory(PlayerEntity player) {
+  public void stopOpen(PlayerEntity player) {
     if (!player.isSpectator()) {
       --this.openCount;
-      this.world.addBlockEvent(this.pos, this.getBlockState().getBlock(), 1, this.openCount);
+      this.level.blockEvent(this.worldPosition, this.getBlockState().getBlock(), 1, this.openCount);
 
       if (this.openCount <= 0) {
-        this.world.playSound((PlayerEntity) null, this.pos, SoundEvents.BLOCK_SHULKER_BOX_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+        this.level.playSound((PlayerEntity) null, this.worldPosition, SoundEvents.SHULKER_BOX_CLOSE, SoundCategory.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.1F + 0.9F);
       }
     }
   }
@@ -245,29 +245,29 @@ public class GenericIronShulkerBoxTileEntity extends LockableLootTileEntity impl
   }
 
   @Override
-  public void read(BlockState blockState, CompoundNBT compound) {
-    super.read(blockState, compound);
+  public void load(BlockState blockState, CompoundNBT compound) {
+    super.load(blockState, compound);
 
     this.loadFromNbt(compound);
   }
 
   @Override
-  public CompoundNBT write(CompoundNBT compound) {
-    super.write(compound);
+  public CompoundNBT save(CompoundNBT compound) {
+    super.save(compound);
 
     return this.saveToNbt(compound);
   }
 
   public void loadFromNbt(CompoundNBT compound) {
-    this.items = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
+    this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
 
-    if (!this.checkLootAndRead(compound) && compound.contains("Items", 9)) {
+    if (!this.tryLoadLootTable(compound) && compound.contains("Items", 9)) {
       ItemStackHelper.loadAllItems(compound, this.items);
     }
   }
 
   public CompoundNBT saveToNbt(CompoundNBT compound) {
-    if (!this.checkLootAndWrite(compound)) {
+    if (!this.trySaveLootTable(compound)) {
       ItemStackHelper.saveAllItems(compound, this.items, false);
     }
 
@@ -296,12 +296,12 @@ public class GenericIronShulkerBoxTileEntity extends LockableLootTileEntity impl
   }
 
   @Override
-  public boolean canInsertItem(int index, ItemStack itemStackIn, @Nullable Direction direction) {
-    return !(Block.getBlockFromItem(itemStackIn.getItem()) instanceof ShulkerBoxBlock) || !(Block.getBlockFromItem(itemStackIn.getItem()) instanceof GenericIronShulkerBlock);
+  public boolean canPlaceItemThroughFace(int index, ItemStack itemStackIn, @Nullable Direction direction) {
+    return !(Block.byItem(itemStackIn.getItem()) instanceof ShulkerBoxBlock) || !(Block.byItem(itemStackIn.getItem()) instanceof GenericIronShulkerBlock);
   }
 
   @Override
-  public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
+  public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
     return true;
   }
 
@@ -332,7 +332,7 @@ public class GenericIronShulkerBoxTileEntity extends LockableLootTileEntity impl
   public IronShulkerBoxesTypes getShulkerBoxType() {
     IronShulkerBoxesTypes type = IronShulkerBoxesTypes.IRON;
 
-    if (this.hasWorld()) {
+    if (this.hasLevel()) {
       IronShulkerBoxesTypes typeNew = GenericIronShulkerBlock.getTypeFromBlock(this.getBlockState().getBlock());
 
       if (typeNew != null) {

@@ -52,6 +52,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class GenericIronShulkerBlock extends Block {
 
   public static final EnumProperty<Direction> FACING = DirectionalBlock.FACING;
@@ -63,41 +65,41 @@ public class GenericIronShulkerBlock extends Block {
     super(properties);
     this.color = color;
     this.type = type;
-    this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.UP));
+    this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP));
   }
 
   @Override
-  public BlockRenderType getRenderType(BlockState state) {
+  public BlockRenderType getRenderShape(BlockState state) {
     return BlockRenderType.ENTITYBLOCK_ANIMATED;
   }
 
   @Override
-  public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult p_225533_6_) {
-    if (worldIn.isRemote) {
+  public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult p_225533_6_) {
+    if (worldIn.isClientSide) {
       return ActionResultType.SUCCESS;
     }
     else if (player.isSpectator()) {
       return ActionResultType.SUCCESS;
     }
     else {
-      TileEntity tileentity = worldIn.getTileEntity(pos);
+      TileEntity tileentity = worldIn.getBlockEntity(pos);
 
       if (tileentity instanceof GenericIronShulkerBoxTileEntity) {
-        Direction direction = state.get(FACING);
+        Direction direction = state.getValue(FACING);
         GenericIronShulkerBoxTileEntity genericIronShulkerBoxTileEntity = (GenericIronShulkerBoxTileEntity) tileentity;
         boolean flag;
 
         if (genericIronShulkerBoxTileEntity.getAnimationStatus() == GenericIronShulkerBoxTileEntity.AnimationStatus.CLOSED) {
-          AxisAlignedBB axisalignedbb = VoxelShapes.fullCube().getBoundingBox().expand((double) (0.5F * (float) direction.getXOffset()), (double) (0.5F * (float) direction.getYOffset()), (double) (0.5F * (float) direction.getZOffset())).contract((double) direction.getXOffset(), (double) direction.getYOffset(), (double) direction.getZOffset());
-          flag = worldIn.hasNoCollisions(axisalignedbb.offset(pos.offset(direction)));
+          AxisAlignedBB axisalignedbb = VoxelShapes.block().bounds().expandTowards((double) (0.5F * (float) direction.getStepX()), (double) (0.5F * (float) direction.getStepY()), (double) (0.5F * (float) direction.getStepZ())).contract((double) direction.getStepX(), (double) direction.getStepY(), (double) direction.getStepZ());
+          flag = worldIn.noCollision(axisalignedbb.move(pos.relative(direction)));
         }
         else {
           flag = true;
         }
 
         if (flag) {
-          player.openContainer(genericIronShulkerBoxTileEntity);
-          player.addStat(Stats.OPEN_SHULKER_BOX);
+          player.openMenu(genericIronShulkerBoxTileEntity);
+          player.awardStat(Stats.OPEN_SHULKER_BOX);
         }
 
         return ActionResultType.SUCCESS;
@@ -110,53 +112,53 @@ public class GenericIronShulkerBlock extends Block {
 
   @Override
   public BlockState getStateForPlacement(BlockItemUseContext context) {
-    return this.getDefaultState().with(FACING, context.getFace());
+    return this.defaultBlockState().setValue(FACING, context.getClickedFace());
   }
 
   @Override
-  protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+  protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
     builder.add(FACING);
   }
 
   @Override
-  public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
-    TileEntity tileentity = worldIn.getTileEntity(pos);
+  public void playerWillDestroy(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
+    TileEntity tileentity = worldIn.getBlockEntity(pos);
 
     if (tileentity instanceof GenericIronShulkerBoxTileEntity) {
       GenericIronShulkerBoxTileEntity genericIronShulkerBoxTileEntity = (GenericIronShulkerBoxTileEntity) tileentity;
 
-      if (!worldIn.isRemote && player.isCreative() && !genericIronShulkerBoxTileEntity.isEmpty()) {
+      if (!worldIn.isClientSide && player.isCreative() && !genericIronShulkerBoxTileEntity.isEmpty()) {
         ItemStack itemstack = getColoredItemStack(this.getColor(), this.getType());
         CompoundNBT compoundnbt = genericIronShulkerBoxTileEntity.saveToNbt(new CompoundNBT());
 
         if (!compoundnbt.isEmpty()) {
-          itemstack.setTagInfo("BlockEntityTag", compoundnbt);
+          itemstack.addTagElement("BlockEntityTag", compoundnbt);
         }
 
         if (genericIronShulkerBoxTileEntity.hasCustomName()) {
-          itemstack.setDisplayName(genericIronShulkerBoxTileEntity.getCustomName());
+          itemstack.setHoverName(genericIronShulkerBoxTileEntity.getCustomName());
         }
 
         ItemEntity itementity = new ItemEntity(worldIn, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), itemstack);
-        itementity.setDefaultPickupDelay();
-        worldIn.addEntity(itementity);
+        itementity.setDefaultPickUpDelay();
+        worldIn.addFreshEntity(itementity);
       }
       else {
-        genericIronShulkerBoxTileEntity.fillWithLoot(player);
+        genericIronShulkerBoxTileEntity.unpackLootTable(player);
       }
     }
 
-    super.onBlockHarvested(worldIn, pos, state, player);
+    super.playerWillDestroy(worldIn, pos, state, player);
   }
 
   @Override
   public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
-    TileEntity tileentity = builder.get(LootParameters.BLOCK_ENTITY);
+    TileEntity tileentity = builder.getOptionalParameter(LootParameters.BLOCK_ENTITY);
     if (tileentity instanceof GenericIronShulkerBoxTileEntity) {
       GenericIronShulkerBoxTileEntity genericIronShulkerBoxTileEntity = (GenericIronShulkerBoxTileEntity) tileentity;
       builder = builder.withDynamicDrop(CONTENTS, (p_220168_1_, p_220168_2_) -> {
-        for (int i = 0; i < genericIronShulkerBoxTileEntity.getSizeInventory(); ++i) {
-          p_220168_2_.accept(genericIronShulkerBoxTileEntity.getStackInSlot(i));
+        for (int i = 0; i < genericIronShulkerBoxTileEntity.getContainerSize(); ++i) {
+          p_220168_2_.accept(genericIronShulkerBoxTileEntity.getItem(i));
         }
       });
     }
@@ -166,34 +168,34 @@ public class GenericIronShulkerBlock extends Block {
 
 
   @Override
-  public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-    if (stack.hasDisplayName()) {
-      TileEntity tileentity = worldIn.getTileEntity(pos);
+  public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+    if (stack.hasCustomHoverName()) {
+      TileEntity tileentity = worldIn.getBlockEntity(pos);
 
       if (tileentity instanceof GenericIronShulkerBoxTileEntity) {
-        ((GenericIronShulkerBoxTileEntity) tileentity).setCustomName(stack.getDisplayName());
+        ((GenericIronShulkerBoxTileEntity) tileentity).setCustomName(stack.getHoverName());
       }
     }
   }
 
   @Override
-  public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+  public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
     if (state.getBlock() != newState.getBlock()) {
-      TileEntity tileentity = worldIn.getTileEntity(pos);
+      TileEntity tileentity = worldIn.getBlockEntity(pos);
 
       if (tileentity instanceof GenericIronShulkerBoxTileEntity) {
-        worldIn.updateComparatorOutputLevel(pos, state.getBlock());
+        worldIn.updateNeighbourForOutputSignal(pos, state.getBlock());
       }
 
-      super.onReplaced(state, worldIn, pos, newState, isMoving);
+      super.onRemove(state, worldIn, pos, newState, isMoving);
     }
   }
 
   @OnlyIn(Dist.CLIENT)
   @Override
-  public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-    super.addInformation(stack, worldIn, tooltip, flagIn);
-    CompoundNBT compoundnbt = stack.getChildTag("BlockEntityTag");
+  public void appendHoverText(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    super.appendHoverText(stack, worldIn, tooltip, flagIn);
+    CompoundNBT compoundnbt = stack.getTagElement("BlockEntityTag");
 
     if (compoundnbt != null) {
       if (compoundnbt.contains("LootTable", 8)) {
@@ -211,15 +213,15 @@ public class GenericIronShulkerBlock extends Block {
             ++j;
             if (i <= 4) {
               ++i;
-              IFormattableTextComponent itextcomponent = itemstack.getDisplayName().deepCopy();
-              itextcomponent.appendString(" x").appendString(String.valueOf(itemstack.getCount()));
+              IFormattableTextComponent itextcomponent = itemstack.getHoverName().copy();
+              itextcomponent.append(" x").append(String.valueOf(itemstack.getCount()));
               tooltip.add(itextcomponent);
             }
           }
         }
 
         if (j - i > 0) {
-          tooltip.add((new TranslationTextComponent("container.shulkerBox.more", j - i)).mergeStyle(TextFormatting.ITALIC));
+          tooltip.add((new TranslationTextComponent("container.shulkerBox.more", j - i)).withStyle(TextFormatting.ITALIC));
         }
       }
     }
@@ -227,40 +229,40 @@ public class GenericIronShulkerBlock extends Block {
   }
 
   @Override
-  public PushReaction getPushReaction(BlockState state) {
+  public PushReaction getPistonPushReaction(BlockState state) {
     return PushReaction.DESTROY;
   }
 
   @Override
   public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-    TileEntity tileentity = worldIn.getTileEntity(pos);
-    return tileentity instanceof GenericIronShulkerBoxTileEntity ? VoxelShapes.create(((GenericIronShulkerBoxTileEntity) tileentity).getBoundingBox(state)) : VoxelShapes.fullCube();
+    TileEntity tileentity = worldIn.getBlockEntity(pos);
+    return tileentity instanceof GenericIronShulkerBoxTileEntity ? VoxelShapes.create(((GenericIronShulkerBoxTileEntity) tileentity).getBoundingBox(state)) : VoxelShapes.block();
   }
 
   @Override
-  public boolean hasComparatorInputOverride(BlockState state) {
+  public boolean hasAnalogOutputSignal(BlockState state) {
     return true;
   }
 
   @Override
-  public int getComparatorInputOverride(BlockState blockState, World worldIn, BlockPos pos) {
-    return Container.calcRedstoneFromInventory((IInventory) worldIn.getTileEntity(pos));
+  public int getAnalogOutputSignal(BlockState blockState, World worldIn, BlockPos pos) {
+    return Container.getRedstoneSignalFromContainer((IInventory) worldIn.getBlockEntity(pos));
   }
 
   @Override
-  public ItemStack getItem(IBlockReader worldIn, BlockPos pos, BlockState state) {
-    ItemStack itemstack = super.getItem(worldIn, pos, state);
-    GenericIronShulkerBoxTileEntity genericIronShulkerBoxTileEntity = (GenericIronShulkerBoxTileEntity) worldIn.getTileEntity(pos);
+  public ItemStack getCloneItemStack(IBlockReader worldIn, BlockPos pos, BlockState state) {
+    ItemStack itemstack = super.getCloneItemStack(worldIn, pos, state);
+    GenericIronShulkerBoxTileEntity genericIronShulkerBoxTileEntity = (GenericIronShulkerBoxTileEntity) worldIn.getBlockEntity(pos);
     CompoundNBT compoundnbt = genericIronShulkerBoxTileEntity.saveToNbt(new CompoundNBT());
     if (!compoundnbt.isEmpty()) {
-      itemstack.setTagInfo("BlockEntityTag", compoundnbt);
+      itemstack.addTagElement("BlockEntityTag", compoundnbt);
     }
 
     return itemstack;
   }
 
   public static IronShulkerBoxesTypes getTypeFromItem(Item itemIn) {
-    return getTypeFromBlock(Block.getBlockFromItem(itemIn));
+    return getTypeFromBlock(Block.byItem(itemIn));
   }
 
   public static IronShulkerBoxesTypes getTypeFromBlock(Block blockIn) {
@@ -273,7 +275,7 @@ public class GenericIronShulkerBlock extends Block {
 
   @Nullable
   public static DyeColor getColorFromItem(Item itemIn) {
-    return getColorFromBlock(Block.getBlockFromItem(itemIn));
+    return getColorFromBlock(Block.byItem(itemIn));
   }
 
   @Nullable
@@ -313,25 +315,25 @@ public class GenericIronShulkerBlock extends Block {
 
   @Override
   public BlockState rotate(BlockState state, Rotation rot) {
-    return state.with(FACING, rot.rotate(state.get(FACING)));
+    return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
   }
 
   @Override
   public BlockState mirror(BlockState state, Mirror mirrorIn) {
-    return state.rotate(mirrorIn.toRotation(state.get(FACING)));
+    return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
   }
 
   @Override
-  public boolean eventReceived(BlockState state, World worldIn, BlockPos pos, int id, int param) {
-    super.eventReceived(state, worldIn, pos, id, param);
-    TileEntity tileentity = worldIn.getTileEntity(pos);
-    return tileentity == null ? false : tileentity.receiveClientEvent(id, param);
+  public boolean triggerEvent(BlockState state, World worldIn, BlockPos pos, int id, int param) {
+    super.triggerEvent(state, worldIn, pos, id, param);
+    TileEntity tileentity = worldIn.getBlockEntity(pos);
+    return tileentity == null ? false : tileentity.triggerEvent(id, param);
   }
 
   @Override
   @Nullable
-  public INamedContainerProvider getContainer(BlockState state, World world, BlockPos pos) {
-    TileEntity tileentity = world.getTileEntity(pos);
+  public INamedContainerProvider getMenuProvider(BlockState state, World world, BlockPos pos) {
+    TileEntity tileentity = world.getBlockEntity(pos);
     return tileentity instanceof INamedContainerProvider ? (INamedContainerProvider) tileentity : null;
   }
 

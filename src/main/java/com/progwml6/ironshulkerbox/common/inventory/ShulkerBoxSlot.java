@@ -14,7 +14,7 @@ public class ShulkerBoxSlot extends Slot {
   }
 
   @Override
-  public boolean isItemValid(ItemStack stack) {
-    return !(Block.getBlockFromItem(stack.getItem()) instanceof GenericIronShulkerBlock) && !(Block.getBlockFromItem(stack.getItem()) instanceof ShulkerBoxBlock);
+  public boolean mayPlace(ItemStack stack) {
+    return !(Block.byItem(stack.getItem()) instanceof GenericIronShulkerBlock) && !(Block.byItem(stack.getItem()) instanceof ShulkerBoxBlock);
   }
 }

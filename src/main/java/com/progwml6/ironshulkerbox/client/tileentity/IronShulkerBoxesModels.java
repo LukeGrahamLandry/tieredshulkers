@@ -57,7 +57,7 @@ public class IronShulkerBoxesModels {
 
   @SubscribeEvent
   public static void onStitch(final TextureStitchEvent.Pre event) {
-    if (!event.getMap().getTextureLocation().equals(Atlases.SHULKER_BOX_ATLAS)) {
+    if (!event.getMap().location().equals(Atlases.SHULKER_SHEET)) {
       return;
     }
 

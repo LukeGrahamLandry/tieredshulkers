@@ -96,7 +96,7 @@ public class IronShulkerBoxRecipe implements ICraftingRecipe, net.minecraftforge
    * possible result (e.g. it's dynamic and depends on its inputs), then return an empty stack.
    */
   @Override
-  public ItemStack getRecipeOutput() {
+  public ItemStack getResultItem() {
     return this.recipeOutput;
   }
 
@@ -109,7 +109,7 @@ public class IronShulkerBoxRecipe implements ICraftingRecipe, net.minecraftforge
    * Used to determine if this recipe can fit in a grid of the given width/height
    */
   @Override
-  public boolean canFit(int width, int height) {
+  public boolean canCraftInDimensions(int width, int height) {
     return width >= this.recipeWidth && height >= this.recipeHeight;
   }
 
@@ -151,7 +151,7 @@ public class IronShulkerBoxRecipe implements ICraftingRecipe, net.minecraftforge
           }
         }
 
-        if (!ingredient.test(craftingInventory.getStackInSlot(i + j * craftingInventory.getWidth()))) {
+        if (!ingredient.test(craftingInventory.getItem(i + j * craftingInventory.getWidth()))) {
           return false;
         }
       }
@@ -164,16 +164,16 @@ public class IronShulkerBoxRecipe implements ICraftingRecipe, net.minecraftforge
    * Returns an Item that is the result of this recipe
    */
   @Override
-  public ItemStack getCraftingResult(CraftingInventory inv) {
-    ItemStack output = this.getRecipeOutput().copy();
+  public ItemStack assemble(CraftingInventory inv) {
+    ItemStack output = this.getResultItem().copy();
 
     ItemStack itemstack = ItemStack.EMPTY;
 
-    for (int i = 0; i < inv.getSizeInventory(); ++i) {
-      ItemStack stack = inv.getStackInSlot(i);
+    for (int i = 0; i < inv.getContainerSize(); ++i) {
+      ItemStack stack = inv.getItem(i);
 
       if (!stack.isEmpty()) {
-        if (Block.getBlockFromItem(stack.getItem()) instanceof GenericIronShulkerBlock || Block.getBlockFromItem(stack.getItem()) instanceof net.minecraft.block.ShulkerBoxBlock) {
+        if (Block.byItem(stack.getItem()) instanceof GenericIronShulkerBlock || Block.byItem(stack.getItem()) instanceof net.minecraft.block.ShulkerBoxBlock) {
           itemstack = stack;
         }
       }
@@ -296,7 +296,7 @@ public class IronShulkerBoxRecipe implements ICraftingRecipe, net.minecraftforge
     }
     else {
       for (int i = 0; i < astring.length; ++i) {
-        String s = JSONUtils.getString(jsonArr.get(i), "pattern[" + i + "]");
+        String s = JSONUtils.convertToString(jsonArr.get(i), "pattern[" + i + "]");
         if (s.length() > MAX_WIDTH) {
           throw new JsonSyntaxException("Invalid pattern: too many columns, " + MAX_WIDTH + " is maximum");
         }
@@ -327,7 +327,7 @@ public class IronShulkerBoxRecipe implements ICraftingRecipe, net.minecraftforge
         throw new JsonSyntaxException("Invalid key entry: ' ' is a reserved symbol.");
       }
 
-      map.put(entry.getKey(), Ingredient.deserialize(entry.getValue()));
+      map.put(entry.getKey(), Ingredient.fromJson(entry.getValue()));
     }
 
     map.put(" ", Ingredient.EMPTY);
@@ -335,7 +335,7 @@ public class IronShulkerBoxRecipe implements ICraftingRecipe, net.minecraftforge
   }
 
   public static ItemStack deserializeItem(JsonObject jsonObject) {
-    String s = JSONUtils.getString(jsonObject, "item");
+    String s = JSONUtils.getAsString(jsonObject, "item");
     Item item = Registry.ITEM.getOptional(new ResourceLocation(s)).orElseThrow(() -> {
       return new JsonSyntaxException("Unknown item '" + s + "'");
     });
@@ -343,7 +343,7 @@ public class IronShulkerBoxRecipe implements ICraftingRecipe, net.minecraftforge
       throw new JsonParseException("Disallowed data tag found");
     }
     else {
-      int i = JSONUtils.getInt(jsonObject, "count", 1);
+      int i = JSONUtils.getAsInt(jsonObject, "count", 1);
       return net.minecraftforge.common.crafting.CraftingHelper.getItemStack(jsonObject, true);
     }
   }
@@ -355,43 +355,43 @@ public class IronShulkerBoxRecipe implements ICraftingRecipe, net.minecraftforge
     }
 
     @Override
-    public IronShulkerBoxRecipe read(ResourceLocation recipeId, JsonObject json) {
-      String s = JSONUtils.getString(json, "group", "");
-      Map<String, Ingredient> map = IronShulkerBoxRecipe.deserializeKey(JSONUtils.getJsonObject(json, "key"));
-      String[] astring = IronShulkerBoxRecipe.shrink(IronShulkerBoxRecipe.patternFromJson(JSONUtils.getJsonArray(json, "pattern")));
+    public IronShulkerBoxRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+      String s = JSONUtils.getAsString(json, "group", "");
+      Map<String, Ingredient> map = IronShulkerBoxRecipe.deserializeKey(JSONUtils.getAsJsonObject(json, "key"));
+      String[] astring = IronShulkerBoxRecipe.shrink(IronShulkerBoxRecipe.patternFromJson(JSONUtils.getAsJsonArray(json, "pattern")));
       int i = astring[0].length();
       int j = astring.length;
       NonNullList<Ingredient> nonnulllist = IronShulkerBoxRecipe.deserializeIngredients(astring, map, i, j);
-      ItemStack itemstack = IronShulkerBoxRecipe.deserializeItem(JSONUtils.getJsonObject(json, "result"));
+      ItemStack itemstack = IronShulkerBoxRecipe.deserializeItem(JSONUtils.getAsJsonObject(json, "result"));
       return new IronShulkerBoxRecipe(recipeId, s, i, j, nonnulllist, itemstack);
     }
 
     @Override
-    public IronShulkerBoxRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
+    public IronShulkerBoxRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
       int i = buffer.readVarInt();
       int j = buffer.readVarInt();
-      String s = buffer.readString(32767);
+      String s = buffer.readUtf(32767);
       NonNullList<Ingredient> nonnulllist = NonNullList.withSize(i * j, Ingredient.EMPTY);
 
       for (int k = 0; k < nonnulllist.size(); ++k) {
-        nonnulllist.set(k, Ingredient.read(buffer));
+        nonnulllist.set(k, Ingredient.fromNetwork(buffer));
       }
 
-      ItemStack itemstack = buffer.readItemStack();
+      ItemStack itemstack = buffer.readItem();
       return new IronShulkerBoxRecipe(recipeId, s, i, j, nonnulllist, itemstack);
     }
 
     @Override
-    public void write(PacketBuffer buffer, IronShulkerBoxRecipe recipe) {
+    public void toNetwork(PacketBuffer buffer, IronShulkerBoxRecipe recipe) {
       buffer.writeVarInt(recipe.recipeWidth);
       buffer.writeVarInt(recipe.recipeHeight);
-      buffer.writeString(recipe.group);
+      buffer.writeUtf(recipe.group);
 
       for (Ingredient ingredient : recipe.recipeItems) {
-        ingredient.write(buffer);
+        ingredient.toNetwork(buffer);
       }
 
-      buffer.writeItemStack(recipe.recipeOutput);
+      buffer.writeItem(recipe.recipeOutput);
     }
   }
 }

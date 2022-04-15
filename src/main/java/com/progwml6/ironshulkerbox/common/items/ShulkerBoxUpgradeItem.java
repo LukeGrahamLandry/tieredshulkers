@@ -28,6 +28,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import net.minecraft.item.Item.Properties;
+
 public class ShulkerBoxUpgradeItem extends Item {
 
   private final IronShulkerBoxesUpgradeType type;
@@ -39,27 +41,27 @@ public class ShulkerBoxUpgradeItem extends Item {
 
   @Override
   @OnlyIn(Dist.CLIENT)
-  public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-    if (I18n.hasKey("ironshulkerbox.upgrade.tooltip")) {
-      if (I18n.hasKey("ironshulkerbox." + this.type.source.name) && I18n.hasKey("ironshulkerbox." + this.type.target.name)) {
-        tooltip.add((new TranslationTextComponent("ironshulkerbox.upgrade.tooltip", new TranslationTextComponent("ironshulkerbox." + this.type.source.name).mergeStyle(TextFormatting.BOLD), new TranslationTextComponent("ironshulkerbox." + this.type.target.name).mergeStyle(TextFormatting.BOLD))).mergeStyle(TextFormatting.DARK_RED));
+  public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    if (I18n.exists("ironshulkerbox.upgrade.tooltip")) {
+      if (I18n.exists("ironshulkerbox." + this.type.source.name) && I18n.exists("ironshulkerbox." + this.type.target.name)) {
+        tooltip.add((new TranslationTextComponent("ironshulkerbox.upgrade.tooltip", new TranslationTextComponent("ironshulkerbox." + this.type.source.name).withStyle(TextFormatting.BOLD), new TranslationTextComponent("ironshulkerbox." + this.type.target.name).withStyle(TextFormatting.BOLD))).withStyle(TextFormatting.DARK_RED));
       }
     }
-    if (I18n.hasKey("ironshulkerbox.color.tooltip")) {
-      tooltip.add((new TranslationTextComponent("ironshulkerbox.color.tooltip", 0)).mergeStyle(TextFormatting.GOLD));
+    if (I18n.exists("ironshulkerbox.color.tooltip")) {
+      tooltip.add((new TranslationTextComponent("ironshulkerbox.color.tooltip", 0)).withStyle(TextFormatting.GOLD));
     }
 
-    super.addInformation(stack, worldIn, tooltip, flagIn);
+    super.appendHoverText(stack, worldIn, tooltip, flagIn);
   }
 
   @Override
   public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
     PlayerEntity entityPlayer = context.getPlayer();
-    BlockPos blockPos = context.getPos();
-    World world = context.getWorld();
-    ItemStack itemStack = context.getItem();
+    BlockPos blockPos = context.getClickedPos();
+    World world = context.getLevel();
+    ItemStack itemStack = context.getItemInHand();
 
-    if (world.isRemote) {
+    if (world.isClientSide) {
       return ActionResultType.PASS;
     }
 
@@ -72,13 +74,13 @@ public class ShulkerBoxUpgradeItem extends Item {
         return ActionResultType.PASS;
       } else {
         GenericIronShulkerBlock block = (GenericIronShulkerBlock) world.getBlockState(blockPos).getBlock();
-        if (block.getDefaultState() != IronShulkerBoxesTypes.get(this.type.source, block.getColor())) {
+        if (block.defaultBlockState() != IronShulkerBoxesTypes.get(this.type.source, block.getColor())) {
           return ActionResultType.PASS;
         }
       }
     }
 
-    TileEntity tileEntity = world.getTileEntity(blockPos);
+    TileEntity tileEntity = world.getBlockEntity(blockPos);
     GenericIronShulkerBoxTileEntity newShulkerBox = null;
 
     ITextComponent customName = null;
@@ -92,18 +94,18 @@ public class ShulkerBoxUpgradeItem extends Item {
         GenericIronShulkerBoxTileEntity shulkerBox = (GenericIronShulkerBoxTileEntity) tileEntity;
         BlockState shulkerBoxState = world.getBlockState(blockPos);
 
-        shulkerBoxContents = NonNullList.<ItemStack>withSize(shulkerBox.getSizeInventory(), ItemStack.EMPTY);
+        shulkerBoxContents = NonNullList.<ItemStack>withSize(shulkerBox.getContainerSize(), ItemStack.EMPTY);
 
         for (int i = 0; i < shulkerBoxContents.size(); i++) {
-          shulkerBoxContents.set(i, shulkerBox.getStackInSlot(i));
+          shulkerBoxContents.set(i, shulkerBox.getItem(i));
         }
 
-        shulkerBoxFacing = shulkerBoxState.get(ShulkerBoxBlock.FACING);
+        shulkerBoxFacing = shulkerBoxState.getValue(ShulkerBoxBlock.FACING);
         customName = shulkerBox.getCustomName();
         shulkerBoxColor = shulkerBox.getColor();
         newShulkerBox = this.type.target.makeEntity(shulkerBoxColor);
 
-        shulkerBox.clear();
+        shulkerBox.clearContent();
         //shulkerBox.setDestroyedByCreativePlayer(true);
 
         if (newShulkerBox == null) {
@@ -111,17 +113,17 @@ public class ShulkerBoxUpgradeItem extends Item {
         }
       } else if (tileEntity instanceof ShulkerBoxTileEntity) {
         BlockState shulkerBoxState = world.getBlockState(blockPos);
-        shulkerBoxFacing = shulkerBoxState.get(net.minecraft.block.ShulkerBoxBlock.FACING);
+        shulkerBoxFacing = shulkerBoxState.getValue(net.minecraft.block.ShulkerBoxBlock.FACING);
         ShulkerBoxTileEntity shulkerBox = (ShulkerBoxTileEntity) tileEntity;
 
         if (!this.type.canUpgrade(IronShulkerBoxesTypes.VANILLA)) {
           return ActionResultType.PASS;
         }
 
-        shulkerBoxContents = NonNullList.<ItemStack>withSize(shulkerBox.getSizeInventory(), ItemStack.EMPTY);
+        shulkerBoxContents = NonNullList.<ItemStack>withSize(shulkerBox.getContainerSize(), ItemStack.EMPTY);
 
         for (int i = 0; i < shulkerBoxContents.size(); i++) {
-          shulkerBoxContents.set(i, shulkerBox.getStackInSlot(i));
+          shulkerBoxContents.set(i, shulkerBox.getItem(i));
         }
 
         shulkerBoxColor = ((net.minecraft.block.ShulkerBoxBlock) world.getBlockState(blockPos).getBlock()).getColor();
@@ -132,26 +134,26 @@ public class ShulkerBoxUpgradeItem extends Item {
 
         customName = shulkerBox.getCustomName();
 
-        shulkerBox.clear();
+        shulkerBox.clearContent();
         //shulkerBox.setDestroyedByCreativePlayer(true);
 
         newShulkerBox = this.type.target.makeEntity(shulkerBoxColor);
       }
     }
 
-    tileEntity.updateContainingBlockInfo();
+    tileEntity.clearCache();
 
     world.removeBlock(blockPos, false);
-    world.removeTileEntity(blockPos);
+    world.removeBlockEntity(blockPos);
 
-    BlockState iBlockState = IronShulkerBoxesTypes.get(this.type.target, shulkerBoxColor).with(ShulkerBoxBlock.FACING, shulkerBoxFacing);
+    BlockState iBlockState = IronShulkerBoxesTypes.get(this.type.target, shulkerBoxColor).setValue(ShulkerBoxBlock.FACING, shulkerBoxFacing);
 
-    world.setTileEntity(blockPos, newShulkerBox);
-    world.setBlockState(blockPos, iBlockState, 3);
+    world.setBlockEntity(blockPos, newShulkerBox);
+    world.setBlock(blockPos, iBlockState, 3);
 
-    world.notifyBlockUpdate(blockPos, iBlockState, iBlockState, 3);
+    world.sendBlockUpdated(blockPos, iBlockState, iBlockState, 3);
 
-    TileEntity tileEntity2 = world.getTileEntity(blockPos);
+    TileEntity tileEntity2 = world.getBlockEntity(blockPos);
 
     if (tileEntity2 instanceof GenericIronShulkerBoxTileEntity) {
       if (customName != null) {
@@ -161,7 +163,7 @@ public class ShulkerBoxUpgradeItem extends Item {
       ((GenericIronShulkerBoxTileEntity) tileEntity2).setItems(shulkerBoxContents);
     }
 
-    if (!entityPlayer.abilities.isCreativeMode) {
+    if (!entityPlayer.abilities.instabuild) {
       itemStack.shrink(1);
     }
 

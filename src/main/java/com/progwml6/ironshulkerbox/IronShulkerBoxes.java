@@ -31,7 +31,7 @@ public class IronShulkerBoxes {
   public static final ItemGroup IRONSHULKERBOX_ITEM_GROUP = (new ItemGroup("ironshulkerbox") {
     @Override
     @OnlyIn(Dist.CLIENT)
-    public ItemStack createIcon() {
+    public ItemStack makeIcon() {
       return new ItemStack(ShulkerBoxesBlocks.BLACK_IRON_SHULKER_BOX.get());
     }
   });
@@ -57,13 +57,13 @@ public class IronShulkerBoxes {
 
   @OnlyIn(Dist.CLIENT)
   private void setupClient(final FMLClientSetupEvent event) {
-    ScreenManager.registerFactory(IronShulkerBoxesContainerTypes.IRON_SHULKER_BOX.get(), IronShulkerBoxScreen::new);
-    ScreenManager.registerFactory(IronShulkerBoxesContainerTypes.GOLD_SHULKER_BOX.get(), IronShulkerBoxScreen::new);
-    ScreenManager.registerFactory(IronShulkerBoxesContainerTypes.DIAMOND_SHULKER_BOX.get(), IronShulkerBoxScreen::new);
-    ScreenManager.registerFactory(IronShulkerBoxesContainerTypes.CRYSTAL_SHULKER_BOX.get(), IronShulkerBoxScreen::new);
-    ScreenManager.registerFactory(IronShulkerBoxesContainerTypes.COPPER_SHULKER_BOX.get(), IronShulkerBoxScreen::new);
-    ScreenManager.registerFactory(IronShulkerBoxesContainerTypes.SILVER_SHULKER_BOX.get(), IronShulkerBoxScreen::new);
-    ScreenManager.registerFactory(IronShulkerBoxesContainerTypes.OBSIDIAN_SHULKER_BOX.get(), IronShulkerBoxScreen::new);
+    ScreenManager.register(IronShulkerBoxesContainerTypes.IRON_SHULKER_BOX.get(), IronShulkerBoxScreen::new);
+    ScreenManager.register(IronShulkerBoxesContainerTypes.GOLD_SHULKER_BOX.get(), IronShulkerBoxScreen::new);
+    ScreenManager.register(IronShulkerBoxesContainerTypes.DIAMOND_SHULKER_BOX.get(), IronShulkerBoxScreen::new);
+    ScreenManager.register(IronShulkerBoxesContainerTypes.CRYSTAL_SHULKER_BOX.get(), IronShulkerBoxScreen::new);
+    ScreenManager.register(IronShulkerBoxesContainerTypes.COPPER_SHULKER_BOX.get(), IronShulkerBoxScreen::new);
+    ScreenManager.register(IronShulkerBoxesContainerTypes.SILVER_SHULKER_BOX.get(), IronShulkerBoxScreen::new);
+    ScreenManager.register(IronShulkerBoxesContainerTypes.OBSIDIAN_SHULKER_BOX.get(), IronShulkerBoxScreen::new);
 
     ClientRegistry.bindTileEntityRenderer(IronShulkerBoxesTileEntityTypes.IRON_SHULKER_BOX.get(), IronShulkerBoxTileEntityRenderer::new);
     ClientRegistry.bindTileEntityRenderer(IronShulkerBoxesTileEntityTypes.GOLD_SHULKER_BOX.get(), IronShulkerBoxTileEntityRenderer::new);
