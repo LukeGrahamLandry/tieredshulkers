@@ -1,22 +1,22 @@
-package com.progwml6.ironshulkerbox.common.block.tileentity;
+package com.progwml6.ironshulkerbox.common.boxes.tile;
 
-import com.progwml6.ironshulkerbox.common.IronShulkerBoxesTypes;
-import com.progwml6.ironshulkerbox.common.block.ShulkerBoxesBlocks;
-import com.progwml6.ironshulkerbox.common.inventory.IronShulkerBoxContainer;
+import com.progwml6.ironshulkerbox.common.boxes.UpgradableBoxTier;
+import com.progwml6.ironshulkerbox.common.boxes.UpgradableBoxContainer;
 import com.progwml6.ironshulkerbox.common.network.PacketHandler;
 import com.progwml6.ironshulkerbox.common.network.PacketTopStackSyncShulkerBox;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.NonNullList;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraftforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 
-public class CrystalShulkerBoxTileEntity extends GenericIronShulkerBoxTileEntity {
+public class CrystalShulkerBoxTileEntity extends UpgradableBoxTile {
 
   private NonNullList<ItemStack> topStacks;
 
@@ -24,18 +24,9 @@ public class CrystalShulkerBoxTileEntity extends GenericIronShulkerBoxTileEntity
 
   private boolean hadStuff;
 
-  public CrystalShulkerBoxTileEntity() {
-    this(null);
-  }
-
-  public CrystalShulkerBoxTileEntity(@Nullable DyeColor colorIn) {
-    super(IronShulkerBoxesTileEntityTypes.CRYSTAL_SHULKER_BOX.get(), colorIn, IronShulkerBoxesTypes.CRYSTAL, IronShulkerBoxesTileEntityTypes.createBlockList(IronShulkerBoxesTileEntityTypes.createBlockSet(ShulkerBoxesBlocks.CRYSTAL_SHULKER_BOXES)));
+  public CrystalShulkerBoxTileEntity(@Nullable DyeColor colorIn, BlockPos pos, BlockState state) {
+    super(colorIn, UpgradableBoxTier.CRYSTAL, pos, state);
     this.topStacks = NonNullList.<ItemStack>withSize(8, ItemStack.EMPTY);
-  }
-
-  @Override
-  protected AbstractContainerMenu createMenu(int id, Inventory playerInventory) {
-    return IronShulkerBoxContainer.createCrystalContainer(id, playerInventory, this);
   }
 
   @Override

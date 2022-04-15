@@ -1,6 +1,6 @@
 package com.progwml6.ironshulkerbox.common.recipes;
 
-import com.progwml6.ironshulkerbox.common.block.GenericIronShulkerBlock;
+import com.progwml6.ironshulkerbox.common.boxes.UpgradableBoxBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
@@ -27,11 +27,11 @@ public class ShulkerBoxColoringRecipe extends CustomRecipe {
     for (int k = 0; k < inv.getContainerSize(); ++k) {
       ItemStack itemstack = inv.getItem(k);
       if (!itemstack.isEmpty()) {
-        if (Block.byItem(itemstack.getItem()) instanceof GenericIronShulkerBlock) {
+        if (Block.byItem(itemstack.getItem()) instanceof UpgradableBoxBlock) {
           ++i;
         }
         else {
-          if (!itemstack.getItem().is(net.minecraftforge.common.Tags.Items.DYES)) {
+          if (!itemstack.is(net.minecraftforge.common.Tags.Items.DYES)) {
             return false;
           }
 
@@ -59,7 +59,7 @@ public class ShulkerBoxColoringRecipe extends CustomRecipe {
       ItemStack itemstack1 = inv.getItem(i);
       if (!itemstack1.isEmpty()) {
         Item item = itemstack1.getItem();
-        if (Block.byItem(item) instanceof GenericIronShulkerBlock) {
+        if (Block.byItem(item) instanceof UpgradableBoxBlock) {
           itemstack = itemstack1;
         }
         else {
@@ -69,7 +69,7 @@ public class ShulkerBoxColoringRecipe extends CustomRecipe {
       }
     }
 
-    ItemStack itemstack2 = GenericIronShulkerBlock.getColoredItemStack(dyecolor, GenericIronShulkerBlock.getTypeFromItem(itemstack.getItem()));
+    ItemStack itemstack2 = UpgradableBoxBlock.getColoredItemStack(dyecolor, UpgradableBoxBlock.getTypeFromItem(itemstack.getItem()));
 
     if (itemstack.hasTag()) {
       itemstack2.setTag(itemstack.getTag().copy());

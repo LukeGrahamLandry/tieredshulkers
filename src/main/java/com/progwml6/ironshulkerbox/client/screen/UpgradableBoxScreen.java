@@ -2,21 +2,22 @@ package com.progwml6.ironshulkerbox.client.screen;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.progwml6.ironshulkerbox.common.IronShulkerBoxesTypes;
-import com.progwml6.ironshulkerbox.common.inventory.IronShulkerBoxContainer;
+import com.progwml6.ironshulkerbox.common.boxes.UpgradableBoxTier;
+import com.progwml6.ironshulkerbox.common.boxes.UpgradableBoxContainer;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.network.chat.Component;
 
-public class IronShulkerBoxScreen extends AbstractContainerScreen<IronShulkerBoxContainer> {
+public class UpgradableBoxScreen extends AbstractContainerScreen<UpgradableBoxContainer> {
 
-  private final IronShulkerBoxesTypes shulkerBoxType;
+  private final UpgradableBoxTier shulkerBoxType;
 
   private final int textureXSize;
 
   private final int textureYSize;
 
-  public IronShulkerBoxScreen(IronShulkerBoxContainer container, Inventory playerInventory, Component title) {
+  public UpgradableBoxScreen(UpgradableBoxContainer container, Inventory playerInventory, Component title) {
     super(container, playerInventory, title);
 
     this.shulkerBoxType = container.getShulkerBoxType();
@@ -38,14 +39,14 @@ public class IronShulkerBoxScreen extends AbstractContainerScreen<IronShulkerBox
   @Override
   protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
     this.font.draw(matrixStack, this.title, 8.0F, 6.0F, 4210752);
-    this.font.draw(matrixStack, this.inventory.getDisplayName(), 8.0F, (float) (this.imageHeight - 96 + 2), 4210752);
+    this.font.draw(matrixStack, this.playerInventoryTitle, 8.0F, (float) (this.imageHeight - 96 + 2), 4210752);
   }
 
   @Override
   protected void renderBg(PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
-    RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-
-    this.minecraft.getTextureManager().bind(this.shulkerBoxType.guiTexture);
+    RenderSystem.setShader(GameRenderer::getPositionTexShader);
+    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+    RenderSystem.setShaderTexture(0, this.shulkerBoxType.guiTexture);
 
     int x = (this.width - this.imageWidth) / 2;
     int y = (this.height - this.imageHeight) / 2;

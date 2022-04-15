@@ -1,71 +1,67 @@
-package com.progwml6.ironshulkerbox.common.block.tileentity;
+package com.progwml6.ironshulkerbox.common.boxes.tile;
 
-import com.progwml6.ironshulkerbox.common.block.GenericIronShulkerBlock;
-import com.progwml6.ironshulkerbox.common.IronShulkerBoxesTypes;
-import com.progwml6.ironshulkerbox.common.inventory.IronShulkerBoxContainer;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.ShulkerBoxBlock;
-import net.minecraft.world.level.material.PushReaction;
+import com.progwml6.ironshulkerbox.common.boxes.UpgradableBoxBlock;
+import com.progwml6.ironshulkerbox.common.boxes.UpgradableBoxTier;
+import com.progwml6.ironshulkerbox.common.boxes.UpgradableBoxContainer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.WorldlyContainer;
-import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.ShulkerBoxBlock;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.util.Mth;
-import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.phys.shapes.Shapes;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class GenericIronShulkerBoxTileEntity extends RandomizableContainerBlockEntity implements WorldlyContainer, TickableBlockEntity {
-
+public class UpgradableBoxTile extends RandomizableContainerBlockEntity implements WorldlyContainer {
   private final int[] SLOTS;
   private NonNullList<ItemStack> items;
   private int openCount;
-  private GenericIronShulkerBoxTileEntity.AnimationStatus animationStatus = GenericIronShulkerBoxTileEntity.AnimationStatus.CLOSED;
+  private UpgradableBoxTile.AnimationStatus animationStatus = UpgradableBoxTile.AnimationStatus.CLOSED;
   private float progress;
   private float progressOld;
-  private DyeColor color;
-  private final List<Block> blocksToUse;
   private boolean needsColorFromWorld;
 
-  public GenericIronShulkerBoxTileEntity(BlockEntityType<?> typeIn, @Nullable DyeColor colorIn, IronShulkerBoxesTypes shulkerBoxTypeIn, List<Block> blockListIn) {
-    super(typeIn);
+  private DyeColor color;
+  private UpgradableBoxTier tier;
 
-    this.SLOTS = IntStream.range(0, shulkerBoxTypeIn.size).toArray();
-    this.items = NonNullList.<ItemStack>withSize(shulkerBoxTypeIn.size, ItemStack.EMPTY);
+  public UpgradableBoxTile(@Nullable DyeColor color, UpgradableBoxTier tier, BlockPos pos, BlockState state) {
+    super(tier.tiles.get(color).get(), pos, state);
 
-    this.color = colorIn;
-    this.blocksToUse = blockListIn;
+    this.SLOTS = IntStream.range(0, tier.size).toArray();
+    this.items = NonNullList.<ItemStack>withSize(tier.size, ItemStack.EMPTY);
 
-    if (colorIn == null) {
-      this.needsColorFromWorld = true;
-    }
+    this.color = color;
+    this.tier = tier;
+
+    if (color == null) this.needsColorFromWorld = true;
   }
 
-  @Override
   public void tick() {
     this.updateAnimation();
 
-    if (this.animationStatus == GenericIronShulkerBoxTileEntity.AnimationStatus.OPENING || this.animationStatus == GenericIronShulkerBoxTileEntity.AnimationStatus.CLOSING) {
+    if (this.animationStatus == UpgradableBoxTile.AnimationStatus.OPENING || this.animationStatus == UpgradableBoxTile.AnimationStatus.CLOSING) {
       this.moveCollidedEntities();
     }
   }
@@ -83,7 +79,7 @@ public class GenericIronShulkerBoxTileEntity extends RandomizableContainerBlockE
 
         if (this.progress >= 1.0F) {
           this.moveCollidedEntities();
-          this.animationStatus = GenericIronShulkerBoxTileEntity.AnimationStatus.OPENED;
+          this.animationStatus = UpgradableBoxTile.AnimationStatus.OPENED;
           this.progress = 1.0F;
           this.updateNeighbors();
         }
@@ -93,7 +89,7 @@ public class GenericIronShulkerBoxTileEntity extends RandomizableContainerBlockE
         this.progress -= 0.1F;
 
         if (this.progress <= 0.0F) {
-          this.animationStatus = GenericIronShulkerBoxTileEntity.AnimationStatus.CLOSED;
+          this.animationStatus = UpgradableBoxTile.AnimationStatus.CLOSED;
           this.progress = 0.0F;
           this.updateNeighbors();
         }
@@ -104,12 +100,12 @@ public class GenericIronShulkerBoxTileEntity extends RandomizableContainerBlockE
     }
   }
 
-  public GenericIronShulkerBoxTileEntity.AnimationStatus getAnimationStatus() {
+  public UpgradableBoxTile.AnimationStatus getAnimationStatus() {
     return this.animationStatus;
   }
 
   public AABB getBoundingBox(BlockState blockState) {
-    return this.getBoundingBox(blockState.getValue(GenericIronShulkerBlock.FACING));
+    return this.getBoundingBox(blockState.getValue(UpgradableBoxBlock.FACING));
   }
 
   public AABB getBoundingBox(Direction directionIn) {
@@ -126,8 +122,8 @@ public class GenericIronShulkerBoxTileEntity extends RandomizableContainerBlockE
   private void moveCollidedEntities() {
     BlockState blockstate = this.level.getBlockState(this.getBlockPos());
 
-    if (blockstate.getBlock() instanceof GenericIronShulkerBlock) {
-      Direction direction = blockstate.getValue(GenericIronShulkerBlock.FACING);
+    if (blockstate.getBlock() instanceof UpgradableBoxBlock) {
+      Direction direction = blockstate.getValue(UpgradableBoxBlock.FACING);
       AABB axisalignedbb = this.getTopBoundingBox(direction).move(this.worldPosition);
       List<Entity> list = this.level.getEntities((Entity) null, axisalignedbb);
 
@@ -191,12 +187,12 @@ public class GenericIronShulkerBoxTileEntity extends RandomizableContainerBlockE
       this.openCount = type;
 
       if (type == 0) {
-        this.animationStatus = GenericIronShulkerBoxTileEntity.AnimationStatus.CLOSING;
+        this.animationStatus = UpgradableBoxTile.AnimationStatus.CLOSING;
         this.updateNeighbors();
       }
 
       if (type == 1) {
-        this.animationStatus = GenericIronShulkerBoxTileEntity.AnimationStatus.OPENING;
+        this.animationStatus = UpgradableBoxTile.AnimationStatus.OPENING;
         this.updateNeighbors();
       }
 
@@ -245,17 +241,15 @@ public class GenericIronShulkerBoxTileEntity extends RandomizableContainerBlockE
   }
 
   @Override
-  public void load(BlockState blockState, CompoundTag compound) {
-    super.load(blockState, compound);
-
+  public void load(CompoundTag compound) {
+    super.load(compound);
     this.loadFromNbt(compound);
   }
 
   @Override
-  public CompoundTag save(CompoundTag compound) {
-    super.save(compound);
-
-    return this.saveToNbt(compound);
+  public void saveAdditional(CompoundTag compound) {
+    super.saveAdditional(compound);
+    this.saveToNbt(compound);
   }
 
   public void loadFromNbt(CompoundTag compound) {
@@ -297,7 +291,7 @@ public class GenericIronShulkerBoxTileEntity extends RandomizableContainerBlockE
 
   @Override
   public boolean canPlaceItemThroughFace(int index, ItemStack itemStackIn, @Nullable Direction direction) {
-    return !(Block.byItem(itemStackIn.getItem()) instanceof ShulkerBoxBlock) || !(Block.byItem(itemStackIn.getItem()) instanceof GenericIronShulkerBlock);
+    return !(Block.byItem(itemStackIn.getItem()) instanceof ShulkerBoxBlock) || !(Block.byItem(itemStackIn.getItem()) instanceof UpgradableBoxBlock);
   }
 
   @Override
@@ -312,16 +306,22 @@ public class GenericIronShulkerBoxTileEntity extends RandomizableContainerBlockE
   @Nullable
   public DyeColor getColor() {
     if (this.needsColorFromWorld) {
-      this.color = GenericIronShulkerBlock.getColorFromBlock(this.getBlockState().getBlock());
+      this.color = UpgradableBoxBlock.getColorFromBlock(this.getBlockState().getBlock());
       this.needsColorFromWorld = false;
     }
 
     return this.color;
   }
 
+
+//
+//  @Override
+//  protected AbstractContainerMenu createMenu(int id, Inventory playerInventory) {
+//    return IronShulkerBoxContainer.createObsidianContainer(id, playerInventory, this);
+//  }
   @Override
   protected AbstractContainerMenu createMenu(int windowId, Inventory playerInventory) {
-    return IronShulkerBoxContainer.createIronContainer(windowId, playerInventory, this);
+    return new UpgradableBoxContainer(this.tier, windowId, playerInventory, this);
   }
 
   @Override
@@ -329,11 +329,11 @@ public class GenericIronShulkerBoxTileEntity extends RandomizableContainerBlockE
     return new net.minecraftforge.items.wrapper.SidedInvWrapper(this, Direction.UP);
   }
 
-  public IronShulkerBoxesTypes getShulkerBoxType() {
-    IronShulkerBoxesTypes type = IronShulkerBoxesTypes.IRON;
+  public UpgradableBoxTier getShulkerBoxType() {
+    UpgradableBoxTier type = UpgradableBoxTier.IRON;
 
     if (this.hasLevel()) {
-      IronShulkerBoxesTypes typeNew = GenericIronShulkerBlock.getTypeFromBlock(this.getBlockState().getBlock());
+      UpgradableBoxTier typeNew = UpgradableBoxBlock.getTypeFromBlock(this.getBlockState().getBlock());
 
       if (typeNew != null) {
         type = typeNew;
@@ -344,11 +344,11 @@ public class GenericIronShulkerBoxTileEntity extends RandomizableContainerBlockE
   }
 
   public Block getBlockToUse() {
-    return this.blocksToUse.get(color.getId());
+    return this.tier.blocks.get(this.color).get();
   }
 
   public boolean isClosed() {
-    return this.animationStatus == GenericIronShulkerBoxTileEntity.AnimationStatus.CLOSED;
+    return this.animationStatus == UpgradableBoxTile.AnimationStatus.CLOSED;
   }
 
   public enum AnimationStatus {

@@ -8,7 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
-import com.progwml6.ironshulkerbox.common.block.GenericIronShulkerBlock;
+import com.progwml6.ironshulkerbox.common.boxes.UpgradableBoxBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
@@ -173,7 +173,7 @@ public class IronShulkerBoxRecipe implements CraftingRecipe, net.minecraftforge.
       ItemStack stack = inv.getItem(i);
 
       if (!stack.isEmpty()) {
-        if (Block.byItem(stack.getItem()) instanceof GenericIronShulkerBlock || Block.byItem(stack.getItem()) instanceof net.minecraft.world.level.block.ShulkerBoxBlock) {
+        if (Block.byItem(stack.getItem()) instanceof UpgradableBoxBlock || Block.byItem(stack.getItem()) instanceof net.minecraft.world.level.block.ShulkerBoxBlock) {
           itemstack = stack;
         }
       }

@@ -2,7 +2,7 @@ package com.progwml6.ironshulkerbox.client.tileentity;
 
 import com.google.common.collect.ImmutableList;
 import com.progwml6.ironshulkerbox.IronShulkerBoxes;
-import com.progwml6.ironshulkerbox.common.IronShulkerBoxesTypes;
+import com.progwml6.ironshulkerbox.common.boxes.UpgradableBoxTier;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -33,7 +33,7 @@ public class IronShulkerBoxesModels {
     return new ResourceLocation("entity/shulker/shulker_" + colorName);
   }
 
-  public static ResourceLocation chooseShulkerBoxModel(IronShulkerBoxesTypes type, int dyeColor) {
+  public static ResourceLocation chooseShulkerBoxModel(UpgradableBoxTier type, int dyeColor) {
     switch (type) {
       case IRON:
         return IRON_SHULKER_BOX_TEXTURES.get(dyeColor);
@@ -49,7 +49,6 @@ public class IronShulkerBoxesModels {
         return CRYSTAL_SHULKER_BOX_TEXTURES.get(dyeColor);
       case OBSIDIAN:
         return OBSIDIAN_SHULKER_BOX_TEXTURES.get(dyeColor);
-      case VANILLA:
       default:
         return VANILLA_SHULKER_BOX_TEXTURES.get(dyeColor);
     }
@@ -57,7 +56,7 @@ public class IronShulkerBoxesModels {
 
   @SubscribeEvent
   public static void onStitch(final TextureStitchEvent.Pre event) {
-    if (!event.getMap().location().equals(Sheets.SHULKER_SHEET)) {
+    if (!event.getAtlas().location().equals(Sheets.SHULKER_SHEET)) {
       return;
     }
 

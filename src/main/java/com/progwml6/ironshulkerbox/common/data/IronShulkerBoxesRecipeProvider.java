@@ -1,9 +1,9 @@
 package com.progwml6.ironshulkerbox.common.data;
 
 import com.progwml6.ironshulkerbox.IronShulkerBoxes;
-import com.progwml6.ironshulkerbox.common.block.ShulkerBoxesBlocks;
+import com.progwml6.ironshulkerbox.common.boxes.ShulkerBoxesRegistry;
 import com.progwml6.ironshulkerbox.common.items.IronShulkerBoxesItems;
-import com.progwml6.ironshulkerbox.common.items.IronShulkerBoxesUpgradeType;
+import com.progwml6.ironshulkerbox.common.items.BoxUpgradeType;
 import com.progwml6.ironshulkerbox.common.recipes.IronShulkerBoxRecipeBuilder;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
@@ -33,6 +33,7 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     super(generatorIn);
   }
 
+  /*
   @Override
   protected void buildShapelessRecipes(Consumer<FinishedRecipe> consumer) {
     this.addBlackShulkerBoxRecipes(consumer);
@@ -59,215 +60,215 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
     String color = "black/";
     String group = "ironshulkerbox:black_shulker_box";
 
-    this.registerSilverBoxRecipe(consumer, ShulkerBoxesBlocks.BLACK_SILVER_SHULKER_BOX.get(), ShulkerBoxesBlocks.BLACK_COPPER_SHULKER_BOX.get(), ShulkerBoxesBlocks.BLACK_IRON_SHULKER_BOX.get(), color, group);
-    this.registerCopperBoxRecipe(consumer, ShulkerBoxesBlocks.BLACK_COPPER_SHULKER_BOX.get(), Items.BLACK_SHULKER_BOX, color, group);
-    this.registerIronBoxRecipe(consumer, ShulkerBoxesBlocks.BLACK_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.BLACK_COPPER_SHULKER_BOX.get(), Items.BLACK_SHULKER_BOX, color, group);
-    this.registerGoldBoxRecipe(consumer, ShulkerBoxesBlocks.BLACK_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.BLACK_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.BLACK_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesBlocks.BLACK_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesBlocks.BLACK_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.BLACK_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesBlocks.BLACK_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesBlocks.BLACK_DIAMOND_SHULKER_BOX.get(), color, group);
-    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.BLACK_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.BLACK_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerSilverBoxRecipe(consumer, ShulkerBoxesRegistry.BLACK_SILVER_SHULKER_BOX.get(), ShulkerBoxesRegistry.BLACK_COPPER_SHULKER_BOX.get(), ShulkerBoxesRegistry.BLACK_IRON_SHULKER_BOX.get(), color, group);
+    this.registerCopperBoxRecipe(consumer, ShulkerBoxesRegistry.BLACK_COPPER_SHULKER_BOX.get(), Items.BLACK_SHULKER_BOX, color, group);
+    this.registerIronBoxRecipe(consumer, ShulkerBoxesRegistry.BLACK_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.BLACK_COPPER_SHULKER_BOX.get(), Items.BLACK_SHULKER_BOX, color, group);
+    this.registerGoldBoxRecipe(consumer, ShulkerBoxesRegistry.BLACK_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.BLACK_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.BLACK_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesRegistry.BLACK_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesRegistry.BLACK_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.BLACK_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesRegistry.BLACK_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesRegistry.BLACK_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesRegistry.BLACK_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesRegistry.BLACK_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
   private void addBlueShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "blue/";
     String group = "ironshulkerbox:blue_shulker_box";
 
-    this.registerSilverBoxRecipe(consumer, ShulkerBoxesBlocks.BLUE_SILVER_SHULKER_BOX.get(), ShulkerBoxesBlocks.BLUE_COPPER_SHULKER_BOX.get(), ShulkerBoxesBlocks.BLUE_IRON_SHULKER_BOX.get(), color, group);
-    this.registerCopperBoxRecipe(consumer, ShulkerBoxesBlocks.BLUE_COPPER_SHULKER_BOX.get(), Items.BLUE_SHULKER_BOX, color, group);
-    this.registerIronBoxRecipe(consumer, ShulkerBoxesBlocks.BLUE_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.BLUE_COPPER_SHULKER_BOX.get(), Items.BLUE_SHULKER_BOX, color, group);
-    this.registerGoldBoxRecipe(consumer, ShulkerBoxesBlocks.BLUE_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.BLUE_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.BLUE_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesBlocks.BLUE_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesBlocks.BLUE_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.BLUE_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesBlocks.BLUE_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesBlocks.BLUE_DIAMOND_SHULKER_BOX.get(), color, group);
-    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.BLUE_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.BLUE_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerSilverBoxRecipe(consumer, ShulkerBoxesRegistry.BLUE_SILVER_SHULKER_BOX.get(), ShulkerBoxesRegistry.BLUE_COPPER_SHULKER_BOX.get(), ShulkerBoxesRegistry.BLUE_IRON_SHULKER_BOX.get(), color, group);
+    this.registerCopperBoxRecipe(consumer, ShulkerBoxesRegistry.BLUE_COPPER_SHULKER_BOX.get(), Items.BLUE_SHULKER_BOX, color, group);
+    this.registerIronBoxRecipe(consumer, ShulkerBoxesRegistry.BLUE_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.BLUE_COPPER_SHULKER_BOX.get(), Items.BLUE_SHULKER_BOX, color, group);
+    this.registerGoldBoxRecipe(consumer, ShulkerBoxesRegistry.BLUE_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.BLUE_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.BLUE_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesRegistry.BLUE_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesRegistry.BLUE_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.BLUE_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesRegistry.BLUE_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesRegistry.BLUE_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesRegistry.BLUE_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesRegistry.BLUE_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
   private void addBrownShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "brown/";
     String group = "ironshulkerbox:brown_shulker_box";
 
-    this.registerSilverBoxRecipe(consumer, ShulkerBoxesBlocks.BROWN_SILVER_SHULKER_BOX.get(), ShulkerBoxesBlocks.BROWN_COPPER_SHULKER_BOX.get(), ShulkerBoxesBlocks.BROWN_IRON_SHULKER_BOX.get(), color, group);
-    this.registerCopperBoxRecipe(consumer, ShulkerBoxesBlocks.BROWN_COPPER_SHULKER_BOX.get(), Items.BROWN_SHULKER_BOX, color, group);
-    this.registerIronBoxRecipe(consumer, ShulkerBoxesBlocks.BROWN_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.BROWN_COPPER_SHULKER_BOX.get(), Items.BROWN_SHULKER_BOX, color, group);
-    this.registerGoldBoxRecipe(consumer, ShulkerBoxesBlocks.BROWN_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.BROWN_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.BROWN_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesBlocks.BROWN_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesBlocks.BROWN_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.BROWN_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesBlocks.BROWN_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesBlocks.BROWN_DIAMOND_SHULKER_BOX.get(), color, group);
-    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.BROWN_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.BROWN_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerSilverBoxRecipe(consumer, ShulkerBoxesRegistry.BROWN_SILVER_SHULKER_BOX.get(), ShulkerBoxesRegistry.BROWN_COPPER_SHULKER_BOX.get(), ShulkerBoxesRegistry.BROWN_IRON_SHULKER_BOX.get(), color, group);
+    this.registerCopperBoxRecipe(consumer, ShulkerBoxesRegistry.BROWN_COPPER_SHULKER_BOX.get(), Items.BROWN_SHULKER_BOX, color, group);
+    this.registerIronBoxRecipe(consumer, ShulkerBoxesRegistry.BROWN_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.BROWN_COPPER_SHULKER_BOX.get(), Items.BROWN_SHULKER_BOX, color, group);
+    this.registerGoldBoxRecipe(consumer, ShulkerBoxesRegistry.BROWN_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.BROWN_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.BROWN_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesRegistry.BROWN_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesRegistry.BROWN_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.BROWN_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesRegistry.BROWN_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesRegistry.BROWN_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesRegistry.BROWN_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesRegistry.BROWN_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
   private void addCyanShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "cyan/";
     String group = "ironshulkerbox:cyan_shulker_box";
 
-    this.registerSilverBoxRecipe(consumer, ShulkerBoxesBlocks.CYAN_SILVER_SHULKER_BOX.get(), ShulkerBoxesBlocks.CYAN_COPPER_SHULKER_BOX.get(), ShulkerBoxesBlocks.CYAN_IRON_SHULKER_BOX.get(), color, group);
-    this.registerCopperBoxRecipe(consumer, ShulkerBoxesBlocks.CYAN_COPPER_SHULKER_BOX.get(), Items.CYAN_SHULKER_BOX, color, group);
-    this.registerIronBoxRecipe(consumer, ShulkerBoxesBlocks.CYAN_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.CYAN_COPPER_SHULKER_BOX.get(), Items.CYAN_SHULKER_BOX, color, group);
-    this.registerGoldBoxRecipe(consumer, ShulkerBoxesBlocks.CYAN_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.CYAN_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.CYAN_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesBlocks.CYAN_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesBlocks.CYAN_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.CYAN_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesBlocks.CYAN_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesBlocks.CYAN_DIAMOND_SHULKER_BOX.get(), color, group);
-    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.CYAN_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.CYAN_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerSilverBoxRecipe(consumer, ShulkerBoxesRegistry.CYAN_SILVER_SHULKER_BOX.get(), ShulkerBoxesRegistry.CYAN_COPPER_SHULKER_BOX.get(), ShulkerBoxesRegistry.CYAN_IRON_SHULKER_BOX.get(), color, group);
+    this.registerCopperBoxRecipe(consumer, ShulkerBoxesRegistry.CYAN_COPPER_SHULKER_BOX.get(), Items.CYAN_SHULKER_BOX, color, group);
+    this.registerIronBoxRecipe(consumer, ShulkerBoxesRegistry.CYAN_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.CYAN_COPPER_SHULKER_BOX.get(), Items.CYAN_SHULKER_BOX, color, group);
+    this.registerGoldBoxRecipe(consumer, ShulkerBoxesRegistry.CYAN_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.CYAN_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.CYAN_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesRegistry.CYAN_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesRegistry.CYAN_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.CYAN_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesRegistry.CYAN_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesRegistry.CYAN_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesRegistry.CYAN_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesRegistry.CYAN_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
   private void addGrayShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "gray/";
     String group = "ironshulkerbox:gray_shulker_box";
 
-    this.registerSilverBoxRecipe(consumer, ShulkerBoxesBlocks.GRAY_SILVER_SHULKER_BOX.get(), ShulkerBoxesBlocks.GRAY_COPPER_SHULKER_BOX.get(), ShulkerBoxesBlocks.GRAY_IRON_SHULKER_BOX.get(), color, group);
-    this.registerCopperBoxRecipe(consumer, ShulkerBoxesBlocks.GRAY_COPPER_SHULKER_BOX.get(), Items.GRAY_SHULKER_BOX, color, group);
-    this.registerIronBoxRecipe(consumer, ShulkerBoxesBlocks.GRAY_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.GRAY_COPPER_SHULKER_BOX.get(), Items.GRAY_SHULKER_BOX, color, group);
-    this.registerGoldBoxRecipe(consumer, ShulkerBoxesBlocks.GRAY_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.GRAY_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.GRAY_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesBlocks.GRAY_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesBlocks.GRAY_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.GRAY_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesBlocks.GRAY_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesBlocks.GRAY_DIAMOND_SHULKER_BOX.get(), color, group);
-    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.GRAY_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.GRAY_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerSilverBoxRecipe(consumer, ShulkerBoxesRegistry.GRAY_SILVER_SHULKER_BOX.get(), ShulkerBoxesRegistry.GRAY_COPPER_SHULKER_BOX.get(), ShulkerBoxesRegistry.GRAY_IRON_SHULKER_BOX.get(), color, group);
+    this.registerCopperBoxRecipe(consumer, ShulkerBoxesRegistry.GRAY_COPPER_SHULKER_BOX.get(), Items.GRAY_SHULKER_BOX, color, group);
+    this.registerIronBoxRecipe(consumer, ShulkerBoxesRegistry.GRAY_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.GRAY_COPPER_SHULKER_BOX.get(), Items.GRAY_SHULKER_BOX, color, group);
+    this.registerGoldBoxRecipe(consumer, ShulkerBoxesRegistry.GRAY_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.GRAY_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.GRAY_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesRegistry.GRAY_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesRegistry.GRAY_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.GRAY_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesRegistry.GRAY_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesRegistry.GRAY_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesRegistry.GRAY_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesRegistry.GRAY_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
   private void addGreenShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "green/";
     String group = "ironshulkerbox:green_shulker_box";
 
-    this.registerSilverBoxRecipe(consumer, ShulkerBoxesBlocks.GREEN_SILVER_SHULKER_BOX.get(), ShulkerBoxesBlocks.GREEN_COPPER_SHULKER_BOX.get(), ShulkerBoxesBlocks.GREEN_IRON_SHULKER_BOX.get(), color, group);
-    this.registerCopperBoxRecipe(consumer, ShulkerBoxesBlocks.GREEN_COPPER_SHULKER_BOX.get(), Items.GREEN_SHULKER_BOX, color, group);
-    this.registerIronBoxRecipe(consumer, ShulkerBoxesBlocks.GREEN_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.GREEN_COPPER_SHULKER_BOX.get(), Items.GREEN_SHULKER_BOX, color, group);
-    this.registerGoldBoxRecipe(consumer, ShulkerBoxesBlocks.GREEN_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.GREEN_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.GREEN_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesBlocks.GREEN_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesBlocks.GREEN_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.GREEN_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesBlocks.GREEN_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesBlocks.GREEN_DIAMOND_SHULKER_BOX.get(), color, group);
-    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.GREEN_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.GREEN_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerSilverBoxRecipe(consumer, ShulkerBoxesRegistry.GREEN_SILVER_SHULKER_BOX.get(), ShulkerBoxesRegistry.GREEN_COPPER_SHULKER_BOX.get(), ShulkerBoxesRegistry.GREEN_IRON_SHULKER_BOX.get(), color, group);
+    this.registerCopperBoxRecipe(consumer, ShulkerBoxesRegistry.GREEN_COPPER_SHULKER_BOX.get(), Items.GREEN_SHULKER_BOX, color, group);
+    this.registerIronBoxRecipe(consumer, ShulkerBoxesRegistry.GREEN_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.GREEN_COPPER_SHULKER_BOX.get(), Items.GREEN_SHULKER_BOX, color, group);
+    this.registerGoldBoxRecipe(consumer, ShulkerBoxesRegistry.GREEN_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.GREEN_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.GREEN_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesRegistry.GREEN_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesRegistry.GREEN_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.GREEN_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesRegistry.GREEN_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesRegistry.GREEN_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesRegistry.GREEN_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesRegistry.GREEN_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
   private void addLightBlueShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "light_blue/";
     String group = "ironshulkerbox:light_blue_shulker_box";
 
-    this.registerSilverBoxRecipe(consumer, ShulkerBoxesBlocks.LIGHT_BLUE_SILVER_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIGHT_BLUE_COPPER_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIGHT_BLUE_IRON_SHULKER_BOX.get(), color, group);
-    this.registerCopperBoxRecipe(consumer, ShulkerBoxesBlocks.LIGHT_BLUE_COPPER_SHULKER_BOX.get(), Items.LIGHT_BLUE_SHULKER_BOX, color, group);
-    this.registerIronBoxRecipe(consumer, ShulkerBoxesBlocks.LIGHT_BLUE_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIGHT_BLUE_COPPER_SHULKER_BOX.get(), Items.LIGHT_BLUE_SHULKER_BOX, color, group);
-    this.registerGoldBoxRecipe(consumer, ShulkerBoxesBlocks.LIGHT_BLUE_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIGHT_BLUE_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIGHT_BLUE_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesBlocks.LIGHT_BLUE_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIGHT_BLUE_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIGHT_BLUE_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesBlocks.LIGHT_BLUE_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIGHT_BLUE_DIAMOND_SHULKER_BOX.get(), color, group);
-    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.LIGHT_BLUE_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIGHT_BLUE_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerSilverBoxRecipe(consumer, ShulkerBoxesRegistry.LIGHT_BLUE_SILVER_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIGHT_BLUE_COPPER_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIGHT_BLUE_IRON_SHULKER_BOX.get(), color, group);
+    this.registerCopperBoxRecipe(consumer, ShulkerBoxesRegistry.LIGHT_BLUE_COPPER_SHULKER_BOX.get(), Items.LIGHT_BLUE_SHULKER_BOX, color, group);
+    this.registerIronBoxRecipe(consumer, ShulkerBoxesRegistry.LIGHT_BLUE_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIGHT_BLUE_COPPER_SHULKER_BOX.get(), Items.LIGHT_BLUE_SHULKER_BOX, color, group);
+    this.registerGoldBoxRecipe(consumer, ShulkerBoxesRegistry.LIGHT_BLUE_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIGHT_BLUE_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIGHT_BLUE_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesRegistry.LIGHT_BLUE_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIGHT_BLUE_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIGHT_BLUE_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesRegistry.LIGHT_BLUE_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIGHT_BLUE_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesRegistry.LIGHT_BLUE_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIGHT_BLUE_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
   private void addLightGrayShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "light_gray/";
     String group = "ironshulkerbox:light_gray_shulker_box";
 
-    this.registerSilverBoxRecipe(consumer, ShulkerBoxesBlocks.LIGHT_GRAY_SILVER_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIGHT_GRAY_COPPER_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIGHT_GRAY_IRON_SHULKER_BOX.get(), color, group);
-    this.registerCopperBoxRecipe(consumer, ShulkerBoxesBlocks.LIGHT_GRAY_COPPER_SHULKER_BOX.get(), Items.LIGHT_GRAY_SHULKER_BOX, color, group);
-    this.registerIronBoxRecipe(consumer, ShulkerBoxesBlocks.LIGHT_GRAY_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIGHT_GRAY_COPPER_SHULKER_BOX.get(), Items.LIGHT_GRAY_SHULKER_BOX, color, group);
-    this.registerGoldBoxRecipe(consumer, ShulkerBoxesBlocks.LIGHT_GRAY_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIGHT_GRAY_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIGHT_GRAY_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesBlocks.LIGHT_GRAY_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIGHT_GRAY_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIGHT_GRAY_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesBlocks.LIGHT_GRAY_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIGHT_GRAY_DIAMOND_SHULKER_BOX.get(), color, group);
-    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.LIGHT_GRAY_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIGHT_GRAY_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerSilverBoxRecipe(consumer, ShulkerBoxesRegistry.LIGHT_GRAY_SILVER_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIGHT_GRAY_COPPER_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIGHT_GRAY_IRON_SHULKER_BOX.get(), color, group);
+    this.registerCopperBoxRecipe(consumer, ShulkerBoxesRegistry.LIGHT_GRAY_COPPER_SHULKER_BOX.get(), Items.LIGHT_GRAY_SHULKER_BOX, color, group);
+    this.registerIronBoxRecipe(consumer, ShulkerBoxesRegistry.LIGHT_GRAY_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIGHT_GRAY_COPPER_SHULKER_BOX.get(), Items.LIGHT_GRAY_SHULKER_BOX, color, group);
+    this.registerGoldBoxRecipe(consumer, ShulkerBoxesRegistry.LIGHT_GRAY_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIGHT_GRAY_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIGHT_GRAY_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesRegistry.LIGHT_GRAY_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIGHT_GRAY_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIGHT_GRAY_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesRegistry.LIGHT_GRAY_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIGHT_GRAY_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesRegistry.LIGHT_GRAY_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIGHT_GRAY_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
   private void addLimeShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "lime/";
     String group = "ironshulkerbox:lime_shulker_box";
 
-    this.registerSilverBoxRecipe(consumer, ShulkerBoxesBlocks.LIME_SILVER_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIME_COPPER_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIME_IRON_SHULKER_BOX.get(), color, group);
-    this.registerCopperBoxRecipe(consumer, ShulkerBoxesBlocks.LIME_COPPER_SHULKER_BOX.get(), Items.LIME_SHULKER_BOX, color, group);
-    this.registerIronBoxRecipe(consumer, ShulkerBoxesBlocks.LIME_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIME_COPPER_SHULKER_BOX.get(), Items.LIME_SHULKER_BOX, color, group);
-    this.registerGoldBoxRecipe(consumer, ShulkerBoxesBlocks.LIME_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIME_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIME_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesBlocks.LIME_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIME_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIME_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesBlocks.LIME_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIME_DIAMOND_SHULKER_BOX.get(), color, group);
-    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.LIME_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.LIME_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerSilverBoxRecipe(consumer, ShulkerBoxesRegistry.LIME_SILVER_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIME_COPPER_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIME_IRON_SHULKER_BOX.get(), color, group);
+    this.registerCopperBoxRecipe(consumer, ShulkerBoxesRegistry.LIME_COPPER_SHULKER_BOX.get(), Items.LIME_SHULKER_BOX, color, group);
+    this.registerIronBoxRecipe(consumer, ShulkerBoxesRegistry.LIME_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIME_COPPER_SHULKER_BOX.get(), Items.LIME_SHULKER_BOX, color, group);
+    this.registerGoldBoxRecipe(consumer, ShulkerBoxesRegistry.LIME_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIME_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIME_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesRegistry.LIME_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIME_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIME_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesRegistry.LIME_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIME_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesRegistry.LIME_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesRegistry.LIME_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
   private void addMagentaShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "magenta/";
     String group = "ironshulkerbox:magenta_shulker_box";
 
-    this.registerSilverBoxRecipe(consumer, ShulkerBoxesBlocks.MAGENTA_SILVER_SHULKER_BOX.get(), ShulkerBoxesBlocks.MAGENTA_COPPER_SHULKER_BOX.get(), ShulkerBoxesBlocks.MAGENTA_IRON_SHULKER_BOX.get(), color, group);
-    this.registerCopperBoxRecipe(consumer, ShulkerBoxesBlocks.MAGENTA_COPPER_SHULKER_BOX.get(), Items.MAGENTA_SHULKER_BOX, color, group);
-    this.registerIronBoxRecipe(consumer, ShulkerBoxesBlocks.MAGENTA_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.MAGENTA_COPPER_SHULKER_BOX.get(), Items.MAGENTA_SHULKER_BOX, color, group);
-    this.registerGoldBoxRecipe(consumer, ShulkerBoxesBlocks.MAGENTA_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.MAGENTA_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.MAGENTA_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesBlocks.MAGENTA_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesBlocks.MAGENTA_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.MAGENTA_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesBlocks.MAGENTA_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesBlocks.MAGENTA_DIAMOND_SHULKER_BOX.get(), color, group);
-    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.MAGENTA_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.MAGENTA_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerSilverBoxRecipe(consumer, ShulkerBoxesRegistry.MAGENTA_SILVER_SHULKER_BOX.get(), ShulkerBoxesRegistry.MAGENTA_COPPER_SHULKER_BOX.get(), ShulkerBoxesRegistry.MAGENTA_IRON_SHULKER_BOX.get(), color, group);
+    this.registerCopperBoxRecipe(consumer, ShulkerBoxesRegistry.MAGENTA_COPPER_SHULKER_BOX.get(), Items.MAGENTA_SHULKER_BOX, color, group);
+    this.registerIronBoxRecipe(consumer, ShulkerBoxesRegistry.MAGENTA_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.MAGENTA_COPPER_SHULKER_BOX.get(), Items.MAGENTA_SHULKER_BOX, color, group);
+    this.registerGoldBoxRecipe(consumer, ShulkerBoxesRegistry.MAGENTA_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.MAGENTA_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.MAGENTA_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesRegistry.MAGENTA_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesRegistry.MAGENTA_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.MAGENTA_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesRegistry.MAGENTA_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesRegistry.MAGENTA_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesRegistry.MAGENTA_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesRegistry.MAGENTA_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
   private void addOrangeShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "orange/";
     String group = "ironshulkerbox:orange_shulker_box";
 
-    this.registerSilverBoxRecipe(consumer, ShulkerBoxesBlocks.ORANGE_SILVER_SHULKER_BOX.get(), ShulkerBoxesBlocks.ORANGE_COPPER_SHULKER_BOX.get(), ShulkerBoxesBlocks.ORANGE_IRON_SHULKER_BOX.get(), color, group);
-    this.registerCopperBoxRecipe(consumer, ShulkerBoxesBlocks.ORANGE_COPPER_SHULKER_BOX.get(), Items.ORANGE_SHULKER_BOX, color, group);
-    this.registerIronBoxRecipe(consumer, ShulkerBoxesBlocks.ORANGE_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.ORANGE_COPPER_SHULKER_BOX.get(), Items.ORANGE_SHULKER_BOX, color, group);
-    this.registerGoldBoxRecipe(consumer, ShulkerBoxesBlocks.ORANGE_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.ORANGE_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.ORANGE_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesBlocks.ORANGE_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesBlocks.ORANGE_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.ORANGE_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesBlocks.ORANGE_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesBlocks.ORANGE_DIAMOND_SHULKER_BOX.get(), color, group);
-    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.ORANGE_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.ORANGE_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerSilverBoxRecipe(consumer, ShulkerBoxesRegistry.ORANGE_SILVER_SHULKER_BOX.get(), ShulkerBoxesRegistry.ORANGE_COPPER_SHULKER_BOX.get(), ShulkerBoxesRegistry.ORANGE_IRON_SHULKER_BOX.get(), color, group);
+    this.registerCopperBoxRecipe(consumer, ShulkerBoxesRegistry.ORANGE_COPPER_SHULKER_BOX.get(), Items.ORANGE_SHULKER_BOX, color, group);
+    this.registerIronBoxRecipe(consumer, ShulkerBoxesRegistry.ORANGE_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.ORANGE_COPPER_SHULKER_BOX.get(), Items.ORANGE_SHULKER_BOX, color, group);
+    this.registerGoldBoxRecipe(consumer, ShulkerBoxesRegistry.ORANGE_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.ORANGE_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.ORANGE_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesRegistry.ORANGE_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesRegistry.ORANGE_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.ORANGE_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesRegistry.ORANGE_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesRegistry.ORANGE_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesRegistry.ORANGE_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesRegistry.ORANGE_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
   private void addPinkShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "pink/";
     String group = "ironshulkerbox:pink_shulker_box";
 
-    this.registerSilverBoxRecipe(consumer, ShulkerBoxesBlocks.PINK_SILVER_SHULKER_BOX.get(), ShulkerBoxesBlocks.PINK_COPPER_SHULKER_BOX.get(), ShulkerBoxesBlocks.PINK_IRON_SHULKER_BOX.get(), color, group);
-    this.registerCopperBoxRecipe(consumer, ShulkerBoxesBlocks.PINK_COPPER_SHULKER_BOX.get(), Items.PINK_SHULKER_BOX, color, group);
-    this.registerIronBoxRecipe(consumer, ShulkerBoxesBlocks.PINK_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.PINK_COPPER_SHULKER_BOX.get(), Items.PINK_SHULKER_BOX, color, group);
-    this.registerGoldBoxRecipe(consumer, ShulkerBoxesBlocks.PINK_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.PINK_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.PINK_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesBlocks.PINK_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesBlocks.PINK_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.PINK_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesBlocks.PINK_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesBlocks.PINK_DIAMOND_SHULKER_BOX.get(), color, group);
-    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.PINK_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.PINK_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerSilverBoxRecipe(consumer, ShulkerBoxesRegistry.PINK_SILVER_SHULKER_BOX.get(), ShulkerBoxesRegistry.PINK_COPPER_SHULKER_BOX.get(), ShulkerBoxesRegistry.PINK_IRON_SHULKER_BOX.get(), color, group);
+    this.registerCopperBoxRecipe(consumer, ShulkerBoxesRegistry.PINK_COPPER_SHULKER_BOX.get(), Items.PINK_SHULKER_BOX, color, group);
+    this.registerIronBoxRecipe(consumer, ShulkerBoxesRegistry.PINK_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.PINK_COPPER_SHULKER_BOX.get(), Items.PINK_SHULKER_BOX, color, group);
+    this.registerGoldBoxRecipe(consumer, ShulkerBoxesRegistry.PINK_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.PINK_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.PINK_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesRegistry.PINK_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesRegistry.PINK_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.PINK_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesRegistry.PINK_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesRegistry.PINK_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesRegistry.PINK_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesRegistry.PINK_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
   private void addPurpleShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "purple/";
     String group = "ironshulkerbox:purple_shulker_box";
 
-    this.registerSilverBoxRecipe(consumer, ShulkerBoxesBlocks.PURPLE_SILVER_SHULKER_BOX.get(), ShulkerBoxesBlocks.PURPLE_COPPER_SHULKER_BOX.get(), ShulkerBoxesBlocks.PURPLE_IRON_SHULKER_BOX.get(), color, group);
-    this.registerCopperBoxRecipe(consumer, ShulkerBoxesBlocks.PURPLE_COPPER_SHULKER_BOX.get(), Items.PURPLE_SHULKER_BOX, color, group);
-    this.registerIronBoxRecipe(consumer, ShulkerBoxesBlocks.PURPLE_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.PURPLE_COPPER_SHULKER_BOX.get(), Items.PURPLE_SHULKER_BOX, color, group);
-    this.registerGoldBoxRecipe(consumer, ShulkerBoxesBlocks.PURPLE_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.PURPLE_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.PURPLE_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesBlocks.PURPLE_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesBlocks.PURPLE_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.PURPLE_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesBlocks.PURPLE_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesBlocks.PURPLE_DIAMOND_SHULKER_BOX.get(), color, group);
-    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.PURPLE_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.PURPLE_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerSilverBoxRecipe(consumer, ShulkerBoxesRegistry.PURPLE_SILVER_SHULKER_BOX.get(), ShulkerBoxesRegistry.PURPLE_COPPER_SHULKER_BOX.get(), ShulkerBoxesRegistry.PURPLE_IRON_SHULKER_BOX.get(), color, group);
+    this.registerCopperBoxRecipe(consumer, ShulkerBoxesRegistry.PURPLE_COPPER_SHULKER_BOX.get(), Items.PURPLE_SHULKER_BOX, color, group);
+    this.registerIronBoxRecipe(consumer, ShulkerBoxesRegistry.PURPLE_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.PURPLE_COPPER_SHULKER_BOX.get(), Items.PURPLE_SHULKER_BOX, color, group);
+    this.registerGoldBoxRecipe(consumer, ShulkerBoxesRegistry.PURPLE_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.PURPLE_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.PURPLE_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesRegistry.PURPLE_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesRegistry.PURPLE_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.PURPLE_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesRegistry.PURPLE_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesRegistry.PURPLE_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesRegistry.PURPLE_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesRegistry.PURPLE_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
   private void addRedShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "red/";
     String group = "ironshulkerbox:red_shulker_box";
 
-    this.registerSilverBoxRecipe(consumer, ShulkerBoxesBlocks.RED_SILVER_SHULKER_BOX.get(), ShulkerBoxesBlocks.RED_COPPER_SHULKER_BOX.get(), ShulkerBoxesBlocks.RED_IRON_SHULKER_BOX.get(), color, group);
-    this.registerCopperBoxRecipe(consumer, ShulkerBoxesBlocks.RED_COPPER_SHULKER_BOX.get(), Items.RED_SHULKER_BOX, color, group);
-    this.registerIronBoxRecipe(consumer, ShulkerBoxesBlocks.RED_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.RED_COPPER_SHULKER_BOX.get(), Items.RED_SHULKER_BOX, color, group);
-    this.registerGoldBoxRecipe(consumer, ShulkerBoxesBlocks.RED_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.RED_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.RED_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesBlocks.RED_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesBlocks.RED_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.RED_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesBlocks.RED_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesBlocks.RED_DIAMOND_SHULKER_BOX.get(), color, group);
-    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.RED_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.RED_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerSilverBoxRecipe(consumer, ShulkerBoxesRegistry.RED_SILVER_SHULKER_BOX.get(), ShulkerBoxesRegistry.RED_COPPER_SHULKER_BOX.get(), ShulkerBoxesRegistry.RED_IRON_SHULKER_BOX.get(), color, group);
+    this.registerCopperBoxRecipe(consumer, ShulkerBoxesRegistry.RED_COPPER_SHULKER_BOX.get(), Items.RED_SHULKER_BOX, color, group);
+    this.registerIronBoxRecipe(consumer, ShulkerBoxesRegistry.RED_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.RED_COPPER_SHULKER_BOX.get(), Items.RED_SHULKER_BOX, color, group);
+    this.registerGoldBoxRecipe(consumer, ShulkerBoxesRegistry.RED_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.RED_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.RED_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesRegistry.RED_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesRegistry.RED_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.RED_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesRegistry.RED_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesRegistry.RED_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesRegistry.RED_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesRegistry.RED_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
   private void addWhiteShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "white/";
     String group = "ironshulkerbox:white_shulker_box";
 
-    this.registerSilverBoxRecipe(consumer, ShulkerBoxesBlocks.WHITE_SILVER_SHULKER_BOX.get(), ShulkerBoxesBlocks.WHITE_COPPER_SHULKER_BOX.get(), ShulkerBoxesBlocks.WHITE_IRON_SHULKER_BOX.get(), color, group);
-    this.registerCopperBoxRecipe(consumer, ShulkerBoxesBlocks.WHITE_COPPER_SHULKER_BOX.get(), Items.WHITE_SHULKER_BOX, color, group);
-    this.registerIronBoxRecipe(consumer, ShulkerBoxesBlocks.WHITE_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.WHITE_COPPER_SHULKER_BOX.get(), Items.WHITE_SHULKER_BOX, color, group);
-    this.registerGoldBoxRecipe(consumer, ShulkerBoxesBlocks.WHITE_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.WHITE_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.WHITE_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesBlocks.WHITE_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesBlocks.WHITE_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.WHITE_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesBlocks.WHITE_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesBlocks.WHITE_DIAMOND_SHULKER_BOX.get(), color, group);
-    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.WHITE_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.WHITE_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerSilverBoxRecipe(consumer, ShulkerBoxesRegistry.WHITE_SILVER_SHULKER_BOX.get(), ShulkerBoxesRegistry.WHITE_COPPER_SHULKER_BOX.get(), ShulkerBoxesRegistry.WHITE_IRON_SHULKER_BOX.get(), color, group);
+    this.registerCopperBoxRecipe(consumer, ShulkerBoxesRegistry.WHITE_COPPER_SHULKER_BOX.get(), Items.WHITE_SHULKER_BOX, color, group);
+    this.registerIronBoxRecipe(consumer, ShulkerBoxesRegistry.WHITE_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.WHITE_COPPER_SHULKER_BOX.get(), Items.WHITE_SHULKER_BOX, color, group);
+    this.registerGoldBoxRecipe(consumer, ShulkerBoxesRegistry.WHITE_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.WHITE_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.WHITE_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesRegistry.WHITE_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesRegistry.WHITE_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.WHITE_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesRegistry.WHITE_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesRegistry.WHITE_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesRegistry.WHITE_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesRegistry.WHITE_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
   private void addYellowShulkerBoxRecipes(Consumer<FinishedRecipe> consumer) {
     String color = "yellow/";
     String group = "ironshulkerbox:yellow_shulker_box";
 
-    this.registerSilverBoxRecipe(consumer, ShulkerBoxesBlocks.YELLOW_SILVER_SHULKER_BOX.get(), ShulkerBoxesBlocks.YELLOW_COPPER_SHULKER_BOX.get(), ShulkerBoxesBlocks.YELLOW_IRON_SHULKER_BOX.get(), color, group);
-    this.registerCopperBoxRecipe(consumer, ShulkerBoxesBlocks.YELLOW_COPPER_SHULKER_BOX.get(), Items.YELLOW_SHULKER_BOX, color, group);
-    this.registerIronBoxRecipe(consumer, ShulkerBoxesBlocks.YELLOW_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.YELLOW_COPPER_SHULKER_BOX.get(), Items.YELLOW_SHULKER_BOX, color, group);
-    this.registerGoldBoxRecipe(consumer, ShulkerBoxesBlocks.YELLOW_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.YELLOW_IRON_SHULKER_BOX.get(), ShulkerBoxesBlocks.YELLOW_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesBlocks.YELLOW_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesBlocks.YELLOW_GOLD_SHULKER_BOX.get(), ShulkerBoxesBlocks.YELLOW_SILVER_SHULKER_BOX.get(), color, group);
-    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesBlocks.YELLOW_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesBlocks.YELLOW_DIAMOND_SHULKER_BOX.get(), color, group);
-    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesBlocks.YELLOW_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesBlocks.YELLOW_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerSilverBoxRecipe(consumer, ShulkerBoxesRegistry.YELLOW_SILVER_SHULKER_BOX.get(), ShulkerBoxesRegistry.YELLOW_COPPER_SHULKER_BOX.get(), ShulkerBoxesRegistry.YELLOW_IRON_SHULKER_BOX.get(), color, group);
+    this.registerCopperBoxRecipe(consumer, ShulkerBoxesRegistry.YELLOW_COPPER_SHULKER_BOX.get(), Items.YELLOW_SHULKER_BOX, color, group);
+    this.registerIronBoxRecipe(consumer, ShulkerBoxesRegistry.YELLOW_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.YELLOW_COPPER_SHULKER_BOX.get(), Items.YELLOW_SHULKER_BOX, color, group);
+    this.registerGoldBoxRecipe(consumer, ShulkerBoxesRegistry.YELLOW_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.YELLOW_IRON_SHULKER_BOX.get(), ShulkerBoxesRegistry.YELLOW_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerDiamondBoxRecipe(consumer, ShulkerBoxesRegistry.YELLOW_DIAMOND_SHULKER_BOX.get(), ShulkerBoxesRegistry.YELLOW_GOLD_SHULKER_BOX.get(), ShulkerBoxesRegistry.YELLOW_SILVER_SHULKER_BOX.get(), color, group);
+    this.registerCrystalBoxRecipe(consumer, ShulkerBoxesRegistry.YELLOW_CRYSTAL_SHULKER_BOX.get(), ShulkerBoxesRegistry.YELLOW_DIAMOND_SHULKER_BOX.get(), color, group);
+    this.registerObsidianBoxRecipe(consumer, ShulkerBoxesRegistry.YELLOW_OBSIDIAN_SHULKER_BOX.get(), ShulkerBoxesRegistry.YELLOW_DIAMOND_SHULKER_BOX.get(), color, group);
   }
 
   private void addUpgradesRecipes(Consumer<FinishedRecipe> consumer) {
     String folder = "upgrades/";
 
     ShapedRecipeBuilder
-      .shaped(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.VANILLA_TO_IRON).get())
+      .shaped(IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.VANILLA_TO_IRON).get())
       .define('M', Tags.Items.INGOTS_IRON)
       .define('S', Items.SHULKER_SHELL)
       .pattern("MMM")
@@ -275,9 +276,9 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       .pattern("MMM")
       .unlockedBy("has_iron_ingot", has(Tags.Items.INGOTS_IRON))
       .save(consumer,
-        prefix(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.VANILLA_TO_IRON).get(), folder));
+        prefix(IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.VANILLA_TO_IRON).get(), folder));
 
-    ShapedRecipeBuilder.shaped(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.IRON_TO_GOLD).get())
+    ShapedRecipeBuilder.shaped(IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.IRON_TO_GOLD).get())
       .define('S', Tags.Items.INGOTS_IRON)
       .define('M', Tags.Items.INGOTS_GOLD)
       .pattern("MSM")
@@ -285,10 +286,10 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       .pattern("MMM")
       .unlockedBy("has_iron_ingot", has(Tags.Items.INGOTS_IRON))
       .save(consumer,
-        prefix(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.IRON_TO_GOLD).get(), folder));
+        prefix(IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.IRON_TO_GOLD).get(), folder));
 
     ShapedRecipeBuilder
-      .shaped(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.GOLD_TO_DIAMOND).get())
+      .shaped(IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.GOLD_TO_DIAMOND).get())
       .define('M', Tags.Items.GEMS_DIAMOND)
       .define('S', Tags.Items.INGOTS_GOLD)
       .define('G', Tags.Items.GLASS)
@@ -297,10 +298,10 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       .pattern("GMG")
       .unlockedBy("has_glass", has(Tags.Items.GLASS))
       .save(consumer,
-        prefix(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.GOLD_TO_DIAMOND).get(), folder));
+        prefix(IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.GOLD_TO_DIAMOND).get(), folder));
 
     ShapedRecipeBuilder
-      .shaped(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.DIAMOND_TO_OBSIDIAN).get())
+      .shaped(IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.DIAMOND_TO_OBSIDIAN).get())
       .define('M', Blocks.OBSIDIAN)
       .define('G', Tags.Items.GLASS)
       .pattern("MGM")
@@ -308,10 +309,10 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       .pattern("MMM")
       .unlockedBy("has_glass", has(Tags.Items.GLASS))
       .save(consumer,
-        prefix(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.DIAMOND_TO_OBSIDIAN).get(), folder));
+        prefix(IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.DIAMOND_TO_OBSIDIAN).get(), folder));
 
     ShapedRecipeBuilder
-      .shaped(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.DIAMOND_TO_CRYSTAL).get())
+      .shaped(IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.DIAMOND_TO_CRYSTAL).get())
       .define('S', Blocks.OBSIDIAN)
       .define('G', Tags.Items.GLASS)
       .pattern("GSG")
@@ -319,14 +320,14 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       .pattern("GGG")
       .unlockedBy("has_glass", has(Tags.Items.GLASS))
       .save(consumer,
-        prefix(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.DIAMOND_TO_CRYSTAL).get(), folder));
+        prefix(IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.DIAMOND_TO_CRYSTAL).get(), folder));
 
     ResourceLocation woodToCopperChestUpgradeId = prefix(
-      IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.VANILLA_TO_COPPER).get(), folder);
+      IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.VANILLA_TO_COPPER).get(), folder);
     ConditionalRecipe.builder()
       .addCondition(not(new TagEmptyCondition("forge:ingots/copper")))
       .addRecipe(ShapedRecipeBuilder
-        .shaped(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.VANILLA_TO_COPPER).get())
+        .shaped(IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.VANILLA_TO_COPPER).get())
         .define('M', ItemTags.bind("forge:ingots/copper"))
         .define('S', Items.SHULKER_SHELL)
         .pattern("MMM")
@@ -345,11 +346,11 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       ).build(consumer, woodToCopperChestUpgradeId);
 
     ResourceLocation copperToIronChestUpgrade = prefix(
-      IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.COPPER_TO_IRON).get(), folder);
+      IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.COPPER_TO_IRON).get(), folder);
     ConditionalRecipe.builder()
       .addCondition(not(new TagEmptyCondition("forge:ingots/copper")))
       .addRecipe(ShapedRecipeBuilder
-        .shaped(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.COPPER_TO_IRON).get())
+        .shaped(IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.COPPER_TO_IRON).get())
         .define('M', Tags.Items.INGOTS_IRON)
         .define('S', ItemTags.bind("forge:ingots/copper"))
         .define('G', Tags.Items.GLASS)
@@ -369,12 +370,12 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       ).build(consumer, copperToIronChestUpgrade);
 
     ResourceLocation copperToSilverChestUpgrade = prefix(
-      IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.COPPER_TO_SILVER).get(), folder);
+      IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.COPPER_TO_SILVER).get(), folder);
     ConditionalRecipe.builder()
       .addCondition(
         and(not(new TagEmptyCondition("forge:ingots/copper")), not(new TagEmptyCondition("forge:ingots/silver"))))
       .addRecipe(ShapedRecipeBuilder
-        .shaped(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.COPPER_TO_SILVER).get())
+        .shaped(IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.COPPER_TO_SILVER).get())
         .define('M', ItemTags.bind("forge:ingots/silver"))
         .define('S', ItemTags.bind("forge:ingots/copper"))
         .pattern("MSM")
@@ -394,11 +395,11 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       ).build(consumer, copperToSilverChestUpgrade);
 
     ResourceLocation silverToGoldChestUpgrade = prefix(
-      IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.SILVER_TO_GOLD).get(), folder);
+      IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.SILVER_TO_GOLD).get(), folder);
     ConditionalRecipe.builder()
       .addCondition(not(new TagEmptyCondition("forge:ingots/silver")))
       .addRecipe(ShapedRecipeBuilder
-        .shaped(IronShulkerBoxesItems.UPGRADES.get(IronShulkerBoxesUpgradeType.SILVER_TO_GOLD).get())
+        .shaped(IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.SILVER_TO_GOLD).get())
         .define('M', Tags.Items.INGOTS_GOLD)
         .define('S', ItemTags.bind("forge:ingots/copper"))
         .define('G', Tags.Items.GLASS)
@@ -603,4 +604,5 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       .addCriterion("has_obsidian", has(Items.OBSIDIAN))
       .build(consumer, location("shulkerboxes/" + color + "obsidian/diamond_obsidian_shulker_box"));
   }
+  */
 }

@@ -1,8 +1,7 @@
-package com.progwml6.ironshulkerbox.common.block;
+package com.progwml6.ironshulkerbox.common.boxes;
 
 import com.progwml6.ironshulkerbox.IronShulkerBoxes;
-import com.progwml6.ironshulkerbox.common.IronShulkerBoxesTypes;
-import com.progwml6.ironshulkerbox.common.block.tileentity.GenericIronShulkerBoxTileEntity;
+import com.progwml6.ironshulkerbox.common.boxes.tile.UpgradableBoxTile;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -32,10 +31,13 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DirectionalBlock;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
@@ -53,17 +55,17 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class GenericIronShulkerBlock extends Block {
+public class UpgradableBoxBlock extends Block implements EntityBlock {
 
   public static final EnumProperty<Direction> FACING = DirectionalBlock.FACING;
   public static final ResourceLocation CONTENTS = new ResourceLocation(IronShulkerBoxes.MOD_ID, "contents");
-  private final IronShulkerBoxesTypes type;
+  private final UpgradableBoxTier tier;
   protected final DyeColor color;
 
-  public GenericIronShulkerBlock(DyeColor color, Properties properties, IronShulkerBoxesTypes type) {
+  public UpgradableBoxBlock(DyeColor color, Properties properties, UpgradableBoxTier type) {
     super(properties);
     this.color = color;
-    this.type = type;
+    this.tier = type;
     this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP));
   }
 
@@ -83,12 +85,12 @@ public class GenericIronShulkerBlock extends Block {
     else {
       BlockEntity tileentity = worldIn.getBlockEntity(pos);
 
-      if (tileentity instanceof GenericIronShulkerBoxTileEntity) {
+      if (tileentity instanceof UpgradableBoxTile) {
         Direction direction = state.getValue(FACING);
-        GenericIronShulkerBoxTileEntity genericIronShulkerBoxTileEntity = (GenericIronShulkerBoxTileEntity) tileentity;
+        UpgradableBoxTile genericIronShulkerBoxTileEntity = (UpgradableBoxTile) tileentity;
         boolean flag;
 
-        if (genericIronShulkerBoxTileEntity.getAnimationStatus() == GenericIronShulkerBoxTileEntity.AnimationStatus.CLOSED) {
+        if (genericIronShulkerBoxTileEntity.getAnimationStatus() == UpgradableBoxTile.AnimationStatus.CLOSED) {
           AABB axisalignedbb = Shapes.block().bounds().expandTowards((double) (0.5F * (float) direction.getStepX()), (double) (0.5F * (float) direction.getStepY()), (double) (0.5F * (float) direction.getStepZ())).contract((double) direction.getStepX(), (double) direction.getStepY(), (double) direction.getStepZ());
           flag = worldIn.noCollision(axisalignedbb.move(pos.relative(direction)));
         }
@@ -123,11 +125,11 @@ public class GenericIronShulkerBlock extends Block {
   public void playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player) {
     BlockEntity tileentity = worldIn.getBlockEntity(pos);
 
-    if (tileentity instanceof GenericIronShulkerBoxTileEntity) {
-      GenericIronShulkerBoxTileEntity genericIronShulkerBoxTileEntity = (GenericIronShulkerBoxTileEntity) tileentity;
+    if (tileentity instanceof UpgradableBoxTile) {
+      UpgradableBoxTile genericIronShulkerBoxTileEntity = (UpgradableBoxTile) tileentity;
 
       if (!worldIn.isClientSide && player.isCreative() && !genericIronShulkerBoxTileEntity.isEmpty()) {
-        ItemStack itemstack = getColoredItemStack(this.getColor(), this.getType());
+        ItemStack itemstack = getColoredItemStack(this.getColor(), this.getTier());
         CompoundTag compoundnbt = genericIronShulkerBoxTileEntity.saveToNbt(new CompoundTag());
 
         if (!compoundnbt.isEmpty()) {
@@ -153,8 +155,8 @@ public class GenericIronShulkerBlock extends Block {
   @Override
   public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
     BlockEntity tileentity = builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
-    if (tileentity instanceof GenericIronShulkerBoxTileEntity) {
-      GenericIronShulkerBoxTileEntity genericIronShulkerBoxTileEntity = (GenericIronShulkerBoxTileEntity) tileentity;
+    if (tileentity instanceof UpgradableBoxTile) {
+      UpgradableBoxTile genericIronShulkerBoxTileEntity = (UpgradableBoxTile) tileentity;
       builder = builder.withDynamicDrop(CONTENTS, (p_220168_1_, p_220168_2_) -> {
         for (int i = 0; i < genericIronShulkerBoxTileEntity.getContainerSize(); ++i) {
           p_220168_2_.accept(genericIronShulkerBoxTileEntity.getItem(i));
@@ -171,8 +173,8 @@ public class GenericIronShulkerBlock extends Block {
     if (stack.hasCustomHoverName()) {
       BlockEntity tileentity = worldIn.getBlockEntity(pos);
 
-      if (tileentity instanceof GenericIronShulkerBoxTileEntity) {
-        ((GenericIronShulkerBoxTileEntity) tileentity).setCustomName(stack.getHoverName());
+      if (tileentity instanceof UpgradableBoxTile) {
+        ((UpgradableBoxTile) tileentity).setCustomName(stack.getHoverName());
       }
     }
   }
@@ -182,7 +184,7 @@ public class GenericIronShulkerBlock extends Block {
     if (state.getBlock() != newState.getBlock()) {
       BlockEntity tileentity = worldIn.getBlockEntity(pos);
 
-      if (tileentity instanceof GenericIronShulkerBoxTileEntity) {
+      if (tileentity instanceof UpgradableBoxTile) {
         worldIn.updateNeighbourForOutputSignal(pos, state.getBlock());
       }
 
@@ -235,7 +237,7 @@ public class GenericIronShulkerBlock extends Block {
   @Override
   public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
     BlockEntity tileentity = worldIn.getBlockEntity(pos);
-    return tileentity instanceof GenericIronShulkerBoxTileEntity ? Shapes.create(((GenericIronShulkerBoxTileEntity) tileentity).getBoundingBox(state)) : Shapes.block();
+    return tileentity instanceof UpgradableBoxTile ? Shapes.create(((UpgradableBoxTile) tileentity).getBoundingBox(state)) : Shapes.block();
   }
 
   @Override
@@ -251,7 +253,7 @@ public class GenericIronShulkerBlock extends Block {
   @Override
   public ItemStack getCloneItemStack(BlockGetter worldIn, BlockPos pos, BlockState state) {
     ItemStack itemstack = super.getCloneItemStack(worldIn, pos, state);
-    GenericIronShulkerBoxTileEntity genericIronShulkerBoxTileEntity = (GenericIronShulkerBoxTileEntity) worldIn.getBlockEntity(pos);
+    UpgradableBoxTile genericIronShulkerBoxTileEntity = (UpgradableBoxTile) worldIn.getBlockEntity(pos);
     CompoundTag compoundnbt = genericIronShulkerBoxTileEntity.saveToNbt(new CompoundTag());
     if (!compoundnbt.isEmpty()) {
       itemstack.addTagElement("BlockEntityTag", compoundnbt);
@@ -260,16 +262,16 @@ public class GenericIronShulkerBlock extends Block {
     return itemstack;
   }
 
-  public static IronShulkerBoxesTypes getTypeFromItem(Item itemIn) {
+  public static UpgradableBoxTier getTypeFromItem(Item itemIn) {
     return getTypeFromBlock(Block.byItem(itemIn));
   }
 
-  public static IronShulkerBoxesTypes getTypeFromBlock(Block blockIn) {
-    return blockIn instanceof GenericIronShulkerBlock ? ((GenericIronShulkerBlock) blockIn).getType() : null;
+  public static UpgradableBoxTier getTypeFromBlock(Block blockIn) {
+    return blockIn instanceof UpgradableBoxBlock ? ((UpgradableBoxBlock) blockIn).getTier() : null;
   }
 
-  public IronShulkerBoxesTypes getType() {
-    return this.type;
+  public UpgradableBoxTier getTier() {
+    return this.tier;
   }
 
   @Nullable
@@ -279,28 +281,11 @@ public class GenericIronShulkerBlock extends Block {
 
   @Nullable
   public static DyeColor getColorFromBlock(Block blockIn) {
-    return blockIn instanceof GenericIronShulkerBlock ? ((GenericIronShulkerBlock) blockIn).getColor() : null;
+    return blockIn instanceof UpgradableBoxBlock ? ((UpgradableBoxBlock) blockIn).getColor() : null;
   }
 
-  public static Block getBlockByColor(DyeColor colorIn, IronShulkerBoxesTypes typeIn) {
-    switch (typeIn) {
-      case IRON:
-        return ShulkerBoxesBlocks.IRON_SHULKER_BOXES.get(colorIn.getId()).get();
-      case GOLD:
-        return ShulkerBoxesBlocks.GOLD_SHULKER_BOXES.get(colorIn.getId()).get();
-      case DIAMOND:
-        return ShulkerBoxesBlocks.DIAMOND_SHULKER_BOXES.get(colorIn.getId()).get();
-      case COPPER:
-        return ShulkerBoxesBlocks.COPPER_SHULKER_BOXES.get(colorIn.getId()).get();
-      case SILVER:
-        return ShulkerBoxesBlocks.SILVER_SHULKER_BOXES.get(colorIn.getId()).get();
-      case CRYSTAL:
-        return ShulkerBoxesBlocks.CRYSTAL_SHULKER_BOXES.get(colorIn.getId()).get();
-      case OBSIDIAN:
-        return ShulkerBoxesBlocks.OBSIDIAN_SHULKER_BOXES.get(colorIn.getId()).get();
-      default:
-        return ShulkerBoxesBlocks.BLACK_IRON_SHULKER_BOX.get();
-    }
+  public static Block getBlockByColor(DyeColor colorIn, UpgradableBoxTier typeIn) {
+    return typeIn.blocks.get(colorIn).get();
   }
 
   @Nullable
@@ -308,7 +293,7 @@ public class GenericIronShulkerBlock extends Block {
     return this.color;
   }
 
-  public static ItemStack getColoredItemStack(DyeColor colorIn, IronShulkerBoxesTypes typeIn) {
+  public static ItemStack getColoredItemStack(DyeColor colorIn, UpgradableBoxTier typeIn) {
     return new ItemStack(getBlockByColor(colorIn, typeIn));
   }
 
@@ -336,8 +321,21 @@ public class GenericIronShulkerBlock extends Block {
     return tileentity instanceof MenuProvider ? (MenuProvider) tileentity : null;
   }
 
+  @org.jetbrains.annotations.Nullable
   @Override
-  public boolean hasTileEntity(BlockState state) {
-    return true;
+  public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+    return this.tier.tiles.get(this.color).get().create(pos, state);
+  }
+
+  @org.jetbrains.annotations.Nullable
+  @Override
+  public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+    return UpgradableBoxBlock::ticker;
+  }
+
+  public static <T extends BlockEntity> void ticker(Level level, BlockPos pos, BlockState state, T tile) {
+    if (tile instanceof UpgradableBoxTile){
+      ((UpgradableBoxTile)tile).tick();
+    }
   }
 }

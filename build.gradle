@@ -23,7 +23,7 @@ repositories {
 
 group = "com.progwml6.ironshulkerbox"
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
     mappings channel: 'official', version: minecraft_version
@@ -107,11 +107,11 @@ minecraft {
 
 dependencies {
     minecraft 'net.minecraftforge:forge:' + minecraft_version + '-' + forge_version
-
-    // compile against the JEI API but do not include it at runtime
-    compileOnly fg.deobf("mezz.jei:jei-1.16.2:${jei_version}:api")
-    // at runtime, use the full JEI jar
-    runtimeOnly fg.deobf("mezz.jei:jei-1.16.2:${jei_version}")
+//
+//    // compile against the JEI API but do not include it at runtime
+//    compileOnly fg.deobf("mezz.jei:jei-1.16.2:${jei_version}:api")
+//    // at runtime, use the full JEI jar
+//    runtimeOnly fg.deobf("mezz.jei:jei-1.16.2:${jei_version}")
 }
 
 task buildInfo {

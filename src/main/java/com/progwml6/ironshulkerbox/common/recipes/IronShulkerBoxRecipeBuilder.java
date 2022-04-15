@@ -11,6 +11,7 @@ import net.minecraft.advancements.CriterionTriggerInstance;
 import net.minecraft.advancements.RequirementsStrategy;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -58,7 +59,7 @@ public class IronShulkerBoxRecipeBuilder {
   /**
    * Adds a key to the recipe pattern.
    */
-  public IronShulkerBoxRecipeBuilder key(Character symbol, Tag<Item> tagIn) {
+  public IronShulkerBoxRecipeBuilder key(Character symbol, TagKey<Item> tagIn) {
     return this.key(symbol, Ingredient.of(tagIn));
   }
 
@@ -108,17 +109,10 @@ public class IronShulkerBoxRecipeBuilder {
     return this;
   }
 
-  /**
-   * Builds this recipe into an {@link IFinishedRecipe}.
-   */
   public void build(Consumer<FinishedRecipe> consumerIn) {
     this.build(consumerIn, Registry.ITEM.getKey(this.result));
   }
 
-  /**
-   * Builds this recipe into an {@link IFinishedRecipe}. Use {@link #build(Consumer)} if save is the same as the ID for
-   * the result.
-   */
   public void build(Consumer<FinishedRecipe> consumerIn, String save) {
     ResourceLocation resourcelocation = Registry.ITEM.getKey(this.result);
     if ((new ResourceLocation(save)).equals(resourcelocation)) {
@@ -128,9 +122,6 @@ public class IronShulkerBoxRecipeBuilder {
     }
   }
 
-  /**
-   * Builds this recipe into an {@link IFinishedRecipe}.
-   */
   public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
     this.validate(id);
     this.advancementBuilder.parent(new ResourceLocation("recipes/root")).addCriterion("has_the_recipe", RecipeUnlockedTrigger
@@ -237,10 +228,6 @@ public class IronShulkerBoxRecipeBuilder {
       return this.advancementBuilder.serializeToJson();
     }
 
-    /**
-     * Gets the ID for the advancement associated with this recipe. Should not be null if {@link #getAdvancementJson}
-     * is non-null.
-     */
     @Nullable
     public ResourceLocation getAdvancementId() {
       return this.advancementId;
