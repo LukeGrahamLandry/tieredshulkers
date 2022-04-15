@@ -54,9 +54,15 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       this.registerDiamondBoxRecipe(consumer, getFor(UpgradableBoxTier.DIAMOND, dyeColor), getFor(UpgradableBoxTier.GOLD, dyeColor), getFor(UpgradableBoxTier.SILVER, dyeColor), color, group);
       this.registerCrystalBoxRecipe(consumer, getFor(UpgradableBoxTier.CRYSTAL, dyeColor), getFor(UpgradableBoxTier.DIAMOND, dyeColor), color, group);
       this.registerObsidianBoxRecipe(consumer, getFor(UpgradableBoxTier.OBSIDIAN, dyeColor), getFor(UpgradableBoxTier.DIAMOND, dyeColor), color, group);
-      
     }
-    
+
+    // could make a texture for real purple and then have an un dyed version but then couldn't use the dyecolor enum
+    String color = "vanilla/";
+    String group = "ironshulkerbox:vanilla_shulker_box";
+    this.registerCopperBoxRecipe(consumer, getFor(UpgradableBoxTier.COPPER, DyeColor.PURPLE), Items.SHULKER_BOX, color, group);
+    this.registerIronBoxRecipe(consumer, getFor(UpgradableBoxTier.IRON, DyeColor.PURPLE), Items.SHULKER_BOX, null, color, group);
+
+
     this.addUpgradesRecipes(consumer);
   }
   
@@ -124,32 +130,19 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
 
     ResourceLocation woodToCopperChestUpgradeId = prefix(
       IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.VANILLA_TO_COPPER).get(), folder);
-    ConditionalRecipe.builder()
-      .addCondition(not(new TagEmptyCondition("forge:ingots/copper")))
-      .addRecipe(ShapedRecipeBuilder
+    ShapedRecipeBuilder
         .shaped(IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.VANILLA_TO_COPPER).get())
         .define('M', Tags.Items.INGOTS_COPPER)
         .define('S', Items.SHULKER_SHELL)
         .pattern("MMM")
         .pattern("MSM")
         .pattern("MMM")
-        .unlockedBy("has_item", has(Items.SHULKER_SHELL))::save)
-      .setAdvancement(location("recipes/ironshulkerbox/upgrades/vanilla_to_copper_shulker_box_upgrade"),
-        ConditionalAdvancement.builder()
-          .addCondition(not(new TagEmptyCondition("forge:ingots/copper")))
-          .addAdvancement(Advancement.Builder.advancement()
-            .parent(new ResourceLocation("recipes/root"))
-            .rewards(AdvancementRewards.Builder.recipe(woodToCopperChestUpgradeId))
-            .addCriterion("has_item", has(Items.SHULKER_SHELL))
-            .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(woodToCopperChestUpgradeId))
-            .requirements(RequirementsStrategy.OR))
-      ).build(consumer, woodToCopperChestUpgradeId);
+        .unlockedBy("has_item", has(Items.SHULKER_SHELL))
+        .save(consumer, woodToCopperChestUpgradeId);
 
     ResourceLocation copperToIronChestUpgrade = prefix(
       IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.COPPER_TO_IRON).get(), folder);
-    ConditionalRecipe.builder()
-      .addCondition(not(new TagEmptyCondition("forge:ingots/copper")))
-      .addRecipe(ShapedRecipeBuilder
+    ShapedRecipeBuilder
         .shaped(IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.COPPER_TO_IRON).get())
         .define('M', Tags.Items.INGOTS_IRON)
         .define('S', Tags.Items.INGOTS_COPPER)
@@ -157,17 +150,8 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
         .pattern("GGG")
         .pattern("MSM")
         .pattern("MGM")
-        .unlockedBy("has_item", has(ItemTags.PLANKS))::save)
-      .setAdvancement(location("recipes/ironshulkerbox/upgrades/copper_to_iron_shulker_box_upgrade"),
-        ConditionalAdvancement.builder()
-          .addCondition(not(new TagEmptyCondition("forge:ingots/copper")))
-          .addAdvancement(Advancement.Builder.advancement()
-            .parent(new ResourceLocation("recipes/root"))
-            .rewards(AdvancementRewards.Builder.recipe(copperToIronChestUpgrade))
-            .addCriterion("has_item", has(Tags.Items.GLASS))
-            .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(copperToIronChestUpgrade))
-            .requirements(RequirementsStrategy.OR))
-      ).build(consumer, copperToIronChestUpgrade);
+        .unlockedBy("has_item", has(ItemTags.PLANKS))
+        .save(consumer, copperToIronChestUpgrade);
 
     ResourceLocation copperToSilverChestUpgrade = prefix(
       IronShulkerBoxesItems.UPGRADES.get(BoxUpgradeType.COPPER_TO_SILVER).get(), folder);
@@ -231,26 +215,15 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
 
   private void registerCopperBoxRecipe(Consumer<FinishedRecipe> consumer, ItemLike result, ItemLike input, String color, String group) {
     ResourceLocation vanillaToCopperShulkerBox = location("shulkerboxes/" + color + "copper/vanilla_copper_shulker_box");
-    ConditionalRecipe.builder()
-      .addCondition(not(new TagEmptyCondition("forge:ingots/copper")))
-      .addRecipe(IronShulkerBoxRecipeBuilder.shapedRecipe(result)
+    IronShulkerBoxRecipeBuilder.shapedRecipe(result)
         .setGroup(group)
         .key('M', Tags.Items.INGOTS_COPPER)
         .key('S', input)
         .patternLine("MMM")
         .patternLine("MSM")
         .patternLine("MMM")
-        .addCriterion("has_item", has(Tags.Items.INGOTS_COPPER))::build)
-      .setAdvancement(location("recipes/ironshulkerbox/shulkerboxes/" + color + "copper/vanilla_copper_shulker_box"),
-        ConditionalAdvancement.builder()
-          .addCondition(not(new TagEmptyCondition("forge:ingots/copper")))
-          .addAdvancement(Advancement.Builder.advancement()
-            .parent(new ResourceLocation("recipes/root"))
-            .rewards(AdvancementRewards.Builder.recipe(vanillaToCopperShulkerBox))
-            .addCriterion("has_item", has(Tags.Items.INGOTS_COPPER))
-            .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(vanillaToCopperShulkerBox))
-            .requirements(RequirementsStrategy.OR))
-      ).build(consumer, vanillaToCopperShulkerBox);
+        .addCriterion("has_item", has(Tags.Items.INGOTS_COPPER))
+        .build(consumer, vanillaToCopperShulkerBox);
   }
 
   private void registerSilverBoxRecipe(Consumer<FinishedRecipe> consumer, ItemLike result, ItemLike input, ItemLike inputTwo, String color, String group) {
@@ -311,6 +284,8 @@ public class IronShulkerBoxesRecipeProvider extends RecipeProvider implements IC
       .patternLine("MGM")
       .addCriterion("has_gold", has(Tags.Items.INGOTS_IRON))
       .build(consumer, location("shulkerboxes/" + color + "iron/copper_iron_shulker_box"));
+
+    if (inputTwo == null) return;
 
     IronShulkerBoxRecipeBuilder.shapedRecipe(result)
       .setGroup(group)

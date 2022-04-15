@@ -23,5 +23,5 @@ out/
 /banned-players.json
 /ops.json
 /whitelist.json
-src/generated/resources/.cache/cache
 **/.DS_Store
+src/generated/resources

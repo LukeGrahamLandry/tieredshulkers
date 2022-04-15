@@ -11,10 +11,13 @@ import com.progwml6.ironshulkerbox.common.data.ShulkerLootTableProvider;
 import com.progwml6.ironshulkerbox.common.network.PacketHandler;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.core.dispenser.DispenseItemBehavior;
+import net.minecraft.core.dispenser.ShulkerBoxDispenseBehavior;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -67,6 +70,13 @@ public class IronShulkerBoxes {
 
   private void setup(final FMLCommonSetupEvent event) {
     PacketHandler.register();
+
+    DispenseItemBehavior behaviour = new ShulkerBoxDispenseBehavior();
+    for (UpgradableBoxTier tier : UpgradableBoxTier.values()){
+      for (DyeColor color : DyeColor.values()){
+        DispenserBlock.registerBehavior(tier.blocks.get(color).get().asItem(), behaviour);
+      }
+    }
   }
 
   private void gatherData(GatherDataEvent event) {
