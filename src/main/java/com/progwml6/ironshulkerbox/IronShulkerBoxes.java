@@ -5,6 +5,9 @@ import com.progwml6.ironshulkerbox.client.tileentity.UpgradableBoxTileEntityRend
 import com.progwml6.ironshulkerbox.common.boxes.ShulkerBoxesRegistry;
 import com.progwml6.ironshulkerbox.common.boxes.UpgradableBoxTier;
 import com.progwml6.ironshulkerbox.common.data.IronShulkerBoxesRecipeProvider;
+import com.progwml6.ironshulkerbox.common.data.ShulkerBlockStateProvider;
+import com.progwml6.ironshulkerbox.common.data.ShulkerItemModelProvider;
+import com.progwml6.ironshulkerbox.common.data.ShulkerLootTableProvider;
 import com.progwml6.ironshulkerbox.common.network.PacketHandler;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
@@ -71,6 +74,12 @@ public class IronShulkerBoxes {
 
     if (event.includeServer()) {
       datagenerator.addProvider(new IronShulkerBoxesRecipeProvider(datagenerator));
+      datagenerator.addProvider(new ShulkerLootTableProvider(datagenerator));
+    }
+
+    if (event.includeClient()){
+      datagenerator.addProvider(new ShulkerBlockStateProvider(datagenerator, MOD_ID, event.getExistingFileHelper()));
+      datagenerator.addProvider(new ShulkerItemModelProvider(datagenerator, MOD_ID, event.getExistingFileHelper()));
     }
   }
 }

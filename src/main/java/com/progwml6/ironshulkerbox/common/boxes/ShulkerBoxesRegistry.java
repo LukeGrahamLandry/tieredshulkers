@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.function.Supplier;
 
 public class ShulkerBoxesRegistry {
-  private static final DeferredRegister<Block> BLOCK_REGISTRY = DeferredRegister.create(ForgeRegistries.BLOCKS, IronShulkerBoxes.MOD_ID);
+  private static final DeferredRegister<Block> BLOCK_REGISTRY = DeferredRegister .create(ForgeRegistries.BLOCKS, IronShulkerBoxes.MOD_ID);
   private static final DeferredRegister<BlockEntityType<?>> TILE_REGISTRY = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, IronShulkerBoxes.MOD_ID);
   private static final DeferredRegister<Item> ITEM_REGISTRY = IronShulkerBoxesItems.ITEMS;
   public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, IronShulkerBoxes.MOD_ID);

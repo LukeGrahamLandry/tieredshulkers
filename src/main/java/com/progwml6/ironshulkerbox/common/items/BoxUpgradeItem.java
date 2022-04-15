@@ -135,7 +135,7 @@ public class BoxUpgradeItem extends Item {
         shulkerBox.clearContent();
         //shulkerBox.setDestroyedByCreativePlayer(true);
 
-        // newShulkerBox = this.type.target.tiles.get(shulkerBoxColor).get().create(blockPos, this.type.target.blocks.get(shulkerBoxColor).get().defaultBlockState());
+        newShulkerBox = this.type.target.tiles.get(shulkerBoxColor).get().create(blockPos, this.type.target.blocks.get(shulkerBoxColor).get().defaultBlockState());
       }
     }
 
