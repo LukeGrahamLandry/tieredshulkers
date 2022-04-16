@@ -1,20 +1,20 @@
 modLoader="javafml"
 loaderVersion="[${javafml_min},${javafml_max})"
-issueTrackerURL="https://github.com/LukeGrahamLandryMC/ironshulkerboxes/issues"
+issueTrackerURL="https://github.com/LukeGrahamLandryMC/tieredshulkers/issues"
 license="GNU General Public License v3.0"
 
 [[mods]]
-    modId="ironshulkerbox"
-    namespace="ironshulkerbox"
+    modId="tieredshulkers"
+    namespace="tieredshulkers"
     version="${version}"
-    displayName="Iron Shulker Boxes"
-    authors="cpw, alexbegt, progwml6, LukeGrahamLandry#6888"
+    displayName="Tiered Shulkers"
+    authors="LukeGrahamLandry#6888"
+    credits="Originally Iron Shulker Boxes (by cpw, alexbegt, progwml6)"
     description='''
 New Shulker Boxes with larger sizes, with in-place upgrade items.
-The feature shulker box is the crystal chest, which is transparent - some inventory contents are visible without opening the shulker box 
     '''
-    displayURL="https://minecraft.curseforge.com/projects/iron-shulker-boxes"
-    [[dependencies.ironshulkerbox]]
+    displayURL="https://github.com/LukeGrahamLandryMC/tieredshulkers"
+    [[dependencies.tieredshulkers]]
         modId="forge"
         mandatory=true
         versionRange="[${forge_version_min},${forge_version_max})"

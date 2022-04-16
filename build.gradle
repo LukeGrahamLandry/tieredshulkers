@@ -21,7 +21,7 @@ repositories {
     }
 }
 
-group = "com.progwml6.ironshulkerbox"
+group = "ca.lukegrahamlandry.tieredshulkers"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
@@ -40,7 +40,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                ironshulkerbox {
+                tieredshulkers {
                     source sourceSets.main
                 }
             }
@@ -78,7 +78,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                ironshulkerbox {
+                tieredshulkers {
                     source sourceSets.main
                 }
             }
@@ -94,10 +94,10 @@ minecraft {
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
-            args '--mod', 'ironshulkerbox', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            args '--mod', 'tieredshulkers', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
-                ironshulkerbox {
+                tieredshulkers {
                     source sourceSets.main
                 }
             }
@@ -201,12 +201,12 @@ artifacts {
 jar {
     manifest {
         attributes([
-                "Specification-Title"     : "Iron Shulker Boxes",
-                "Specification-Vendor"    : "Progwml6",
+                "Specification-Title"     : "Tiered Shulkers",
+                "Specification-Vendor"    : "luke",
                 "Specification-Version"   : "1", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : "${version}",
-                "Implementation-Vendor"   : "Progwml6",
+                "Implementation-Vendor"   : "luke",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
