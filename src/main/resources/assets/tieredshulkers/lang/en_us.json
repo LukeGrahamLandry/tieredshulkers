@@ -17,6 +17,8 @@
     "block.tieredshulkers.iron_shulker_box_green": "Green Iron Shulker Box",
     "block.tieredshulkers.iron_shulker_box_red": "Red Iron Shulker Box",
     "block.tieredshulkers.iron_shulker_box_black": "Black Iron Shulker Box",
+    "block.tieredshulkers.iron_shulker_box_vanilla": "Iron Shulker Box",
+
     "_comment": "Gold",
     "block.tieredshulkers.gold_shulker_box_white": "White Gold Shulker Box",
     "block.tieredshulkers.gold_shulker_box_orange": "Orange Gold Shulker Box",
@@ -34,6 +36,8 @@
     "block.tieredshulkers.gold_shulker_box_green": "Green Gold Shulker Box",
     "block.tieredshulkers.gold_shulker_box_red": "Red Gold Shulker Box",
     "block.tieredshulkers.gold_shulker_box_black": "Black Gold Shulker Box",
+    "block.tieredshulkers.gold_shulker_box_vanilla": "Gold Shulker Box",
+
     "_comment": "Diamond",
     "block.tieredshulkers.diamond_shulker_box_white": "White Diamond Shulker Box",
     "block.tieredshulkers.diamond_shulker_box_orange": "Orange Diamond Shulker Box",
@@ -51,6 +55,8 @@
     "block.tieredshulkers.diamond_shulker_box_green": "Green Diamond Shulker Box",
     "block.tieredshulkers.diamond_shulker_box_red": "Red Diamond Shulker Box",
     "block.tieredshulkers.diamond_shulker_box_black": "Black Diamond Shulker Box",
+    "block.tieredshulkers.diamond_shulker_box_vanilla": "Diamond Shulker Box",
+
     "_comment": "Copper",
     "block.tieredshulkers.copper_shulker_box_white": "White Copper Shulker Box",
     "block.tieredshulkers.copper_shulker_box_orange": "Orange Copper Shulker Box",
@@ -68,6 +74,8 @@
     "block.tieredshulkers.copper_shulker_box_green": "Green Copper Shulker Box",
     "block.tieredshulkers.copper_shulker_box_red": "Red Copper Shulker Box",
     "block.tieredshulkers.copper_shulker_box_black": "Black Copper Shulker Box",
+    "block.tieredshulkers.copper_shulker_box_vanilla": "Copper Shulker Box",
+
     "_comment": "Silver",
     "block.tieredshulkers.silver_shulker_box_white": "White Silver Shulker Box",
     "block.tieredshulkers.silver_shulker_box_orange": "Orange Silver Shulker Box",
@@ -85,6 +93,8 @@
     "block.tieredshulkers.silver_shulker_box_green": "Green Silver Shulker Box",
     "block.tieredshulkers.silver_shulker_box_red": "Red Silver Shulker Box",
     "block.tieredshulkers.silver_shulker_box_black": "Black Silver Shulker Box",
+    "block.tieredshulkers.silver_shulker_box_vanilla": "Silver Shulker Box",
+
     "_comment": "Crystal",
     "block.tieredshulkers.crystal_shulker_box_white": "White Crystal Shulker Box",
     "block.tieredshulkers.crystal_shulker_box_orange": "Orange Crystal Shulker Box",
@@ -102,6 +112,8 @@
     "block.tieredshulkers.crystal_shulker_box_green": "Green Crystal Shulker Box",
     "block.tieredshulkers.crystal_shulker_box_red": "Red Crystal Shulker Box",
     "block.tieredshulkers.crystal_shulker_box_black": "Black Crystal Shulker Box",
+    "block.tieredshulkers.crystal_shulker_box_vanilla": "Crystal Shulker Box",
+
     "_comment": "Obsidian",
     "block.tieredshulkers.obsidian_shulker_box_white": "White Obsidian Shulker Box",
     "block.tieredshulkers.obsidian_shulker_box_orange": "Orange Obsidian Shulker Box",
@@ -119,6 +131,7 @@
     "block.tieredshulkers.obsidian_shulker_box_green": "Green Obsidian Shulker Box",
     "block.tieredshulkers.obsidian_shulker_box_red": "Red Obsidian Shulker Box",
     "block.tieredshulkers.obsidian_shulker_box_black": "Black Obsidian Shulker Box",
+    "block.tieredshulkers.obsidian_shulker_box_vanilla": "Obsidian Shulker Box",
 
     "_comment": "Upgrades",
     "item.tieredshulkers.iron_to_gold_shulker_box_upgrade": "Iron to Gold Shulker Box Upgrade",

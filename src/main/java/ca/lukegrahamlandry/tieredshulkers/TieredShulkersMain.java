@@ -2,12 +2,14 @@ package ca.lukegrahamlandry.tieredshulkers;
 
 import ca.lukegrahamlandry.tieredshulkers.client.screen.UpgradableBoxScreen;
 import ca.lukegrahamlandry.tieredshulkers.client.tileentity.UpgradableBoxTileEntityRenderer;
+import ca.lukegrahamlandry.tieredshulkers.common.ShulkerColour;
 import ca.lukegrahamlandry.tieredshulkers.common.boxes.ShulkerBoxesRegistry;
 import ca.lukegrahamlandry.tieredshulkers.common.boxes.UpgradableBoxTier;
-import ca.lukegrahamlandry.tieredshulkers.common.data.BoxesRecipeProvider;
 import ca.lukegrahamlandry.tieredshulkers.common.data.BoxBlockStateProvider;
 import ca.lukegrahamlandry.tieredshulkers.common.data.BoxItemModelProvider;
 import ca.lukegrahamlandry.tieredshulkers.common.data.BoxLootTableProvider;
+import ca.lukegrahamlandry.tieredshulkers.common.data.BoxTagProvider;
+import ca.lukegrahamlandry.tieredshulkers.common.data.BoxesRecipeProvider;
 import ca.lukegrahamlandry.tieredshulkers.common.network.PacketHandler;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
@@ -15,7 +17,6 @@ import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.core.dispenser.ShulkerBoxDispenseBehavior;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraftforge.api.distmarker.Dist;
@@ -36,7 +37,7 @@ public class TieredShulkersMain {
     @Override
     @OnlyIn(Dist.CLIENT)
     public ItemStack makeIcon() {
-      return new ItemStack(UpgradableBoxTier.IRON.blocks.get(DyeColor.BLACK).get().asItem());
+      return new ItemStack(UpgradableBoxTier.IRON.blocks.get(ShulkerColour.BLACK).get().asItem());
     }
   });
 
@@ -61,7 +62,7 @@ public class TieredShulkersMain {
     for (UpgradableBoxTier tier : UpgradableBoxTier.values()){
       MenuScreens.register(tier.menu.get(), UpgradableBoxScreen::new);
 
-      for (DyeColor color : DyeColor.values()){
+      for (ShulkerColour color : ShulkerColour.values()){
         BlockEntityRenderers.register(tier.tiles.get(color).get(), UpgradableBoxTileEntityRenderer::new);
       }
     }
@@ -72,7 +73,7 @@ public class TieredShulkersMain {
 
     DispenseItemBehavior behaviour = new ShulkerBoxDispenseBehavior();
     for (UpgradableBoxTier tier : UpgradableBoxTier.values()){
-      for (DyeColor color : DyeColor.values()){
+      for (ShulkerColour color : ShulkerColour.values()){
         DispenserBlock.registerBehavior(tier.blocks.get(color).get().asItem(), behaviour);
       }
     }
@@ -84,6 +85,7 @@ public class TieredShulkersMain {
     if (event.includeServer()) {
       datagenerator.addProvider(new BoxesRecipeProvider(datagenerator));
       datagenerator.addProvider(new BoxLootTableProvider(datagenerator));
+      datagenerator.addProvider(new BoxTagProvider(datagenerator, MOD_ID, event.getExistingFileHelper()));
     }
 
     if (event.includeClient()){

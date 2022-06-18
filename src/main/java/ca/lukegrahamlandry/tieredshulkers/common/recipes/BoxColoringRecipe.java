@@ -1,5 +1,6 @@
 package ca.lukegrahamlandry.tieredshulkers.common.recipes;
 
+import ca.lukegrahamlandry.tieredshulkers.common.ShulkerColour;
 import ca.lukegrahamlandry.tieredshulkers.common.boxes.UpgradableBoxBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.inventory.CraftingContainer;
@@ -53,7 +54,7 @@ public class BoxColoringRecipe extends CustomRecipe {
   @Override
   public ItemStack assemble(CraftingContainer inv) {
     ItemStack itemstack = ItemStack.EMPTY;
-    net.minecraft.world.item.DyeColor dyecolor = net.minecraft.world.item.DyeColor.WHITE;
+    ShulkerColour dyecolor = ShulkerColour.WHITE;
 
     for (int i = 0; i < inv.getContainerSize(); ++i) {
       ItemStack itemstack1 = inv.getItem(i);
@@ -63,7 +64,7 @@ public class BoxColoringRecipe extends CustomRecipe {
           itemstack = itemstack1;
         }
         else {
-          net.minecraft.world.item.DyeColor tmp = net.minecraft.world.item.DyeColor.getColor(itemstack1);
+          ShulkerColour tmp = ShulkerColour.getColor(itemstack1);
           if (tmp != null) { dyecolor = tmp; }
         }
       }

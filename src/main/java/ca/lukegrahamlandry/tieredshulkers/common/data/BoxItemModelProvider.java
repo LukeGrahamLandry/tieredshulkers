@@ -1,8 +1,8 @@
 package ca.lukegrahamlandry.tieredshulkers.common.data;
 
+import ca.lukegrahamlandry.tieredshulkers.common.ShulkerColour;
 import ca.lukegrahamlandry.tieredshulkers.common.boxes.UpgradableBoxTier;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.world.item.DyeColor;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
@@ -13,7 +13,7 @@ public class BoxItemModelProvider extends ItemModelProvider {
 
   @Override
   protected void registerModels() {for (UpgradableBoxTier tier : UpgradableBoxTier.values()){
-    for (DyeColor color : DyeColor.values()){
+    for (ShulkerColour color : ShulkerColour.values()){
       withExistingParent(tier.blocks.get(color).get().getRegistryName().getPath(), "item/template_shulker_box");
     }
   }

@@ -1,26 +1,26 @@
 package ca.lukegrahamlandry.tieredshulkers.common.items;
 
+import ca.lukegrahamlandry.tieredshulkers.common.ShulkerColour;
 import ca.lukegrahamlandry.tieredshulkers.common.boxes.UpgradableBoxBlock;
 import ca.lukegrahamlandry.tieredshulkers.common.boxes.tile.UpgradableBoxTile;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.ShulkerBoxBlock;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.ShulkerBoxBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -85,7 +85,7 @@ public class BoxUpgradeItem extends Item {
 
     NonNullList<ItemStack> shulkerBoxContents = NonNullList.<ItemStack>withSize(27, ItemStack.EMPTY);
     Direction shulkerBoxFacing = Direction.UP;
-    DyeColor shulkerBoxColor = DyeColor.PURPLE;
+    ShulkerColour shulkerBoxColor = ShulkerColour.PURPLE;
 
     if (tileEntity != null) {
       if (tileEntity instanceof UpgradableBoxTile) {
@@ -124,11 +124,7 @@ public class BoxUpgradeItem extends Item {
           shulkerBoxContents.set(i, shulkerBox.getItem(i));
         }
 
-        shulkerBoxColor = ((net.minecraft.world.level.block.ShulkerBoxBlock) world.getBlockState(blockPos).getBlock()).getColor();
-
-        if (shulkerBoxColor == null) {
-          shulkerBoxColor = DyeColor.PURPLE;
-        }
+        shulkerBoxColor = ShulkerColour.fromVanilla(((net.minecraft.world.level.block.ShulkerBoxBlock) world.getBlockState(blockPos).getBlock()).getColor());
 
         customName = shulkerBox.getCustomName();
 

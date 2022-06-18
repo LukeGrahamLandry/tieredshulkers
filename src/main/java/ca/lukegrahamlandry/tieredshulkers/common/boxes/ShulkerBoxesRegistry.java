@@ -1,5 +1,6 @@
 package ca.lukegrahamlandry.tieredshulkers.common.boxes;
 
+import ca.lukegrahamlandry.tieredshulkers.common.ShulkerColour;
 import ca.lukegrahamlandry.tieredshulkers.common.boxes.tile.UpgradableBoxTile;
 import ca.lukegrahamlandry.tieredshulkers.common.items.BoxUpgradeItem;
 import ca.lukegrahamlandry.tieredshulkers.common.items.BoxUpgradeType;
@@ -7,7 +8,6 @@ import ca.lukegrahamlandry.tieredshulkers.TieredShulkersMain;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -31,9 +31,9 @@ public class ShulkerBoxesRegistry {
   private static final DeferredRegister<Item> ITEM_REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, TieredShulkersMain.MOD_ID);
   public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, TieredShulkersMain.MOD_ID);
 
-  private static BlockBehaviour.StatePredicate positionPredicate = (p_235444_0_, world, pos) -> !(world.getBlockEntity(pos) instanceof UpgradableBoxTile) || ((UpgradableBoxTile)world.getBlockEntity(pos)).isClosed();
-  private static final BlockBehaviour.Properties PROPS = BlockBehaviour.Properties.of(Material.METAL).strength(3.0F, 3.0F).dynamicShape().noOcclusion().isSuffocating(positionPredicate).isViewBlocking(positionPredicate);
-  private static final BlockBehaviour.Properties OBSIDIAN_PROPS = BlockBehaviour.Properties.of(Material.METAL).strength(3.0F, 1000.0F).dynamicShape().noOcclusion().isSuffocating(positionPredicate).isViewBlocking(positionPredicate);
+  private static final BlockBehaviour.StatePredicate positionPredicate = (p_235444_0_, world, pos) -> !(world.getBlockEntity(pos) instanceof UpgradableBoxTile) || ((UpgradableBoxTile)world.getBlockEntity(pos)).isClosed();
+  private static final BlockBehaviour.Properties PROPS = BlockBehaviour.Properties.of(Material.METAL).strength(1F, 3.0F).dynamicShape().noOcclusion().isSuffocating(positionPredicate).isViewBlocking(positionPredicate);
+  private static final BlockBehaviour.Properties OBSIDIAN_PROPS = BlockBehaviour.Properties.of(Material.METAL).strength(2.0F, 1000.0F).dynamicShape().noOcclusion().isSuffocating(positionPredicate).isViewBlocking(positionPredicate);
   private static final Item.Properties ITEM_PROPS = new Item.Properties().tab(TieredShulkersMain.ITEM_GROUP).stacksTo(1);
 
   public static void register(IEventBus bus){
@@ -46,11 +46,11 @@ public class ShulkerBoxesRegistry {
 
   private static void createObjects(){
     for (UpgradableBoxTier tier : UpgradableBoxTier.values()){
-      HashMap<DyeColor, Supplier<Block>> blocks = new HashMap<>();
-      HashMap<DyeColor, Supplier<BlockEntityType<UpgradableBoxTile>>> tiles = new HashMap<>();
+      HashMap<ShulkerColour, Supplier<Block>> blocks = new HashMap<>();
+      HashMap<ShulkerColour, Supplier<BlockEntityType<UpgradableBoxTile>>> tiles = new HashMap<>();
       String key = tier.name + "_shulker_box";
 
-      for (DyeColor color : DyeColor.values()){
+      for (ShulkerColour color : ShulkerColour.values()){
         String blockKey = key + "_" + color.getName();
         BlockBehaviour.Properties props = tier == UpgradableBoxTier.OBSIDIAN ? OBSIDIAN_PROPS : PROPS;
 

@@ -1,15 +1,15 @@
 package ca.lukegrahamlandry.tieredshulkers.common.data;
 
+import ca.lukegrahamlandry.tieredshulkers.common.ShulkerColour;
+import ca.lukegrahamlandry.tieredshulkers.common.boxes.UpgradableBoxBlock;
 import ca.lukegrahamlandry.tieredshulkers.common.boxes.UpgradableBoxTier;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import ca.lukegrahamlandry.tieredshulkers.common.boxes.UpgradableBoxBlock;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.HashCache;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -43,7 +43,7 @@ public class BoxLootTableProvider extends LootTableProvider{
   @Override
   public void run(HashCache cache) {
     for (UpgradableBoxTier tier : UpgradableBoxTier.values()){
-      for (DyeColor color : DyeColor.values()){
+      for (ShulkerColour color : ShulkerColour.values()){
         lootTables.put(tier.blocks.get(color).get(), createShulkerBoxDrop(tier.blocks.get(color).get()));
       }
     }

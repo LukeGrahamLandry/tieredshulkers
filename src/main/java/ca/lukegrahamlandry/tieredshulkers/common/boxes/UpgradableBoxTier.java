@@ -1,12 +1,12 @@
 package ca.lukegrahamlandry.tieredshulkers.common.boxes;
 
 import ca.lukegrahamlandry.tieredshulkers.TieredShulkersMain;
+import ca.lukegrahamlandry.tieredshulkers.common.ShulkerColour;
 import ca.lukegrahamlandry.tieredshulkers.common.boxes.tile.UpgradableBoxTile;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
@@ -31,9 +31,9 @@ public enum UpgradableBoxTier implements StringRepresentable {
   public final ResourceLocation guiTexture;
   public final int textureXSize;
   public final int textureYSize;
-  public HashMap<DyeColor, Supplier<BlockItem>> items;
-  public HashMap<DyeColor, Supplier<Block>> blocks;
-  public HashMap<DyeColor, Supplier<BlockEntityType<UpgradableBoxTile>>> tiles = new HashMap<>();
+  public HashMap<ShulkerColour, Supplier<BlockItem>> items;
+  public HashMap<ShulkerColour, Supplier<Block>> blocks;
+  public HashMap<ShulkerColour, Supplier<BlockEntityType<UpgradableBoxTile>>> tiles = new HashMap<>();
   public Supplier<MenuType<UpgradableBoxContainer>> menu;
 
 

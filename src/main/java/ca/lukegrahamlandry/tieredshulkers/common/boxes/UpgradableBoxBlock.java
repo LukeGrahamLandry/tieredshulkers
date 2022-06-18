@@ -1,6 +1,7 @@
 package ca.lukegrahamlandry.tieredshulkers.common.boxes;
 
 import ca.lukegrahamlandry.tieredshulkers.TieredShulkersMain;
+import ca.lukegrahamlandry.tieredshulkers.common.ShulkerColour;
 import ca.lukegrahamlandry.tieredshulkers.common.boxes.tile.UpgradableBoxTile;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -13,6 +14,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.InteractionHand;
@@ -22,7 +24,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -55,14 +57,17 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import static net.minecraftforge.common.ToolActions.AXE_DIG;
+import static net.minecraftforge.common.ToolActions.PICKAXE_DIG;
+
 public class UpgradableBoxBlock extends Block implements EntityBlock {
 
   public static final EnumProperty<Direction> FACING = DirectionalBlock.FACING;
   public static final ResourceLocation CONTENTS = new ResourceLocation(TieredShulkersMain.MOD_ID, "contents");
   private final UpgradableBoxTier tier;
-  protected final DyeColor color;
+  protected final ShulkerColour color;
 
-  public UpgradableBoxBlock(DyeColor color, Properties properties, UpgradableBoxTier type) {
+  public UpgradableBoxBlock(ShulkerColour color, Properties properties, UpgradableBoxTier type) {
     super(properties);
     this.color = color;
     this.tier = type;
@@ -275,25 +280,25 @@ public class UpgradableBoxBlock extends Block implements EntityBlock {
   }
 
   @Nullable
-  public static DyeColor getColorFromItem(Item itemIn) {
+  public static ShulkerColour getColorFromItem(Item itemIn) {
     return getColorFromBlock(Block.byItem(itemIn));
   }
 
   @Nullable
-  public static DyeColor getColorFromBlock(Block blockIn) {
+  public static ShulkerColour getColorFromBlock(Block blockIn) {
     return blockIn instanceof UpgradableBoxBlock ? ((UpgradableBoxBlock) blockIn).getColor() : null;
   }
 
-  public static Block getBlockByColor(DyeColor colorIn, UpgradableBoxTier typeIn) {
+  public static Block getBlockByColor(ShulkerColour colorIn, UpgradableBoxTier typeIn) {
     return typeIn.blocks.get(colorIn).get();
   }
 
   @Nullable
-  public DyeColor getColor() {
+  public ShulkerColour getColor() {
     return this.color;
   }
 
-  public static ItemStack getColoredItemStack(DyeColor colorIn, UpgradableBoxTier typeIn) {
+  public static ItemStack getColoredItemStack(ShulkerColour colorIn, UpgradableBoxTier typeIn) {
     return new ItemStack(getBlockByColor(colorIn, typeIn));
   }
 

@@ -1,11 +1,11 @@
 package ca.lukegrahamlandry.tieredshulkers.common.boxes.tile;
 
+import ca.lukegrahamlandry.tieredshulkers.common.ShulkerColour;
 import ca.lukegrahamlandry.tieredshulkers.common.boxes.UpgradableBoxTier;
 import ca.lukegrahamlandry.tieredshulkers.common.network.PacketHandler;
 import ca.lukegrahamlandry.tieredshulkers.common.network.PacketTopStackSyncShulkerBox;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
@@ -21,7 +21,7 @@ public class CrystalShulkerBoxTileEntity extends UpgradableBoxTile {
 
   private boolean hadStuff;
 
-  public CrystalShulkerBoxTileEntity(@Nullable DyeColor colorIn, BlockPos pos, BlockState state) {
+  public CrystalShulkerBoxTileEntity(@Nullable ShulkerColour colorIn, BlockPos pos, BlockState state) {
     super(colorIn, UpgradableBoxTier.CRYSTAL, pos, state);
     this.topStacks = NonNullList.<ItemStack>withSize(8, ItemStack.EMPTY);
   }

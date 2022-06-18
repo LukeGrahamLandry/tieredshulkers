@@ -1,5 +1,6 @@
 package ca.lukegrahamlandry.tieredshulkers.common.boxes.tile;
 
+import ca.lukegrahamlandry.tieredshulkers.common.ShulkerColour;
 import ca.lukegrahamlandry.tieredshulkers.common.boxes.UpgradableBoxContainer;
 import ca.lukegrahamlandry.tieredshulkers.common.boxes.UpgradableBoxTier;
 import ca.lukegrahamlandry.tieredshulkers.common.boxes.UpgradableBoxBlock;
@@ -19,7 +20,6 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ShulkerBoxBlock;
@@ -43,10 +43,10 @@ public class UpgradableBoxTile extends RandomizableContainerBlockEntity implemen
   private float progressOld;
   private boolean needsColorFromWorld;
 
-  private DyeColor color;
+  private ShulkerColour color;
   private UpgradableBoxTier tier;
 
-  public UpgradableBoxTile(@Nullable DyeColor color, UpgradableBoxTier tier, BlockPos pos, BlockState state) {
+  public UpgradableBoxTile(@Nullable ShulkerColour color, UpgradableBoxTier tier, BlockPos pos, BlockState state) {
     super(tier.tiles.get(color).get(), pos, state);
 
     this.SLOTS = IntStream.range(0, tier.size).toArray();
@@ -304,7 +304,7 @@ public class UpgradableBoxTile extends RandomizableContainerBlockEntity implemen
   }
 
   @Nullable
-  public DyeColor getColor() {
+  public ShulkerColour getColor() {
     if (this.needsColorFromWorld) {
       this.color = UpgradableBoxBlock.getColorFromBlock(this.getBlockState().getBlock());
       this.needsColorFromWorld = false;

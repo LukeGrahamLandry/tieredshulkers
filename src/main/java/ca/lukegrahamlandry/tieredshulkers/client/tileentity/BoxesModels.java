@@ -1,5 +1,6 @@
 package ca.lukegrahamlandry.tieredshulkers.client.tileentity;
 
+import ca.lukegrahamlandry.tieredshulkers.common.ShulkerColour;
 import com.google.common.collect.ImmutableList;
 import ca.lukegrahamlandry.tieredshulkers.TieredShulkersMain;
 import ca.lukegrahamlandry.tieredshulkers.common.boxes.UpgradableBoxTier;
@@ -10,20 +11,22 @@ import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
 @Mod.EventBusSubscriber(modid = TieredShulkersMain.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BoxesModels {
 
-  public static final List<ResourceLocation> IRON_SHULKER_BOX_TEXTURES = Stream.of("white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black").map((color) -> getShulkerBoxResourceLocation("iron", color)).collect(ImmutableList.toImmutableList());
-  public static final List<ResourceLocation> GOLD_SHULKER_BOX_TEXTURES = Stream.of("white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black").map((color) -> getShulkerBoxResourceLocation("gold", color)).collect(ImmutableList.toImmutableList());
-  public static final List<ResourceLocation> DIAMOND_SHULKER_BOX_TEXTURES = Stream.of("white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black").map((color) -> getShulkerBoxResourceLocation("diamond", color)).collect(ImmutableList.toImmutableList());
-  public static final List<ResourceLocation> COPPER_SHULKER_BOX_TEXTURES = Stream.of("white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black").map((color) -> getShulkerBoxResourceLocation("copper", color)).collect(ImmutableList.toImmutableList());
-  public static final List<ResourceLocation> SILVER_SHULKER_BOX_TEXTURES = Stream.of("white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black").map((color) -> getShulkerBoxResourceLocation("silver", color)).collect(ImmutableList.toImmutableList());
-  public static final List<ResourceLocation> CRYSTAL_SHULKER_BOX_TEXTURES = Stream.of("white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black").map((color) -> getShulkerBoxResourceLocation("crystal", color)).collect(ImmutableList.toImmutableList());
-  public static final List<ResourceLocation> OBSIDIAN_SHULKER_BOX_TEXTURES = Stream.of("white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black").map((color) -> getShulkerBoxResourceLocation("obsidian", color)).collect(ImmutableList.toImmutableList());
-  public static final List<ResourceLocation> VANILLA_SHULKER_BOX_TEXTURES = Stream.of("white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black").map(BoxesModels::getShulkerBoxResourceLocation).collect(ImmutableList.toImmutableList());
+  
+  public static final List<ResourceLocation> IRON_SHULKER_BOX_TEXTURES = Arrays.stream(ShulkerColour.values()).map(ShulkerColour::getName).map((color) -> getShulkerBoxResourceLocation("iron", color)).collect(ImmutableList.toImmutableList());
+  public static final List<ResourceLocation> GOLD_SHULKER_BOX_TEXTURES = Arrays.stream(ShulkerColour.values()).map(ShulkerColour::getName).map((color) -> getShulkerBoxResourceLocation("gold", color)).collect(ImmutableList.toImmutableList());
+  public static final List<ResourceLocation> DIAMOND_SHULKER_BOX_TEXTURES = Arrays.stream(ShulkerColour.values()).map(ShulkerColour::getName).map((color) -> getShulkerBoxResourceLocation("diamond", color)).collect(ImmutableList.toImmutableList());
+  public static final List<ResourceLocation> COPPER_SHULKER_BOX_TEXTURES = Arrays.stream(ShulkerColour.values()).map(ShulkerColour::getName).map((color) -> getShulkerBoxResourceLocation("copper", color)).collect(ImmutableList.toImmutableList());
+  public static final List<ResourceLocation> SILVER_SHULKER_BOX_TEXTURES = Arrays.stream(ShulkerColour.values()).map(ShulkerColour::getName).map((color) -> getShulkerBoxResourceLocation("silver", color)).collect(ImmutableList.toImmutableList());
+  public static final List<ResourceLocation> CRYSTAL_SHULKER_BOX_TEXTURES = Arrays.stream(ShulkerColour.values()).map(ShulkerColour::getName).map((color) -> getShulkerBoxResourceLocation("crystal", color)).collect(ImmutableList.toImmutableList());
+  public static final List<ResourceLocation> OBSIDIAN_SHULKER_BOX_TEXTURES = Arrays.stream(ShulkerColour.values()).map(ShulkerColour::getName).map((color) -> getShulkerBoxResourceLocation("obsidian", color)).collect(ImmutableList.toImmutableList());
+  public static final List<ResourceLocation> VANILLA_SHULKER_BOX_TEXTURES = Arrays.stream(ShulkerColour.values()).map(ShulkerColour::getName).map(BoxesModels::getShulkerBoxResourceLocation).collect(ImmutableList.toImmutableList());
 
   private static ResourceLocation getShulkerBoxResourceLocation(String typeName, String colorName) {
     return new ResourceLocation(TieredShulkersMain.MOD_ID, "model/" + colorName + "/shulker_" + colorName + "_" + typeName);

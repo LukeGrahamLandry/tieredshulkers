@@ -1,9 +1,10 @@
 package ca.lukegrahamlandry.tieredshulkers.common.data;
 
+import ca.lukegrahamlandry.tieredshulkers.TieredShulkersMain;
+import ca.lukegrahamlandry.tieredshulkers.common.ShulkerColour;
 import ca.lukegrahamlandry.tieredshulkers.common.boxes.ShulkerBoxesRegistry;
 import ca.lukegrahamlandry.tieredshulkers.common.boxes.UpgradableBoxTier;
 import ca.lukegrahamlandry.tieredshulkers.common.items.BoxUpgradeType;
-import ca.lukegrahamlandry.tieredshulkers.TieredShulkersMain;
 import ca.lukegrahamlandry.tieredshulkers.common.recipes.BoxCraftingRecipeBuilder;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
@@ -18,7 +19,6 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
@@ -43,30 +43,23 @@ public class BoxesRecipeProvider extends RecipeProvider implements IConditionBui
   
   @Override
   protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
-    for (DyeColor dyeColor : DyeColor.values()){
+    for (ShulkerColour dyeColor : ShulkerColour.values()){
       String color = dyeColor.getName() + "/";
       String group = "tieredshulkers:" + dyeColor.getName() + "_shulker_box";
       
       this.registerSilverBoxRecipe(consumer, getFor(UpgradableBoxTier.SILVER, dyeColor), getFor(UpgradableBoxTier.COPPER, dyeColor), getFor(UpgradableBoxTier.IRON, dyeColor), color, group);
-      this.registerCopperBoxRecipe(consumer, getFor(UpgradableBoxTier.COPPER, dyeColor), ShulkerBoxBlock.getBlockByColor(dyeColor).asItem(), color, group);
-      this.registerIronBoxRecipe(consumer, getFor(UpgradableBoxTier.IRON, dyeColor), getFor(UpgradableBoxTier.COPPER, dyeColor), ShulkerBoxBlock.getBlockByColor(dyeColor).asItem(), color, group);
+      this.registerCopperBoxRecipe(consumer, getFor(UpgradableBoxTier.COPPER, dyeColor), ShulkerBoxBlock.getBlockByColor(dyeColor.toVanilla()).asItem(), color, group);
+      this.registerIronBoxRecipe(consumer, getFor(UpgradableBoxTier.IRON, dyeColor), getFor(UpgradableBoxTier.COPPER, dyeColor), ShulkerBoxBlock.getBlockByColor(dyeColor.toVanilla()).asItem(), color, group);
       this.registerGoldBoxRecipe(consumer, getFor(UpgradableBoxTier.GOLD, dyeColor), getFor(UpgradableBoxTier.IRON, dyeColor), getFor(UpgradableBoxTier.SILVER, dyeColor), color, group);
       this.registerDiamondBoxRecipe(consumer, getFor(UpgradableBoxTier.DIAMOND, dyeColor), getFor(UpgradableBoxTier.GOLD, dyeColor), getFor(UpgradableBoxTier.SILVER, dyeColor), color, group);
       this.registerCrystalBoxRecipe(consumer, getFor(UpgradableBoxTier.CRYSTAL, dyeColor), getFor(UpgradableBoxTier.DIAMOND, dyeColor), color, group);
       this.registerObsidianBoxRecipe(consumer, getFor(UpgradableBoxTier.OBSIDIAN, dyeColor), getFor(UpgradableBoxTier.DIAMOND, dyeColor), color, group);
     }
 
-    // could make a texture for real purple and then have an un dyed version but then couldn't use the dyecolor enum
-    String color = "vanilla/";
-    String group = "tieredshulkers:vanilla_shulker_box";
-    this.registerCopperBoxRecipe(consumer, getFor(UpgradableBoxTier.COPPER, DyeColor.PURPLE), Items.SHULKER_BOX, color, group);
-    this.registerIronBoxRecipe(consumer, getFor(UpgradableBoxTier.IRON, DyeColor.PURPLE), Items.SHULKER_BOX, null, color, group);
-
-
     this.addUpgradesRecipes(consumer);
   }
   
-  private Block getFor(UpgradableBoxTier tier, DyeColor color){
+  private Block getFor(UpgradableBoxTier tier, ShulkerColour color){
     return tier.blocks.get(color).get();
   }
 
@@ -381,7 +374,7 @@ public class BoxesRecipeProvider extends RecipeProvider implements IConditionBui
       .build(consumer, location("shulkerboxes/" + color + "obsidian/diamond_obsidian_shulker_box"));
   }
 
-  private static InventoryChangeTrigger.TriggerInstance has(TagKey<Item> p_206407_) {
+  protected static InventoryChangeTrigger.TriggerInstance has(TagKey<Item> p_206407_) {
     return inventoryTrigger(ItemPredicate.Builder.item().of(p_206407_).build());
   }
 }

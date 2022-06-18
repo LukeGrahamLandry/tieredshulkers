@@ -1,22 +1,22 @@
 package ca.lukegrahamlandry.tieredshulkers.client.tileentity;
 
+import ca.lukegrahamlandry.tieredshulkers.common.ShulkerColour;
+import ca.lukegrahamlandry.tieredshulkers.common.boxes.UpgradableBoxBlock;
 import ca.lukegrahamlandry.tieredshulkers.common.boxes.UpgradableBoxTier;
 import ca.lukegrahamlandry.tieredshulkers.common.boxes.tile.UpgradableBoxTile;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import ca.lukegrahamlandry.tieredshulkers.common.boxes.UpgradableBoxBlock;
+import net.minecraft.client.model.ShulkerModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.model.ShulkerModel;
-import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.world.item.DyeColor;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -55,7 +55,7 @@ public class UpgradableBoxTileEntityRenderer implements BlockEntityRenderer<Upgr
       }
     }
 
-    DyeColor dyecolor = tileEntityIn.getColor();
+    ShulkerColour dyecolor = tileEntityIn.getColor();
 
     Material material = new Material(Sheets.SHULKER_SHEET, BoxesModels.chooseShulkerBoxModel(boxType, dyecolor.getId()));
 
