@@ -9,7 +9,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -43,11 +42,11 @@ public class BoxUpgradeItem extends Item {
       String sourceName = this.type.source == null ? "vanilla" : this.type.source.name;
       String targetName = this.type.target == null ? "vanilla" : this.type.target.name;
       if (I18n.exists("tieredshulkers." + sourceName) && I18n.exists("tieredshulkers." + targetName)) {
-        tooltip.add((new TranslatableComponent("tieredshulkers.upgrade.tooltip", new TranslatableComponent("tieredshulkers." + sourceName).withStyle(ChatFormatting.BOLD), new TranslatableComponent("tieredshulkers." + targetName).withStyle(ChatFormatting.BOLD))).withStyle(ChatFormatting.DARK_RED));
+        tooltip.add((Component.translatable("tieredshulkers.upgrade.tooltip", Component.translatable("tieredshulkers." + sourceName).withStyle(ChatFormatting.BOLD), Component.translatable("tieredshulkers." + targetName).withStyle(ChatFormatting.BOLD))).withStyle(ChatFormatting.DARK_RED));
       }
     }
     if (I18n.exists("tieredshulkers.color.tooltip")) {
-      tooltip.add((new TranslatableComponent("tieredshulkers.color.tooltip", 0)).withStyle(ChatFormatting.GOLD));
+      tooltip.add((Component.translatable("tieredshulkers.color.tooltip", 0)).withStyle(ChatFormatting.GOLD));
     }
 
     super.appendHoverText(stack, worldIn, tooltip, flagIn);

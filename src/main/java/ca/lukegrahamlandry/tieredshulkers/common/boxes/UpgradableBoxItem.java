@@ -5,7 +5,7 @@ import ca.lukegrahamlandry.tieredshulkers.common.boxes.tile.UpgradableBoxTile;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.IItemRenderProperties;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 import java.util.function.Consumer;
 
@@ -16,11 +16,11 @@ public class UpgradableBoxItem extends BlockItem {
 
 
   @Override
-  public void initializeClient(Consumer<IItemRenderProperties> consumer) {
+  public void initializeClient(Consumer<IClientItemExtensions> consumer) {
     UpgradableBoxItemStackRenderer<UpgradableBoxTile> renderer = new UpgradableBoxItemStackRenderer<>();
-    consumer.accept(new IItemRenderProperties() {
+    consumer.accept(new IClientItemExtensions() {
       @Override
-      public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
+      public BlockEntityWithoutLevelRenderer getCustomRenderer() {
         return renderer;
       }
     });

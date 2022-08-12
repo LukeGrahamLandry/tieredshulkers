@@ -1,15 +1,14 @@
 package ca.lukegrahamlandry.tieredshulkers.common.boxes.tile;
 
 import ca.lukegrahamlandry.tieredshulkers.common.ShulkerColour;
+import ca.lukegrahamlandry.tieredshulkers.common.boxes.UpgradableBoxBlock;
 import ca.lukegrahamlandry.tieredshulkers.common.boxes.UpgradableBoxContainer;
 import ca.lukegrahamlandry.tieredshulkers.common.boxes.UpgradableBoxTier;
-import ca.lukegrahamlandry.tieredshulkers.common.boxes.UpgradableBoxBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -237,7 +236,7 @@ public class UpgradableBoxTile extends RandomizableContainerBlockEntity implemen
 
   @Override
   protected Component getDefaultName() {
-    return new TranslatableComponent("container.shulkerBox");
+    return Component.translatable("container.shulkerBox");
   }
 
   @Override

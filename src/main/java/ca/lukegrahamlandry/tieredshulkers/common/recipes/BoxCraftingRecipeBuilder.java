@@ -209,7 +209,7 @@ public class BoxCraftingRecipeBuilder {
     }
 
     public RecipeSerializer<?> getType() {
-      return BoxRecipeTypes.SHULKER_BOX_CRAFTING;
+      return BoxRecipeTypes.SHULKER_BOX_CRAFTING.get();
     }
 
     /**

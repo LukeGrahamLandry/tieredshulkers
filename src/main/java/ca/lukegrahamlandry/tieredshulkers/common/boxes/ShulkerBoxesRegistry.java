@@ -27,9 +27,9 @@ import java.util.stream.Collectors;
 
 public class ShulkerBoxesRegistry {
   private static final DeferredRegister<Block> BLOCK_REGISTRY = DeferredRegister .create(ForgeRegistries.BLOCKS, TieredShulkersMain.MOD_ID);
-  private static final DeferredRegister<BlockEntityType<?>> TILE_REGISTRY = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, TieredShulkersMain.MOD_ID);
+  private static final DeferredRegister<BlockEntityType<?>> TILE_REGISTRY = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, TieredShulkersMain.MOD_ID);
   private static final DeferredRegister<Item> ITEM_REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, TieredShulkersMain.MOD_ID);
-  public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, TieredShulkersMain.MOD_ID);
+  public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, TieredShulkersMain.MOD_ID);
 
   private static final BlockBehaviour.StatePredicate positionPredicate = (p_235444_0_, world, pos) -> !(world.getBlockEntity(pos) instanceof UpgradableBoxTile) || ((UpgradableBoxTile)world.getBlockEntity(pos)).isClosed();
   private static final BlockBehaviour.Properties PROPS = BlockBehaviour.Properties.of(Material.METAL).strength(1F, 3.0F).dynamicShape().noOcclusion().isSuffocating(positionPredicate).isViewBlocking(positionPredicate);

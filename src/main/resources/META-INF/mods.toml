@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[${javafml_min},${javafml_max})"
+loaderVersion="[41,)"
 issueTrackerURL="https://github.com/LukeGrahamLandryMC/tieredshulkers/issues"
 license="GNU General Public License v3.0"
 
@@ -13,10 +13,10 @@ license="GNU General Public License v3.0"
     description='''
 New Shulker Boxes with larger sizes, with in-place upgrade items.
     '''
-    displayURL="https://github.com/LukeGrahamLandryMC/tieredshulkers"
+    displayURL="https://www.curseforge.com/minecraft/mc-mods/tiered-shulkers"
     [[dependencies.tieredshulkers]]
         modId="forge"
         mandatory=true
-        versionRange="[${forge_version_min},${forge_version_max})"
+        versionRange="[41,)"
         ordering="NONE"
         side="BOTH"

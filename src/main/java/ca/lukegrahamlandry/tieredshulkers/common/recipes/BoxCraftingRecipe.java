@@ -80,7 +80,7 @@ public class BoxCraftingRecipe implements CraftingRecipe, net.minecraftforge.com
 
   @Override
   public RecipeSerializer<?> getSerializer() {
-    return BoxRecipeTypes.SHULKER_BOX_CRAFTING;
+    return BoxRecipeTypes.SHULKER_BOX_CRAFTING.get();
   }
 
   /**
@@ -348,10 +348,10 @@ public class BoxCraftingRecipe implements CraftingRecipe, net.minecraftforge.com
     }
   }
 
-  public static class Serializer extends net.minecraftforge.registries.ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<BoxCraftingRecipe> {
+  public static class Serializer implements RecipeSerializer<BoxCraftingRecipe> {
 
     public Serializer() {
-      this.setRegistryName("tieredshulkers:shulker_box_crafting");
+
     }
 
     @Override

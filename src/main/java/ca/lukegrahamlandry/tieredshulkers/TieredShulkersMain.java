@@ -11,6 +11,7 @@ import ca.lukegrahamlandry.tieredshulkers.common.data.BoxLootTableProvider;
 import ca.lukegrahamlandry.tieredshulkers.common.data.BoxTagProvider;
 import ca.lukegrahamlandry.tieredshulkers.common.data.BoxesRecipeProvider;
 import ca.lukegrahamlandry.tieredshulkers.common.network.PacketHandler;
+import ca.lukegrahamlandry.tieredshulkers.common.recipes.BoxRecipeTypes;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
@@ -21,13 +22,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 
 @Mod(TieredShulkersMain.MOD_ID)
 public class TieredShulkersMain {
@@ -55,6 +56,7 @@ public class TieredShulkersMain {
 
     // Registry objects
     ShulkerBoxesRegistry.register(modBus);
+    BoxRecipeTypes.RECIPIES.register(modBus);
   }
 
   @OnlyIn(Dist.CLIENT)
@@ -83,14 +85,14 @@ public class TieredShulkersMain {
     DataGenerator datagenerator = event.getGenerator();
 
     if (event.includeServer()) {
-      datagenerator.addProvider(new BoxesRecipeProvider(datagenerator));
-      datagenerator.addProvider(new BoxLootTableProvider(datagenerator));
-      datagenerator.addProvider(new BoxTagProvider(datagenerator, MOD_ID, event.getExistingFileHelper()));
+      datagenerator.addProvider(true, new BoxesRecipeProvider(datagenerator));
+      datagenerator.addProvider(true, new BoxLootTableProvider(datagenerator));
+      datagenerator.addProvider(true, new BoxTagProvider(datagenerator, MOD_ID, event.getExistingFileHelper()));
     }
 
     if (event.includeClient()){
-      datagenerator.addProvider(new BoxBlockStateProvider(datagenerator, MOD_ID, event.getExistingFileHelper()));
-      datagenerator.addProvider(new BoxItemModelProvider(datagenerator, MOD_ID, event.getExistingFileHelper()));
+      datagenerator.addProvider(true, new BoxBlockStateProvider(datagenerator, MOD_ID, event.getExistingFileHelper()));
+      datagenerator.addProvider(true, new BoxItemModelProvider(datagenerator, MOD_ID, event.getExistingFileHelper()));
     }
   }
 }

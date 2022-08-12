@@ -1,18 +1,8 @@
-buildscript {
-    repositories {
-        mavenLocal()
-        maven { url = 'https://maven.minecraftforge.net' }
-        jcenter()
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-    }
+plugins {
+    id 'eclipse'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '5.1.+'
 }
-
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
 
 repositories {
     maven {
@@ -148,13 +138,7 @@ sourceSets {
 def modsTomlSpec = copySpec{
     from(sourceSets.main.resources) {
         include 'META-INF/mods.toml'
-        expand 'version': project.version,
-            'minecraft_version_min': minecraft_version_min,
-            'minecraft_version_max': minecraft_version_max,
-            'forge_version_min': forge_version_min,
-            'forge_version_max': forge_version_max,
-            'javafml_min': javafml_min,
-            'javafml_max': javafml_max
+        expand 'version': project.version
     }
 }
 

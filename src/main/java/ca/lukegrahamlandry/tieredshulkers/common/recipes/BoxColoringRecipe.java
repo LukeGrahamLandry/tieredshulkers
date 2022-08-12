@@ -89,6 +89,6 @@ public class BoxColoringRecipe extends CustomRecipe {
 
   @Override
   public RecipeSerializer<?> getSerializer() {
-    return BoxRecipeTypes.SHULKER_BOX_COLORING;
+    return BoxRecipeTypes.SHULKER_BOX_COLORING.get();
   }
 }
